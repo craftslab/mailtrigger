@@ -2,19 +2,18 @@
 
 import argparse
 
-from .trigger.trigger import Trigger
+from .registry import REGISTRY
 from .version import VERSION
 
 
 class Argument(object):
     def __init__(self):
-        self._parser = argparse.ArgumentParser(description='mailtrigger',
+        self._parser = argparse.ArgumentParser(description='',
                                                formatter_class=argparse.ArgumentDefaultsHelpFormatter)
         self._add()
 
     def _add(self):
-        t = Trigger()
-        triggers = ','.join(t.get_list())
+        triggers = ','.join([x['name'] for x in REGISTRY])
         self._parser.add_argument('-t', '--trigger',
                                   default=triggers,
                                   dest='trigger',

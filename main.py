@@ -4,12 +4,12 @@
 import sys
 
 from source.argument import Argument
-from source.mail.receiver import Receiver, ReceiverException
-from source.mail.sender import Sender, SenderException
-from source.trigger.trigger import Trigger
+from source.banner import BANNER
 
 
 def main():
+    print(BANNER)
+
     argument = Argument()
     args = argument.parse()
 

@@ -1,9 +1,21 @@
 # -*- coding: utf-8 -*-
 
+import abc
+
 
 class Trigger(object):
-    def __init__(self):
-        pass
+    __metaclass__ = abc.ABCMeta
 
-    def get_list(self):
-        return ''
+    @staticmethod
+    @abc.abstractmethod
+    def help():
+        return None
+
+    @staticmethod
+    @abc.abstractmethod
+    def parse(event):
+        return True
+
+    @abc.abstractmethod
+    def send(self, event):
+        return None

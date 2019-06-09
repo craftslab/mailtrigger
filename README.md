@@ -105,7 +105,7 @@ The recipient is mail receiver as *Mail Trigger*.
 @gerrit stop <host>
 @gerrit verify <host>
 
-@gerrit <host>:<port> review
+@gerrit review <host>:<port>
   [--project <PROJECT> | -p <PROJECT>]
   [--branch <BRANCH> | -b <BRANCH>]
   [--message <MESSAGE> | -m <MESSAGE>]
@@ -128,14 +128,14 @@ The recipient is mail receiver as *Mail Trigger*.
 #### Jenkins Trigger
 
 ```
+@jenkins build <host>:<port> JOB [--parameter <PARAMETER> | -p <PARAMETER>]
 @jenkins help
 @jenkins list
-@jenkins <host>:<port> build JOB [--parameter <PARAMETER> | -p <PARAMETER>]
-@jenkins <host>:<port> list
-@jenkins <host>:<port> query JOB
-@jenkins <host>:<port> rebuild JOB
-@jenkins <host>:<port> stop JOB
-@jenkins <host>:<port> verify JOB
+@jenkins list <host>:<port>
+@jenkins query <host>:<port> JOB
+@jenkins rebuild <host>:<port> JOB
+@jenkins stop <host>:<port> JOB
+@jenkins verify <host>:<port> JOB
 ```
 
 
@@ -143,7 +143,7 @@ The recipient is mail receiver as *Mail Trigger*.
 #### Jira Trigger
 
 ```
-@jira help
+TBD
 ```
 
 
