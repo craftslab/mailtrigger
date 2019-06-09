@@ -10,9 +10,9 @@ class Argument(object):
     def __init__(self):
         self._parser = argparse.ArgumentParser(description='mailtrigger',
                                                formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-        self._add_arguments()
+        self._add()
 
-    def _add_arguments(self):
+    def _add(self):
         t = Trigger()
         triggers = ','.join(t.get_list())
         self._parser.add_argument('-t', '--trigger',
