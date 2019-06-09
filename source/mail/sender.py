@@ -18,8 +18,13 @@ class SenderException(Exception):
 
 class Sender(object):
     def __init__(self, config):
+        def _load(name):
+            with open(name, 'r') as f:
+                data = json.load(f)
+            return data.get('debug', False), data.get('smtp', None)
+        self._server = None
         self._logger = Logger()
-        self._debug, self._smtp = self._load(config)
+        self._debug, self._smtp = _load(config)
         if self._smtp is None:
             raise SenderException('missing smtp configuration in %s' % config)
 
@@ -30,11 +35,6 @@ class Sender(object):
             self._server = smtplib.SMTP(self._smtp['host'], self._smtp['port'])
         self._server.set_debuglevel(0)
         self._server.login(self._smtp['user'], self._smtp['pass'])
-
-    def _load(self, name):
-        with open(name, 'r') as f:
-            data = json.load(f)
-        return data.get('debug', False), data.get('smtp', None)
 
     def connect(self):
         try:
@@ -49,6 +49,8 @@ class Sender(object):
             self._server.quit()
 
     def send(self, data):
+        if self._server is None:
+            raise SenderException('required to connect smtp server')
         msg = MIMEText(data['content'], 'plain', 'utf-8')
         msg['Subject'] = data['subject']
         msg['From'] = data['from']

@@ -21,8 +21,13 @@ class ReceiverException(Exception):
 
 class Receiver(object):
     def __init__(self, config):
+        def _load(name):
+            with open(name, 'r') as f:
+                data = json.load(f)
+            return data.get('debug', False), data.get('pop3', None)
+        self._server = None
         self._logger = Logger()
-        self._debug, self._pop3 = self._load(config)
+        self._debug, self._pop3 = _load(config)
         if self._pop3 is None:
             raise ReceiverException('missing pop3 configuration in %s' % config)
 
@@ -35,12 +40,8 @@ class Receiver(object):
         self._server.user(self._pop3['user'])
         self._server.pass_(self._pop3['pass'])
 
-    def _load(self, name):
-        with open(name, 'r') as f:
-            data = json.load(f)
-        return data.get('debug', False), data.get('pop3', None)
-
-    def _parse(self, msg):
+    @staticmethod
+    def _parse(msg):
         def _decode(msg):
             value, charset = decode_header(msg)[0]
             if charset:
@@ -110,6 +111,8 @@ class Receiver(object):
             self._server.quit()
 
     def retrieve(self):
+        if self._server is None:
+            raise ReceiverException('required to connect pop3 server')
         buf = []
         _, mails, _ = self._server.list()
         for index in range(len(mails)):
@@ -119,5 +122,7 @@ class Receiver(object):
         return buf
 
     def stat(self):
+        if self._server is None:
+            raise ReceiverException('required to connect pop3 server')
         count, size = self._server.stat()
         return count, size
