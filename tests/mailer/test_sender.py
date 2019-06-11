@@ -8,7 +8,7 @@ import time
 from mailtrigger.mailer.sender import Sender, SenderException
 
 CONFIG = '../../mailtrigger/config/mailer.json'
-TEST = '../data.json'
+TEST = '../test_data.json'
 
 
 def test_sender():
