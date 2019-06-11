@@ -49,9 +49,9 @@ pip3 install mailtrigger --upgrade
 
 ## Settings
 
-Several *Mail Trigger* parameters can be set in the file [config.json](https://github.com/craftslab/mailtrigger/blob/master/source/config/config.json).
+Several *Mail Trigger* parameters can be set in the directory [config](https://github.com/craftslab/mailtrigger/blob/master/source/config).
 
-An example of config.json:
+An example of configuration:
 
 ```
 {

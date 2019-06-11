@@ -7,8 +7,8 @@ import time
 
 from source.mail.sender import Sender, SenderException
 
-CONFIG = '../../source/config/config.json'
-TEST = '../test/mail.json'
+CONFIG = '../../source/config/mail.json'
+TEST = '../test/data.json'
 
 
 def test_sender():

@@ -5,7 +5,7 @@ import json
 import os
 import sys
 
-CONFIG = '../config/config.json'
+CONFIG = '../config/logger.json'
 
 
 class Logger(object):

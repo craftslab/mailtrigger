@@ -5,7 +5,7 @@ import pprint
 
 from source.mail.receiver import Receiver, ReceiverException
 
-CONFIG = '../../source/config/config.json'
+CONFIG = '../../source/config/mail.json'
 
 
 def test_receiver():

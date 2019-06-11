@@ -6,7 +6,9 @@ from .trigger import Trigger
 class Jira(Trigger):
     @staticmethod
     def help():
-        return 'TBD'
+        return ('Jira Trigger'
+                ''
+                'TBD')
 
     @staticmethod
     def parse(event):
