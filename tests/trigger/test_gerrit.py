@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from source.trigger.gerrit import Gerrit
+from mailtrigger.trigger.gerrit import Gerrit
 
 
 def test_gerrit():

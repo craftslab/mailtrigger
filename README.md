@@ -2,7 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/mailtrigger.svg?color=brightgreen)](https://pypi.org/project/mailtrigger/)
 [![Travis](https://travis-ci.com/craftslab/mailtrigger.svg?branch=master)](https://travis-ci.com/craftslab/mailtrigger)
-[![Coverage Status](https://coveralls.io/repos/github/craftslab/mailtrigger/badge.svg?branch=master)](https://coveralls.io/github/craftslab/mailtrigger?branch=master)
+[![Coverage](https://coveralls.io/repos/github/craftslab/mailtrigger/badge.svg?branch=master)](https://coveralls.io/github/craftslab/mailtrigger?branch=master)
 [![License](https://img.shields.io/github/license/craftslab/mailtrigger.svg?color=brightgreen)](https://github.com/craftslab/mailtrigger/blob/master/LICENSE)
 
 
@@ -49,13 +49,12 @@ pip3 install mailtrigger --upgrade
 
 ## Settings
 
-Several *Mail Trigger* parameters can be set in the directory [config](https://github.com/craftslab/mailtrigger/blob/master/source/config).
+Several *Mail Trigger* parameters can be set in the directory [config](https://github.com/craftslab/mailtrigger/blob/master/mailtrigger/config).
 
 An example of configuration:
 
 ```
 {
-  "debug": false,
   "pop3": {
     "host": "pop.example.com",
     "pass": "pass",

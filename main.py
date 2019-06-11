@@ -3,8 +3,8 @@
 
 import sys
 
-from source.argument import Argument
-from source.banner import BANNER
+from mailtrigger.argument import Argument
+from mailtrigger.banner import BANNER
 
 
 def main():

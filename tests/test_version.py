@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from source.version import VERSION
+from mailtrigger.version import VERSION
 
 
 def test_version():

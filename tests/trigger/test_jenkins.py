@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from source.trigger.jenkins import Jenkins
+from mailtrigger.trigger.jenkins import Jenkins
 
 
 def test_jenkins():

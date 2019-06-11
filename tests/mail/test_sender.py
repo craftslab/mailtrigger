@@ -5,10 +5,10 @@ import os
 import pprint
 import time
 
-from source.mail.sender import Sender, SenderException
+from mailtrigger.mail.sender import Sender, SenderException
 
-CONFIG = '../../source/config/mail.json'
-TEST = '../test/data.json'
+CONFIG = '../../mailtrigger/config/mail.json'
+TEST = '../data.json'
 
 
 def test_sender():

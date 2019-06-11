@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from source.logger.logger import Logger
+from mailtrigger.logger.logger import Logger
 
 
 def test_logger():

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from source.banner import BANNER
+from mailtrigger.banner import BANNER
 
 
 def test_banner():

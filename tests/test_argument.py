@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from source.argument import Argument
+from mailtrigger.argument import Argument
 
 
 def test_argument():

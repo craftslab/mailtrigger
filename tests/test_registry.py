@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from source.registry import REGISTRY
+from mailtrigger.registry import REGISTRY
 
 
 def test_registry():

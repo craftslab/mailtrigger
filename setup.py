@@ -3,7 +3,7 @@
 
 import setuptools
 
-from source.version import VERSION
+from mailtrigger.version import VERSION
 
 
 with open('README.md', 'r') as f:

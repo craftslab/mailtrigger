@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from source.trigger.jira import Jira
+from mailtrigger.trigger.jira import Jira
 
 
 def test_jira():
