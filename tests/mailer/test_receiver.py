@@ -3,9 +3,9 @@
 import os
 import pprint
 
-from mailtrigger.mail.receiver import Receiver, ReceiverException
+from mailtrigger.mailer.receiver import Receiver, ReceiverException
 
-CONFIG = '../../mailtrigger/config/mail.json'
+CONFIG = '../../mailtrigger/config/mailer.json'
 
 
 def test_receiver():
