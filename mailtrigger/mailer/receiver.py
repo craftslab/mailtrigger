@@ -13,10 +13,10 @@ from ..logger.logger import Logger
 class ReceiverException(Exception):
     def __init__(self, info):
         super().__init__(self)
-        self.info = info
+        self._info = info
 
     def __str__(self):
-        return self.info
+        return self._info
 
 
 class Receiver(object):
