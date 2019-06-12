@@ -15,10 +15,9 @@ def test_scheduler():
         print(datetime.now())
     try:
         sched = Scheduler(os.path.join(os.path.dirname(__file__), CONFIG))
-        job = sched.add(_func)
+        sched.add(_func, '_func')
         sched.run()
         time.sleep(1)
-        sched.delete(job)
         sched.stop()
     except SchedulerException as err:
         pprint.pprint(str(err))

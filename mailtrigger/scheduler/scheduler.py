@@ -25,22 +25,17 @@ class Scheduler(object):
         self._interval = _load(config)
         self._sched = Sched()
 
-    def add(self, func):
+    def add(self, func, tag):
         if self._sched is None:
             raise SchedulerException('required to create scheduler')
-        return self._sched.every(self._interval).seconds.do(func)
-
-    def delete(self, job):
-        if self._sched is None:
-            raise SchedulerException('required to create scheduler')
-        self._sched.cancel_job(job)
+        self._sched.every(self._interval).seconds.do(func).tag(tag)
 
     def run(self):
         if self._sched is None:
             raise SchedulerException('required to create scheduler')
         self._sched.run_pending()
 
-    def stop(self):
+    def stop(self, tag=None):
         if self._sched is None:
             raise SchedulerException('required to create scheduler')
-        self._sched.clear()
+        self._sched.clear(tag)
