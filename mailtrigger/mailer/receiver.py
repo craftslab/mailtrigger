@@ -25,11 +25,11 @@ class Receiver(object):
             with open(name, 'r') as f:
                 data = json.load(f)
             return data.get('debug', False), data.get('pop3', None)
-        self._server = None
         self._logger = Logger()
         self._debug, self._pop3 = _load(config)
         if self._pop3 is None:
             raise ReceiverException('missing pop3 configuration in %s' % config)
+        self._server = None
 
     def _connect(self):
         if self._pop3['ssl'] is True:

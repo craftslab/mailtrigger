@@ -22,11 +22,11 @@ class Sender(object):
             with open(name, 'r') as f:
                 data = json.load(f)
             return data.get('debug', False), data.get('smtp', None)
-        self._server = None
         self._logger = Logger()
         self._debug, self._smtp = _load(config)
         if self._smtp is None:
             raise SenderException('missing smtp configuration in %s' % config)
+        self._server = None
 
     def _connect(self):
         if self._smtp['ssl'] is True:
