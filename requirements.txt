@@ -1,8 +1,8 @@
-apscheduler
 colorama
 coverage
 coveralls
 pytest
+schedule
 setuptools
 twine
 wheel

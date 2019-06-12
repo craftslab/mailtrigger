@@ -11,14 +11,14 @@ CONFIG = '../../mailtrigger/config/scheduler.json'
 
 
 def test_scheduler():
-    def _job():
+    def _func():
         print(datetime.now())
     try:
         sched = Scheduler(os.path.join(os.path.dirname(__file__), CONFIG))
-        sched.add(_job, '_job')
-        sched.start()
-        time.sleep(6)
-        sched.remove('_job')
+        job = sched.add(_func)
+        sched.run()
+        time.sleep(1)
+        sched.delete(job)
         sched.stop()
     except SchedulerException as err:
         pprint.pprint(str(err))
