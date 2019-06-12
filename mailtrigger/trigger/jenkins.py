@@ -17,9 +17,5 @@ class Jenkins(Trigger):
                 '@jenkins stop <host>:<port> JOB'
                 '@jenkins verify <host>:<port> JOB')
 
-    @staticmethod
-    def parse(event):
-        return False
-
     def send(self, event):
         return None

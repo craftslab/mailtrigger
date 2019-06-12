@@ -20,11 +20,6 @@ class Trigger(object):
     def help():
         return None
 
-    @staticmethod
-    @abc.abstractmethod
-    def parse(event):
-        return True
-
     @abc.abstractmethod
     def send(self, event):
         return None

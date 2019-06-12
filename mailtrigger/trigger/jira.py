@@ -10,9 +10,5 @@ class Jira(Trigger):
                 ''
                 'TBD')
 
-    @staticmethod
-    def parse(event):
-        return False
-
     def send(self, event):
         return None

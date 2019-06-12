@@ -31,9 +31,5 @@ class Gerrit(Trigger):
                 '  [--tag TAG]'
                 '  {COMMIT | CHANGEID,PATCHSET}')
 
-    @staticmethod
-    def parse(event):
-        return False
-
     def send(self, event):
         return None
