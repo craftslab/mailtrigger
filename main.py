@@ -37,7 +37,7 @@ def run_job(args):
 
 
 def run_scheduler(sched, receiver, sender, triggers):
-    sched.add(run_job, 'run_job', [receiver, sender, triggers])
+    sched.add(run_job, [receiver, sender, triggers], 'run_job')
 
     while True:
         sched.run()
