@@ -11,11 +11,12 @@ CONFIG = '../../mailtrigger/config/scheduler.json'
 
 
 def test_scheduler():
-    def _func():
+    def _func(_):
         print(datetime.now())
+    args = []
     try:
         sched = Scheduler(os.path.join(os.path.dirname(__file__), CONFIG))
-        sched.add(_func, '_func')
+        sched.add(_func, args, '_func')
         sched.run()
         time.sleep(1)
         sched.stop()

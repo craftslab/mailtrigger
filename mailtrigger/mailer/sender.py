@@ -22,7 +22,6 @@ class Sender(object):
             with open(name, 'r') as f:
                 data = json.load(f)
             return data.get('debug', False), data.get('smtp', None)
-        self._logger = Logger()
         self._debug, self._smtp = _load(config)
         if self._smtp is None:
             raise SenderException('missing smtp configuration in %s' % config)
@@ -41,10 +40,10 @@ class Sender(object):
             self._connect()
         except smtplib.SMTPException as _:
             raise SenderException('failed to connect smtp server')
-        self._logger.info('connected to %s' % self._smtp['host'])
+        Logger.info('connected to %s' % self._smtp['host'])
 
     def disconnect(self):
-        self._logger.info('disconnected from %s' % self._smtp['host'])
+        Logger.info('disconnected from %s' % self._smtp['host'])
         if self._server is not None:
             self._server.quit()
 

@@ -25,7 +25,6 @@ class Receiver(object):
             with open(name, 'r') as f:
                 data = json.load(f)
             return data.get('debug', False), data.get('pop3', None)
-        self._logger = Logger()
         self._debug, self._pop3 = _load(config)
         if self._pop3 is None:
             raise ReceiverException('missing pop3 configuration in %s' % config)
@@ -103,10 +102,10 @@ class Receiver(object):
             self._connect()
         except poplib.error_proto as _:
             raise ReceiverException('failed to connect pop3 server')
-        self._logger.info('connected to %s' % self._pop3['host'])
+        Logger.info('connected to %s' % self._pop3['host'])
 
     def disconnect(self):
-        self._logger.info('disconnected from %s' % self._pop3['host'])
+        Logger.info('disconnected from %s' % self._pop3['host'])
         if self._server is not None:
             self._server.quit()
 

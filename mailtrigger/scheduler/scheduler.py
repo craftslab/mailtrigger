@@ -3,7 +3,6 @@
 import json
 
 from schedule import Scheduler as Sched
-from ..logger.logger import Logger
 
 
 class SchedulerException(Exception):
@@ -21,14 +20,13 @@ class Scheduler(object):
             with open(name, 'r') as f:
                 data = json.load(f)
             return data.get('interval', 1)
-        self._logger = Logger()
         self._interval = _load(config)
         self._sched = Sched()
 
-    def add(self, func, tag):
+    def add(self, func, args, tag):
         if self._sched is None:
             raise SchedulerException('required to create scheduler')
-        self._sched.every(self._interval).seconds.do(func).tag(tag)
+        self._sched.every(self._interval).seconds.do(func, args=args).tag(tag)
 
     def run(self):
         if self._sched is None:
