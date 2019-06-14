@@ -89,7 +89,7 @@ def _job(args):
     _trigger(data, sender, triggers)
 
 
-def run_scheduler(sched, receiver, sender, triggers):
+def _scheduler(sched, receiver, sender, triggers):
     sched.add(_job, [receiver, sender, triggers], '_job')
 
     while True:
@@ -133,7 +133,7 @@ def main():
     ret = 0
 
     try:
-        run_scheduler(sched, receiver, sender, triggers)
+        _scheduler(sched, receiver, sender, triggers)
     except (SchedulerException, ReceiverException, SenderException, TriggerException) as e:
         Logger.error(str(e))
         ret = -4
