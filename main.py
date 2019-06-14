@@ -20,15 +20,15 @@ TRIGGER = 'mailtrigger/config/trigger.json'
 
 
 def run_job(args):
-    def _run_trigger(data, sender, triggers):
-        """TODO"""
-        pass
-
     def _run_receiver(receiver):
         receiver.connect()
         data = receiver.retrieve()
         receiver.disconnect()
         return data
+
+    def _run_trigger(data, sender, triggers):
+        """TODO"""
+        pass
 
     receiver, sender, triggers = args
 

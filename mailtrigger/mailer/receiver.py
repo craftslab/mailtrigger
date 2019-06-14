@@ -100,7 +100,7 @@ class Receiver(object):
     def connect(self):
         try:
             self._connect()
-        except poplib.error_proto as _:
+        except (OSError, poplib.error_proto) as _:
             raise ReceiverException('failed to connect pop3 server')
         Logger.info('connected to %s' % self._pop3['host'])
 
