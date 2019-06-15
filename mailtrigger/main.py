@@ -1,21 +1,19 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import os
-import sys
 import time
 
-from mailtrigger.argument import Argument
-from mailtrigger.banner import BANNER
-from mailtrigger.logger.logger import Logger
-from mailtrigger.mailer.receiver import Receiver, ReceiverException
-from mailtrigger.mailer.sender import Sender, SenderException
-from mailtrigger.registry import REGISTRY
-from mailtrigger.scheduler.scheduler import Scheduler, SchedulerException
-from mailtrigger.trigger.trigger import TriggerException
+from .argument import Argument
+from .banner import BANNER
+from .logger.logger import Logger
+from .mailer.receiver import Receiver, ReceiverException
+from .mailer.sender import Sender, SenderException
+from .registry import REGISTRY
+from .scheduler.scheduler import Scheduler, SchedulerException
+from .trigger.trigger import TriggerException
 
-MAILER = 'mailtrigger/config/mailer.json'
-SCHEDULER = 'mailtrigger/config/scheduler.json'
+MAILER = 'config/mailer.json'
+SCHEDULER = 'config/scheduler.json'
 
 HELP = 'help'
 TRIGGER = '[trigger]'
@@ -154,7 +152,3 @@ def main():
         sched.stop()
 
     return ret
-
-
-if __name__ == '__main__':
-    sys.exit(main())
