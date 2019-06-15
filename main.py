@@ -28,7 +28,6 @@ def _format(data, content):
             '> To: %s' % data['to'],
             '> Subject: %s' % data['subject'],
             '> Date: %s' % data['date'],
-            '>',
             '> Content: %s' % data['content'])),
         'date': time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time())),
         'from': data['to'],
@@ -50,21 +49,26 @@ def _help(data, sender, triggers):
 
 def _trigger(data, sender, triggers):
     for item in data:
-        t = item.split()[0].lstrip('@').strip()
+        t = item['content'].split()[0].lstrip('@').strip()
         if t == 'help':
-            _help(data, sender, triggers)
+            _help(item, sender, triggers)
         else:
             _emit(item, sender, triggers)
 
 
 def _unpack(data):
-    buf = []
-    lines = data['content'].splitlines()
+    def _unpack_helper(data):
+        buf = []
+        lines = data['content'].splitlines()
+        for item in lines:
+            if len(item.strip()) != 0:
+                data['content'] = item.strip()
+                buf.append(data)
+        return buf
 
-    for item in lines:
-        if len(item.strip()) != 0:
-            data['content'] = item.strip()
-            buf.append(data)
+    buf = []
+    for item in data:
+        buf.extend(_unpack_helper(item))
 
     return buf
 
