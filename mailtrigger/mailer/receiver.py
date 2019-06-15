@@ -64,7 +64,9 @@ class Receiver(object):
             return content
 
         def _date(msg):
-            year, month, date, hour, minute, second, _, _, _ = parsedate(msg.get('Date', ''))
+            if 'Date' not in msg:
+                return ''
+            year, month, date, hour, minute, second, _, _, _ = parsedate(msg['Date'])
             return '%s-%s-%s-%s-%s-%s' % (year, month, date, hour, minute, second)
 
         def _from(msg):
@@ -110,7 +112,8 @@ class Receiver(object):
         try:
             self._server.quit()
         except (OSError, poplib.error_proto) as _:
-            raise ReceiverException('failed to disconnect pop3 server')
+            Logger.debug('failed to disconnect pop3 server')
+            return
         Logger.debug('disconnected from %s' % self._pop3['host'])
 
     def retrieve(self):

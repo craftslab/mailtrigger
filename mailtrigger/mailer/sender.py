@@ -48,7 +48,8 @@ class Sender(object):
         try:
             self._server.quit()
         except smtplib.SMTPException as _:
-            raise SenderException('failed to disconnect smtp server')
+            Logger.debug('failed to disconnect smtp server')
+            return
         Logger.debug('disconnected from %s' % self._smtp['host'])
 
     def send(self, data):
