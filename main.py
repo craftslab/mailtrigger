@@ -16,7 +16,9 @@ from mailtrigger.trigger.trigger import TriggerException
 
 MAILER = 'mailtrigger/config/mailer.json'
 SCHEDULER = 'mailtrigger/config/scheduler.json'
-TRIGGER = 'mailtrigger/config/trigger.json'
+
+HELP = 'help'
+TRIGGER = '[trigger]'
 
 
 def _format(data, content):
@@ -43,7 +45,7 @@ def _emit(data, sender, triggers):
 def _help(data, sender, triggers):
     buf = []
     for item in triggers:
-        buf.append('@%s help' % item)
+        buf.append('@%s %s' % (item, HELP))
     sender.connect()
     sender.send(_format(data, os.linesep.join(buf)))
     sender.disconnect()
@@ -52,7 +54,7 @@ def _help(data, sender, triggers):
 def _trigger(data, sender, triggers):
     for item in data:
         t = item['content'].split()[0].lstrip('@').strip()
-        if t == 'help':
+        if t == HELP:
             _help(item, sender, triggers)
         else:
             _emit(item, sender, triggers)
@@ -75,6 +77,21 @@ def _unpack(data):
     return buf
 
 
+def _filter(data):
+    def _filter_helper(data):
+        ret = False
+        if data['subject'].startswith(TRIGGER):
+            ret = True
+        return ret
+
+    buf = []
+    for item in data:
+        if _filter_helper(item) is True:
+            buf.append(item)
+
+    return buf
+
+
 def _retrieve(receiver):
     receiver.connect()
     data = receiver.retrieve()
@@ -85,9 +102,9 @@ def _retrieve(receiver):
 def _job(args):
     receiver, sender, triggers = args
     data = _retrieve(receiver)
-    if data is not None and len(data) != 0:
-        data = _unpack(data)
-        _trigger(data, sender, triggers)
+    data = _filter(data)
+    data = _unpack(data)
+    _trigger(data, sender, triggers)
 
 
 def _scheduler(sched, receiver, sender, triggers):
