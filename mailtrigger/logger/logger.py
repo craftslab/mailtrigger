@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import colorama
-import json
-import os
 import sys
-
-CONFIG = '../config/logger.json'
 
 
 class Logger(object):
@@ -14,13 +10,6 @@ class Logger(object):
 
     @staticmethod
     def debug(msg):
-        def _load(name):
-            with open(name, 'r') as f:
-                data = json.load(f)
-            return data.get('debug', False)
-        debug = _load(os.path.join(os.path.dirname(__file__), CONFIG))
-        if debug is False:
-            return
         sys.stderr.write(u'{debug}DEBUG:{reset} {msg}\n'.format(
             debug=colorama.Fore.GREEN + colorama.Style.BRIGHT,
             reset=colorama.Style.RESET_ALL,
