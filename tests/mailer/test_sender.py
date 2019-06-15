@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import json
+import logging
 import os
-import pprint
 import time
 
 from mailtrigger.mailer.sender import Sender, SenderException
@@ -12,9 +12,12 @@ TEST = '../test_data.json'
 
 
 def test_sender():
+    log = logging.getLogger('test_sender')
     status = True
+
     with open(os.path.join(os.path.dirname(__file__), TEST), 'r') as f:
         data = json.load(f)
+
     buf = {
         'content': '\n'.join((
             'pytest',
@@ -29,12 +32,14 @@ def test_sender():
         'subject': 'Re: %s' % data['subject'],
         'to': data['from']
     }
+
     try:
         sender = Sender(os.path.join(os.path.dirname(__file__), CONFIG))
         sender.connect()
         sender.send(buf)
         sender.disconnect()
     except SenderException as err:
-        pprint.pprint(str(err))
+        log.error(str(err))
         status = False
+
     assert (status is True)

@@ -44,7 +44,9 @@ def _help(data, sender, triggers):
     buf = []
     for item in triggers:
         buf.append('@%s help' % item)
+    sender.connect()
     sender.send(_format(data, os.linesep.join(buf)))
+    sender.disconnect()
 
 
 def _trigger(data, sender, triggers):
@@ -74,7 +76,10 @@ def _unpack(data):
 
 
 def _retrieve(receiver):
-    return receiver.retrieve()
+    receiver.connect()
+    data = receiver.retrieve()
+    receiver.disconnect()
+    return data
 
 
 def _job(args):
@@ -116,13 +121,9 @@ def main():
 
     try:
         receiver = Receiver(os.path.join(os.path.dirname(__file__), MAILER))
-        receiver.connect()
         sender = Sender(os.path.join(os.path.dirname(__file__), MAILER))
-        sender.connect()
     except (ReceiverException, SenderException) as e:
         Logger.error(str(e))
-        sender.disconnect()
-        receiver.disconnect()
         sched.stop()
         return -3
 

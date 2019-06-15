@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import logging
 import os
-import pprint
 import time
 
 from datetime import datetime
@@ -11,8 +11,11 @@ CONFIG = '../../mailtrigger/config/scheduler.json'
 
 
 def test_scheduler():
+    log = logging.getLogger('test_scheduler')
+
     def _func(_):
-        print(datetime.now())
+        log.debug(datetime.now())
+
     args = []
     try:
         sched = Scheduler(os.path.join(os.path.dirname(__file__), CONFIG))
@@ -21,5 +24,6 @@ def test_scheduler():
         time.sleep(1)
         sched.stop()
     except SchedulerException as err:
-        pprint.pprint(str(err))
+        log.error(str(err))
+
     assert True

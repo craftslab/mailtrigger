@@ -117,6 +117,7 @@ class Receiver(object):
         for index in range(len(mails)):
             _, lines, _ = self._server.retr(index + 1)
             buf.append(self._parse(b'\n'.join(lines).decode('utf-8')))
+        for index in range(len(mails)):
             self._server.dele(index + 1)
         return buf
 
