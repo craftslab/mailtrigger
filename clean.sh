@@ -1,9 +1,7 @@
 #!/bin/bash
 
 chmod 644 .dockerignore .gitignore .travis.yml
-chmod 644 LICENSE
-chmod 644 README.md
-chmod 644 requirements.txt
+chmod 644 LICENSE MANIFEST.in README.md requirements.txt setup.cfg
 chmod 644 setup.py trigger.py
 
 find mailtrigger tests -name "*.json" -exec chmod 644 {} \;
