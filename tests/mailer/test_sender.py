@@ -23,7 +23,6 @@ def test_sender():
             '> To: %s' % data['to'],
             '> Subject: %s' % data['subject'],
             '> Date: %s' % data['date'],
-            '>',
             '> Content: %s' % data['content'])),
         'date': time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time())),
         'from': data['to'],
