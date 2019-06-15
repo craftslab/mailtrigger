@@ -116,9 +116,6 @@ def main():
         Logger.error(str(e))
         return -2
 
-    receiver = None
-    sender = None
-
     try:
         receiver = Receiver(os.path.join(os.path.dirname(__file__), MAILER))
         sender = Sender(os.path.join(os.path.dirname(__file__), MAILER))
