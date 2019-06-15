@@ -22,7 +22,7 @@ setuptools.setup(
     ],
     description='Remote service trigger with mail',
     download_url='https://github.com/craftslab/mailtrigger/archive/v%s.tar.gz' % VERSION,
-    entry_points={'console_scripts': ['mailtrigger=main:main']},
+    entry_points={'console_scripts': ['mailtrigger=mailtrigger.main:main']},
     include_package_data=True,
     install_requires=requirements,
     keywords=['gerrit', 'jenkins', 'jira', 'mail', 'mailtrigger', 'trigger'],
