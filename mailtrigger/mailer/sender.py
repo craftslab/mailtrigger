@@ -40,12 +40,16 @@ class Sender(object):
             self._connect()
         except smtplib.SMTPException as _:
             raise SenderException('failed to connect smtp server')
-        Logger.info('connected to %s' % self._smtp['host'])
+        Logger.debug('connected to %s' % self._smtp['host'])
 
     def disconnect(self):
-        Logger.info('disconnected from %s' % self._smtp['host'])
-        if self._server is not None:
+        if self._server is None:
+            return
+        try:
             self._server.quit()
+        except smtplib.SMTPException as _:
+            raise SenderException('failed to disconnect smtp server')
+        Logger.debug('disconnected from %s' % self._smtp['host'])
 
     def send(self, data):
         if self._server is None:

@@ -102,12 +102,16 @@ class Receiver(object):
             self._connect()
         except (OSError, poplib.error_proto) as _:
             raise ReceiverException('failed to connect pop3 server')
-        Logger.info('connected to %s' % self._pop3['host'])
+        Logger.debug('connected to %s' % self._pop3['host'])
 
     def disconnect(self):
-        Logger.info('disconnected from %s' % self._pop3['host'])
-        if self._server is not None:
+        if self._server is None:
+            return
+        try:
             self._server.quit()
+        except (OSError, poplib.error_proto) as _:
+            raise ReceiverException('failed to disconnect pop3 server')
+        Logger.debug('disconnected from %s' % self._pop3['host'])
 
     def retrieve(self):
         if self._server is None:
