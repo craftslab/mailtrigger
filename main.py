@@ -42,19 +42,10 @@ def _emit(data, sender, triggers):
 
 
 def _help(data, sender, triggers):
-    def _run_help(name):
-        cls = None
-        for item in REGISTRY:
-            if item['name'] == name:
-                cls = item['class']
-                break
-        return cls
     buf = []
     for item in triggers:
-        cls = _run_help(item)
-        if cls is not None:
-            buf.append(cls.help())
-    sender.send(format(data, os.linesep.join(buf)))
+        buf.append('@%s help' % item)
+    sender.send(_format(data, os.linesep.join(buf)))
 
 
 def _trigger(data, sender, triggers):
@@ -85,8 +76,9 @@ def _retrieve(receiver):
 def _job(args):
     receiver, sender, triggers = args
     data = _retrieve(receiver)
-    data = _unpack(data)
-    _trigger(data, sender, triggers)
+    if data is not None and len(data) != 0:
+        data = _unpack(data)
+        _trigger(data, sender, triggers)
 
 
 def _scheduler(sched, receiver, sender, triggers):
