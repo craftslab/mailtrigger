@@ -13,7 +13,7 @@ class Logger(object):
     def debug(msg):
         sys.stderr.write(u'{debug}{time} DEBUG:{reset} {msg}\n'.format(
             debug=colorama.Fore.GREEN + colorama.Style.BRIGHT,
-            time=time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time())),
+            time=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
             reset=colorama.Style.RESET_ALL,
             msg=msg))
 
