@@ -35,7 +35,10 @@ class Receiver(object):
             self._server = poplib.POP3_SSL(self._pop3['host'], self._pop3['port'])
         else:
             self._server = poplib.POP3(self._pop3['host'], self._pop3['port'])
-        self._server.set_debuglevel(0)
+        if self._debug is True:
+            self._server.set_debuglevel(1)
+        else:
+            self._server.set_debuglevel(0)
         self._server.user(self._pop3['user'])
         self._server.pass_(self._pop3['pass'])
 

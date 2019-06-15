@@ -32,7 +32,10 @@ class Sender(object):
             self._server = smtplib.SMTP_SSL(self._smtp['host'], self._smtp['port'])
         else:
             self._server = smtplib.SMTP(self._smtp['host'], self._smtp['port'])
-        self._server.set_debuglevel(0)
+        if self._debug is True:
+            self._server.set_debuglevel(1)
+        else:
+            self._server.set_debuglevel(0)
         self._server.login(self._smtp['user'], self._smtp['pass'])
 
     def connect(self):
