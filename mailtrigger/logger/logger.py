@@ -21,7 +21,7 @@ class Logger(object):
     def error(msg):
         sys.stderr.write(u'{error}{time} ERROR:{reset} {msg}\n'.format(
             error=colorama.Fore.RED + colorama.Style.BRIGHT,
-            time=time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time())),
+            time=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
             reset=colorama.Style.RESET_ALL,
             msg=msg))
 
@@ -29,7 +29,7 @@ class Logger(object):
     def info(msg):
         sys.stderr.write(u'{info}{time} INFO:{reset} {msg}\n'.format(
             info=colorama.Fore.WHITE + colorama.Style.BRIGHT,
-            time=time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time())),
+            time=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
             reset=colorama.Style.RESET_ALL,
             msg=msg))
 
@@ -37,6 +37,6 @@ class Logger(object):
     def warn(msg):
         sys.stderr.write(u'{warn}{time} WARN:{reset} {msg}\n'.format(
             warn=colorama.Fore.YELLOW + colorama.Style.BRIGHT,
-            time=time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time())),
+            time=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),
             reset=colorama.Style.RESET_ALL,
             msg=msg))
