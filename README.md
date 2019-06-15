@@ -51,10 +51,11 @@ pip3 install mailtrigger --upgrade
 
 Several *Mail Trigger* parameters can be set in the directory [config](https://github.com/craftslab/mailtrigger/blob/master/mailtrigger/config).
 
-An example of configuration:
+An example of configuration in [mailer.json](https://github.com/craftslab/mailtrigger/blob/master/mailtrigger/config/mailer.json):
 
 ```
 {
+  "debug": false,
   "pop3": {
     "host": "pop.example.com",
     "pass": "pass",
@@ -68,6 +69,33 @@ An example of configuration:
     "port": 465,
     "ssl": true,
     "user": "user"
+  }
+}
+```
+
+An example of configuration in [scheduler.json](https://github.com/craftslab/mailtrigger/blob/master/mailtrigger/config/scheduler.json):
+
+```
+{
+  "interval": 10
+}
+```
+
+An example of configuration in [trigger.json](https://github.com/craftslab/mailtrigger/blob/master/mailtrigger/config/trigger.json):
+
+```
+{
+  "gerrit": {
+    "host": "localhost",
+    "port": 8080
+  },
+  "jenkins": {
+    "host": "localhost",
+    "port": 8081
+  },
+  "jira": {
+    "host": "localhost",
+    "port": 8082
   }
 }
 ```
