@@ -2,7 +2,6 @@
 
 import argparse
 
-from .registry import REGISTRY
 from .version import VERSION
 
 
@@ -13,11 +12,21 @@ class Argument(object):
         self._add()
 
     def _add(self):
-        triggers = ','.join([x['name'] for x in REGISTRY])
-        self._parser.add_argument('-t', '--trigger',
-                                  default=triggers,
-                                  dest='trigger',
-                                  help='set trigger, triggers: %s' % triggers,
+        self._parser.add_argument('-d', '--debug',
+                                  action='store_true',
+                                  dest='debug',
+                                  help='debug mode')
+        self._parser.add_argument('-m', '--mailer-config',
+                                  dest='mailer_config',
+                                  help='mailer configuration',
+                                  required=True)
+        self._parser.add_argument('-s', '--scheduler-config',
+                                  dest='scheduler_config',
+                                  help='scheduler configuration',
+                                  required=True)
+        self._parser.add_argument('-t', '--trigger-config',
+                                  dest='trigger_config',
+                                  help='trigger configuration',
                                   required=True)
         self._parser.add_argument('-v', '--version',
                                   action='version',

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import json
 import poplib
 
 from email.header import decode_header
@@ -21,26 +20,24 @@ class ReceiverException(Exception):
 
 class Receiver(object):
     def __init__(self, config):
-        def _load(name):
-            with open(name, 'r') as f:
-                data = json.load(f)
-            return data.get('debug', False), data.get('pop3', None)
-        self._debug, self._pop3 = _load(config)
+        self._debug = config['debug']
+        self._pop3 = config.get('pop3', None)
         if self._pop3 is None:
             raise ReceiverException('missing pop3 configuration in %s' % config)
         self._server = None
 
     def _connect(self):
-        if self._pop3['ssl'] is True:
-            self._server = poplib.POP3_SSL(self._pop3['host'], self._pop3['port'])
+        ssl = self._pop3.get('ssl', False)
+        if ssl is True:
+            self._server = poplib.POP3_SSL(self._pop3.get('host', ''), self._pop3.get('port', ''))
         else:
-            self._server = poplib.POP3(self._pop3['host'], self._pop3['port'])
+            self._server = poplib.POP3(self._pop3.get('host', ''), self._pop3.get('port', ''))
         if self._debug is True:
             self._server.set_debuglevel(1)
         else:
             self._server.set_debuglevel(0)
-        self._server.user(self._pop3['user'])
-        self._server.pass_(self._pop3['pass'])
+        self._server.user(self._pop3.get('user', ''))
+        self._server.pass_(self._pop3.get('pass', ''))
 
     @staticmethod
     def _parse(msg):
@@ -107,7 +104,7 @@ class Receiver(object):
             self._connect()
         except (OSError, poplib.error_proto) as _:
             raise ReceiverException('failed to connect pop3 server')
-        Logger.debug('connected to %s' % self._pop3['host'])
+        Logger.debug('connected to %s' % self._pop3.get('host', ''))
 
     def disconnect(self):
         if self._server is None:
@@ -117,7 +114,7 @@ class Receiver(object):
         except (OSError, poplib.error_proto) as _:
             Logger.debug('failed to disconnect pop3 server')
             return
-        Logger.debug('disconnected from %s' % self._pop3['host'])
+        Logger.debug('disconnected from %s' % self._pop3.get('host', ''))
 
     def retrieve(self):
         if self._server is None:

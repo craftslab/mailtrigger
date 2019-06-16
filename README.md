@@ -34,7 +34,11 @@ TBD
 On Windows, install *Mail Trigger* with the following commands:
 
 ```
-TBD
+pip3 install -U pywin32
+pip3 install -U PyInstaller
+pip3 install -Ur requirements.txt
+
+pyinstaller --clean --name mailtrigger -F trigger.py
 ```
 
 
@@ -47,15 +51,22 @@ pip3 install mailtrigger --upgrade
 
 
 
+## Running
+
+```bash
+mailtrigger --mailer-config mailer.json --scheduler-config scheduler.json --trigger-config trigger.json
+```
+
+
+
 ## Settings
 
-Several *Mail Trigger* parameters can be set in the directory [config](https://github.com/craftslab/mailtrigger/blob/master/mailtrigger/config).
+*Mail Trigger* parameters can be set in the directory [config](https://github.com/craftslab/mailtrigger/blob/master/mailtrigger/config).
 
 An example of configuration in [mailer.json](https://github.com/craftslab/mailtrigger/blob/master/mailtrigger/config/mailer.json):
 
 ```
 {
-  "debug": false,
   "pop3": {
     "host": "pop.example.com",
     "pass": "pass",

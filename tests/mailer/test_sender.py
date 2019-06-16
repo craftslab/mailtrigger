@@ -8,16 +8,21 @@ import time
 from mailtrigger.mailer.sender import Sender, SenderException
 
 CONFIG = '../../mailtrigger/config/mailer.json'
-TEST = '../test_data.json'
+DATA = '../test_data.json'
 
 
 def test_sender():
+    def _load(name):
+        with open(name, 'r') as f:
+            data = json.load(f)
+        return data
+
     log = logging.getLogger('test_sender')
-    status = True
 
-    with open(os.path.join(os.path.dirname(__file__), TEST), 'r') as f:
-        data = json.load(f)
+    config = _load(os.path.join(os.path.dirname(__file__), CONFIG))
+    config['debug'] = True
 
+    data = _load(os.path.join(os.path.dirname(__file__), DATA))
     buf = {
         'content': '\n'.join((
             'pytest',
@@ -34,12 +39,11 @@ def test_sender():
     }
 
     try:
-        sender = Sender(os.path.join(os.path.dirname(__file__), CONFIG))
+        sender = Sender(config)
         sender.connect()
         sender.send(buf)
         sender.disconnect()
     except SenderException as err:
         log.error(str(err))
-        status = False
 
-    assert (status is True)
+    assert True

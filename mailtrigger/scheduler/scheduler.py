@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import json
-
 from schedule import Scheduler as Sched
 
 
@@ -16,11 +14,8 @@ class SchedulerException(Exception):
 
 class Scheduler(object):
     def __init__(self, config):
-        def _load(name):
-            with open(name, 'r') as f:
-                data = json.load(f)
-            return data.get('interval', 1)
-        self._interval = _load(config)
+        self._debug = config['debug']
+        self._interval = config.get('interval', 10)
         self._sched = Sched()
 
     def add(self, func, args, tag):

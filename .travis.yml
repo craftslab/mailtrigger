@@ -17,6 +17,6 @@ install:
   - rm -rf build
 script:
   - cd $TRAVIS_BUILD_DIR
-  - coverage run --source=mailtrigger,tests -m py.test -v --capture=no tests/logger tests/trigger tests/*.py
+  - coverage run --source=mailtrigger,tests -m py.test -v --capture=no tests/logger tests/mailer test/scheduler tests/trigger tests/*.py
 after_success:
   coveralls
