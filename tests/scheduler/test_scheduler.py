@@ -22,17 +22,28 @@ def test_scheduler():
     config = _load(os.path.join(os.path.dirname(__file__), CONFIG))
     config['debug'] = True
 
+    sched = Scheduler(config)
+    assert sched is not None
+
     def _func(_):
         log.debug(datetime.now())
 
     args = []
     try:
-        sched = Scheduler(config)
         sched.add(_func, args, '_func')
+    except SchedulerException as _:
+        assert False
+
+    try:
         sched.run()
-        time.sleep(1)
+    except SchedulerException as _:
+        assert False
+
+    time.sleep(1)
+
+    try:
         sched.stop()
-    except SchedulerException as err:
-        log.error(str(err))
+    except SchedulerException as _:
+        assert False
 
     assert True

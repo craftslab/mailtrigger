@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import logging
 import json
 import os
 
@@ -15,18 +14,25 @@ def test_receiver():
             data = json.load(f)
         return data
 
-    log = logging.getLogger('test_scheduler')
-
     config = _load(os.path.join(os.path.dirname(__file__), CONFIG))
     config['debug'] = True
 
-    try:
-        receiver = Receiver(config)
-        receiver.connect()
-        log.debug('count: %s. size: %s' % receiver.stat())
-        _ = receiver.retrieve()
-        receiver.disconnect()
-    except ReceiverException as err:
-        log.error(str(err))
+    receiver = Receiver(config)
+    assert receiver is not None
 
-    assert True
+    try:
+        receiver.connect()
+    except ReceiverException as err:
+        assert str(err) == 'failed to connect pop3 server'
+
+    try:
+        _, _ = receiver.stat()
+    except ReceiverException as err:
+        assert str(err) == 'required to connect pop3 server'
+
+    try:
+        _ = receiver.retrieve()
+    except ReceiverException as err:
+        assert str(err) == 'required to connect pop3 server'
+
+    assert receiver.disconnect() is None

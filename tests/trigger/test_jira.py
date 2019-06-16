@@ -5,4 +5,6 @@ from mailtrigger.trigger.jira import Jira
 
 def test_jira():
     jira = Jira ()
-    assert (jira is not None)
+    assert jira is not None
+
+    assert 'Jira Trigger' in jira.help()

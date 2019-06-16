@@ -5,4 +5,6 @@ from mailtrigger.trigger.gerrit import Gerrit
 
 def test_gerrit():
     gerrit = Gerrit()
-    assert (gerrit is not None)
+    assert gerrit is not None
+
+    assert 'Gerrit Trigger' in gerrit.help()

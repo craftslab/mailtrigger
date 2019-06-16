@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import json
-import logging
 import os
+import smtplib
 import time
 
 from mailtrigger.mailer.sender import Sender, SenderException
@@ -16,8 +16,6 @@ def test_sender():
         with open(name, 'r') as f:
             data = json.load(f)
         return data
-
-    log = logging.getLogger('test_sender')
 
     config = _load(os.path.join(os.path.dirname(__file__), CONFIG))
     config['debug'] = True
@@ -38,12 +36,17 @@ def test_sender():
         'to': data['from']
     }
 
-    try:
-        sender = Sender(config)
-        sender.connect()
-        sender.send(buf)
-        sender.disconnect()
-    except SenderException as err:
-        log.error(str(err))
+    sender = Sender(config)
+    assert sender is not None
 
-    assert True
+    try:
+        sender.connect()
+    except SenderException as err:
+        assert str(err) == 'failed to connect smtp server'
+
+    try:
+        sender.send(buf)
+    except SenderException as err:
+        assert str(err) == 'required to connect smtp server'
+
+    assert sender.disconnect() is None
