@@ -38,7 +38,7 @@ class Sender(object):
     def connect(self):
         try:
             self._connect()
-        except smtplib.SMTPException as _:
+        except (OSError, smtplib.SMTPException) as _:
             raise SenderException('failed to connect smtp server')
         Logger.debug('connected to %s' % self._smtp.get('host', ''))
 
@@ -47,7 +47,7 @@ class Sender(object):
             return
         try:
             self._server.quit()
-        except smtplib.SMTPException as _:
+        except (OSError, smtplib.SMTPException) as _:
             Logger.debug('failed to disconnect smtp server')
             return
         Logger.debug('disconnected from %s' % self._smtp.get('host', ''))
