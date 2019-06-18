@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 from .trigger import Trigger
 
-HELP = ('Jira Trigger'
-        ''
-        'TBD')
+HELP = ('TBD')
 
 
 class Jira(Trigger):
@@ -13,6 +13,6 @@ class Jira(Trigger):
 
     def send(self, event):
         if event == 'help':
-            return HELP, True
+            return os.linesep.join(HELP), True
 
         return None, False

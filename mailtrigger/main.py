@@ -20,7 +20,7 @@ TRIGGER = '[trigger]'
 def _send(data, content, sender):
     def _format(data, content):
         return {
-            'content': '\n'.join((
+            'content': os.linesep.join((
                 content,
                 '%s' % ('-'*80),
                 '> From: %s' % data['from'],
@@ -53,7 +53,7 @@ def _emit(data, sender, registry):
     else:
         trigger = registry.query(name)
         if trigger is not None:
-            msg, _ = trigger['class'].send(data['content'].lstrip('@'+name).strip())
+            msg, _ = trigger['class']().send(data['content'].lstrip('@'+name).strip())
             _send(data, msg, sender)
 
 
