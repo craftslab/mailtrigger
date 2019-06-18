@@ -7,4 +7,5 @@ def test_jira():
     jira = Jira ()
     assert jira is not None
 
-    assert 'Jira Trigger' in jira.help()
+    _, ret = jira.send('help')
+    assert ret is True

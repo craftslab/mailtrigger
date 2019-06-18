@@ -3,15 +3,16 @@
 import json
 import os
 
-from mailtrigger.main import _format
+from mailtrigger.mailer.sender import SenderException
 from mailtrigger.main import _emit
+from mailtrigger.main import _filter
 from mailtrigger.main import _help
+from mailtrigger.main import _job
+from mailtrigger.main import _retrieve
+from mailtrigger.main import _scheduler
+from mailtrigger.main import _send
 from mailtrigger.main import _trigger
 from mailtrigger.main import _unpack
-from mailtrigger.main import _filter
-from mailtrigger.main import _retrieve
-from mailtrigger.main import _job
-from mailtrigger.main import _scheduler
 
 DATA = './test_data.json'
 
@@ -24,11 +25,10 @@ def test_main():
 
     data = _load(os.path.join(os.path.dirname(__file__), DATA))
 
-    assert _format(data, '') is not None
-
     try:
-        _emit(data, None, None)
+        _send(data, None, None)
         _help(data, None, None)
+        _emit(data, None, None)
         _trigger([data], None, None)
     except AttributeError as _:
         assert True

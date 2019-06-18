@@ -7,4 +7,5 @@ def test_gerrit():
     gerrit = Gerrit()
     assert gerrit is not None
 
-    assert 'Gerrit Trigger' in gerrit.help()
+    _, ret = gerrit.send('help')
+    assert ret is True

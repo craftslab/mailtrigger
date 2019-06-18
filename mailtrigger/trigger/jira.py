@@ -2,13 +2,17 @@
 
 from .trigger import Trigger
 
+HELP = ('Jira Trigger'
+        ''
+        'TBD')
+
 
 class Jira(Trigger):
-    @staticmethod
-    def help():
-        return ('Jira Trigger'
-                ''
-                'TBD')
+    def __init__(self):
+        pass
 
     def send(self, event):
-        return None
+        if event == 'help':
+            return HELP, True
+
+        return None, False

@@ -7,4 +7,5 @@ def test_jenkins():
     jenkins = Jenkins()
     assert jenkins is not None
 
-    assert 'Jenkins Trigger' in jenkins.help()
+    _, ret = jenkins.send('help')
+    assert ret is True

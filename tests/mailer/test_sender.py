@@ -2,7 +2,6 @@
 
 import json
 import os
-import smtplib
 import time
 
 from mailtrigger.mailer.sender import Sender, SenderException

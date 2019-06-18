@@ -17,43 +17,49 @@ HELP = 'help'
 TRIGGER = '[trigger]'
 
 
-def _format(data, content):
-    return {
-        'content': '\n'.join((
-            content,
-            '%s' % ('-'*80),
-            '> From: %s' % data['from'],
-            '> To: %s' % data['to'],
-            '> Subject: %s' % data['subject'],
-            '> Date: %s' % data['date'],
-            '> Content: %s' % data['content'])),
-        'date': time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time())),
-        'from': data['to'],
-        'subject': 'Re: %s' % data['subject'],
-        'to': [data['from'], data['to']]
-    }
+def _send(data, content, sender):
+    def _format(data, content):
+        return {
+            'content': '\n'.join((
+                content,
+                '%s' % ('-'*80),
+                '> From: %s' % data['from'],
+                '> To: %s' % data['to'],
+                '> Subject: %s' % data['subject'],
+                '> Date: %s' % data['date'],
+                '> Content: %s' % data['content'])),
+            'date': time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time())),
+            'from': data['to'],
+            'subject': 'Re: %s' % data['subject'],
+            'to': [data['from'], data['to']]
+        }
 
-
-def _emit(data, sender, registry):
-    """TODO"""
+    sender.connect()
+    sender.send(_format(data, content))
+    sender.disconnect()
 
 
 def _help(data, sender, registry):
     buf = []
     for item in registry.list():
         buf.append('@%s %s' % (item, HELP))
-    sender.connect()
-    sender.send(_format(data, os.linesep.join(buf)))
-    sender.disconnect()
+    _send(data, os.linesep.join(buf), sender)
+
+
+def _emit(data, sender, registry):
+    name = data['content'].split()[0].lstrip('@').strip()
+    if name == HELP:
+        _help(data, sender, registry)
+    else:
+        trigger = registry.query(name)
+        if trigger is not None:
+            msg, _ = trigger['class'].send(data['content'].lstrip('@'+name).strip())
+            _send(data, msg, sender)
 
 
 def _trigger(data, sender, registry):
     for item in data:
-        t = item['content'].split()[0].lstrip('@').strip()
-        if t == HELP:
-            _help(item, sender, registry)
-        else:
-            _emit(item, sender, registry)
+        _emit(item, sender, registry)
 
 
 def _unpack(data):
