@@ -4,7 +4,8 @@ import os
 
 from .trigger import Trigger
 
-HELP = ('TBD')
+HELP = ('TBD',
+        '')
 
 
 class Jira(Trigger):
