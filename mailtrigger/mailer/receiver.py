@@ -116,16 +116,16 @@ class Receiver(object):
             return
         Logger.debug('disconnected from %s' % self._pop3.get('host', ''))
 
-    def retrieve(self):
+    def retrieve(self, num=1):
         if self._server is None:
             raise ReceiverException('required to connect pop3 server')
         buf = []
         _, mails, _ = self._server.list()
-        for index in range(len(mails)):
-            _, lines, _ = self._server.retr(index + 1)
+        start = len(mails)
+        stop = start - (num if num < len(mails) else len(mails))
+        for index in range(start, stop, -1):
+            _, lines, _ = self._server.retr(index)
             buf.append(self._parse(b'\n'.join(lines).decode('utf-8')))
-        for index in range(len(mails)):
-            self._server.dele(index + 1)
         return buf
 
     def stat(self):

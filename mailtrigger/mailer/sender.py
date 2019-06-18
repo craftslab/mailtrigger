@@ -58,5 +58,5 @@ class Sender(object):
         msg = MIMEText(data['content'], 'plain', 'utf-8')
         msg['Subject'] = data['subject']
         msg['From'] = data['from']
-        msg['To'] = data['to']
+        msg['To'] = ','.join(data['to'])
         self._server.sendmail(data['from'], data['to'], msg.as_string())

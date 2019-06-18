@@ -30,7 +30,7 @@ def _format(data, content):
         'date': time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time())),
         'from': data['to'],
         'subject': 'Re: %s' % data['subject'],
-        'to': data['from']
+        'to': [data['from'], data['to']]
     }
 
 
