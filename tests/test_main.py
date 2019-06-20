@@ -3,12 +3,11 @@
 import json
 import os
 
-from mailtrigger.mailer.sender import SenderException
 from mailtrigger.main import _emit
 from mailtrigger.main import _filter
 from mailtrigger.main import _help
 from mailtrigger.main import _job
-from mailtrigger.main import _retrieve
+from mailtrigger.main import _receive
 from mailtrigger.main import _scheduler
 from mailtrigger.main import _send
 from mailtrigger.main import _trigger
@@ -37,7 +36,7 @@ def test_main():
     assert len(_filter([data])) != 0
 
     try:
-        _retrieve(None)
+        _receive(None)
         _job([None, None, None])
         _scheduler(None, None, None, None)
     except AttributeError as _:

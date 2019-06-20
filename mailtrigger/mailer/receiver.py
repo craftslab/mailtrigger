@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import html2text
 import poplib
 
 from email.header import decode_header
@@ -61,7 +62,7 @@ class Receiver(object):
             charset = _guess(msg)
             if charset:
                 content = content.decode(charset)
-            return content
+            return html2text.html2text(content)
 
         def _date(msg):
             if 'Date' not in msg:
@@ -84,10 +85,14 @@ class Receiver(object):
         msg = Parser().parsestr(msg)
         if msg.is_multipart():
             parts = msg.get_payload()
+            found = False
             for _, part in enumerate(parts):
-                if part.get_content_type() == 'text/plain' or part.get_content_type() == 'text/html':
+                if part.get_content_type() == 'text/html':
                     content = _content(part)
+                    found = True
                     break
+            if found is False:
+                raise ReceiverException('required to html type')
         else:
             content = _content(msg)
 
@@ -116,7 +121,7 @@ class Receiver(object):
             return
         Logger.debug('disconnected from %s' % self._pop3.get('host', ''))
 
-    def retrieve(self, num=1):
+    def receive(self, num=1):
         if self._server is None:
             raise ReceiverException('required to connect pop3 server')
         buf = []

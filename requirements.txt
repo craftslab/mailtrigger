@@ -1,6 +1,7 @@
 colorama
 coverage
 coveralls
+html2text
 pytest
 schedule
 setuptools

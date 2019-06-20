@@ -4,6 +4,7 @@ import json
 import os
 import time
 
+from copy import deepcopy
 from .argument import Argument
 from .banner import BANNER
 from .logger.logger import Logger
@@ -68,8 +69,9 @@ def _unpack(data):
         lines = data['content'].splitlines()
         for item in lines:
             if len(item.strip()) != 0:
-                data['content'] = item.strip()
-                buf.append(data)
+                d = deepcopy(data)
+                d['content'] = item.strip()
+                buf.append(d)
         return buf
 
     buf = []
@@ -94,16 +96,14 @@ def _filter(data):
     return buf
 
 
-def _retrieve(receiver):
-    receiver.connect()
-    data = receiver.retrieve()
-    receiver.disconnect()
+def _receive(receiver):
+    data = receiver.receive()
     return data
 
 
 def _job(args):
     receiver, sender, registry = args
-    data = _retrieve(receiver)
+    data = _receive(receiver)
     data = _filter(data)
     data = _unpack(data)
     _trigger(data, sender, registry)
@@ -161,13 +161,24 @@ def main():
         Logger.error(str(e))
         return -4
 
+    receiver = None
     try:
         receiver = Receiver(mailer_config)
-        sender = Sender(mailer_config)
-    except (ReceiverException, SenderException) as e:
+        receiver.connect()
+    except ReceiverException as e:
         Logger.error(str(e))
+        if receiver is not None:
+            receiver.disconnect()
         sched.stop()
         return -5
+
+    try:
+        sender = Sender(mailer_config)
+    except SenderException as e:
+        Logger.error(str(e))
+        receiver.disconnect()
+        sched.stop()
+        return -6
 
     registry = Registry()
     registry.fill(trigger_config)
@@ -178,7 +189,7 @@ def main():
         _scheduler(sched, receiver, sender, registry)
     except (SchedulerException, ReceiverException, SenderException, TriggerException) as e:
         Logger.error(str(e))
-        ret = -6
+        ret = -7
     finally:
         sender.disconnect()
         receiver.disconnect()
