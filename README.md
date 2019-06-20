@@ -88,7 +88,7 @@ An example of configuration in [scheduler.json](https://github.com/craftslab/mai
 
 ```
 {
-  "interval": 10
+  "interval": 30
 }
 ```
 
