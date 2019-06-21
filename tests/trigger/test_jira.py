@@ -4,8 +4,8 @@ from mailtrigger.trigger.jira import Jira
 
 
 def test_jira():
-    jira = Jira ()
+    jira = Jira (None)
     assert jira is not None
 
-    _, ret = jira.send('help')
+    _, ret = jira.run(None)
     assert ret is True

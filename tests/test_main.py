@@ -3,15 +3,11 @@
 import json
 import os
 
-from mailtrigger.main import _emit
-from mailtrigger.main import _filter
-from mailtrigger.main import _help
 from mailtrigger.main import _job
 from mailtrigger.main import _receive
 from mailtrigger.main import _scheduler
 from mailtrigger.main import _send
 from mailtrigger.main import _trigger
-from mailtrigger.main import _unpack
 
 DATA = './test_data.json'
 
@@ -26,14 +22,9 @@ def test_main():
 
     try:
         _send(data, None, None)
-        _help(data, None, None)
-        _emit(data, None, None)
         _trigger([data], None, None)
     except AttributeError as _:
         assert True
-
-    assert len(_unpack([data])) != 0
-    assert len(_filter([data])) != 0
 
     try:
         _receive(None)

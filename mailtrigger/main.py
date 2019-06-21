@@ -4,7 +4,6 @@ import json
 import os
 import time
 
-from copy import deepcopy
 from .argument import Argument
 from .banner import BANNER
 from .logger.logger import Logger
@@ -13,9 +12,6 @@ from .mailer.sender import Sender, SenderException
 from .registry import Registry
 from .scheduler.scheduler import Scheduler, SchedulerException
 from .trigger.trigger import TriggerException
-
-HELP = 'help'
-TRIGGER = '[trigger]'
 
 
 def _send(data, content, sender):
@@ -40,78 +36,26 @@ def _send(data, content, sender):
     sender.disconnect()
 
 
-def _help(data, sender, registry):
-    buf = []
+def _trigger(data, sender, registry):
     for item in registry.list():
-        buf.append('@%s %s' % (item, HELP))
-    _send(data, os.linesep.join(buf), sender)
-
-
-def _emit(data, sender, registry):
-    name = data['content'].split()[0].lstrip('@').strip()
-    if name == HELP:
-        _help(data, sender, registry)
-    else:
-        trigger = registry.query(name)
+        trigger = registry.query(item)
         if trigger is not None:
-            msg, _ = trigger['class']().send(data['content'].lstrip('@'+name).strip())
+            instance = trigger['class'](trigger['config'])
+            msg, _ = instance.run(data)
             _send(data, msg, sender)
 
 
-def _trigger(data, sender, registry):
-    for item in data:
-        _emit(item, sender, registry)
-
-
-def _unpack(data):
-    def _unpack_helper(data):
-        buf = []
-        lines = data['content'].splitlines()
-        for item in lines:
-            if len(item.strip()) != 0:
-                d = deepcopy(data)
-                d['content'] = item.strip()
-                buf.append(d)
-        return buf
-
-    buf = []
-    for item in data:
-        buf.extend(_unpack_helper(item))
-
-    return buf
-
-
-def _filter(data):
-    def _filter_helper(data):
-        ret = False
-        if data['subject'].startswith(TRIGGER):
-            ret = True
-        return ret
-
-    buf = []
-    for item in data:
-        if _filter_helper(item) is True:
-            buf.append(item)
-
-    return buf
-
-
 def _receive(receiver):
-    data = receiver.receive()
-    return data
+    return receiver.receive()
 
 
 def _job(args):
     receiver, sender, registry = args
-    data = _receive(receiver)
-    data = _filter(data)
-    data = _unpack(data)
-    _trigger(data, sender, registry)
+    _trigger(_receive(receiver), sender, registry)
 
 
 def _scheduler(sched, receiver, sender, registry):
     sched.add(_job, [receiver, sender, registry], '_job')
-
     while True:
         sched.run()
         time.sleep(1)
@@ -162,6 +106,7 @@ def main():
         return -4
 
     receiver = None
+
     try:
         receiver = Receiver(mailer_config)
         receiver.connect()

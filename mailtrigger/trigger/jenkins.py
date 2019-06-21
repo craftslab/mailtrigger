@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
-
 from .trigger import Trigger
 
 HELP = ('@jenkins build <host>:<port> JOB [--parameter <PARAMETER> | -p <PARAMETER>]',
@@ -15,11 +13,8 @@ HELP = ('@jenkins build <host>:<port> JOB [--parameter <PARAMETER> | -p <PARAMET
 
 
 class Jenkins(Trigger):
-    def __init__(self):
-        pass
+    def __init__(self, config):
+        self._config = config
 
-    def send(self, event):
-        if event == 'help':
-            return os.linesep.join(HELP), True
-
-        return None, False
+    def run(self, data):
+        return None, True

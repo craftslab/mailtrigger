@@ -16,5 +16,5 @@ class Trigger(object):
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
-    def send(self, event):
-        return None, False
+    def run(self, data):
+        return None, True

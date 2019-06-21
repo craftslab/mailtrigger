@@ -6,7 +6,7 @@ HELP = ('TBD',
         '')
 
 
-class Jira(Trigger):
+class Help(Trigger):
     def __init__(self, config):
         self._config = config
 
