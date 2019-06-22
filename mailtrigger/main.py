@@ -44,7 +44,10 @@ def _trigger(data, sender, trigger):
 
 
 def _receive(receiver):
-    return receiver.receive(1)
+    receiver.connect()
+    data = receiver.receive(1)
+    receiver.disconnect()
+    return data
 
 
 def _job(args):
@@ -103,15 +106,10 @@ def main():
         Logger.error(str(e))
         return -4
 
-    receiver = None
-
     try:
         receiver = Receiver(mailer_config)
-        receiver.connect()
     except ReceiverException as e:
         Logger.error(str(e))
-        if receiver is not None:
-            receiver.disconnect()
         sched.stop()
         return -5
 
@@ -119,7 +117,6 @@ def main():
         sender = Sender(mailer_config)
     except SenderException as e:
         Logger.error(str(e))
-        receiver.disconnect()
         sched.stop()
         return -6
 
@@ -128,8 +125,6 @@ def main():
         trigger = registry.instantiate()
     except (RegistryException, TriggerException) as e:
         Logger.error(str(e))
-        sender.disconnect()
-        receiver.disconnect()
         sched.stop()
         return -7
 
