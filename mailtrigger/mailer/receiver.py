@@ -121,7 +121,7 @@ class Receiver(object):
             return
         Logger.debug('disconnected from %s' % self._pop3.get('host', ''))
 
-    def receive(self, num=1):
+    def receive(self, num):
         if self._server is None:
             raise ReceiverException('required to connect pop3 server')
         buf = []
@@ -131,6 +131,10 @@ class Receiver(object):
         for index in range(start, stop, -1):
             _, lines, _ = self._server.retr(index)
             buf.append(self._parse(b'\n'.join(lines).decode('utf-8')))
+        if len(buf) == 0:
+            return None
+        elif len(buf) == 1:
+            return buf[0]
         return buf
 
     def stat(self):

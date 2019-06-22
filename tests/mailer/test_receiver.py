@@ -31,7 +31,7 @@ def test_receiver():
         assert str(err) == 'required to connect pop3 server'
 
     try:
-        _ = receiver.receive()
+        _ = receiver.receive(1)
     except ReceiverException as err:
         assert str(err) == 'required to connect pop3 server'
 

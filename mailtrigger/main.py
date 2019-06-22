@@ -44,7 +44,7 @@ def _trigger(data, sender, trigger):
 
 
 def _receive(receiver):
-    return receiver.receive()
+    return receiver.receive(1)
 
 
 def _job(args):
