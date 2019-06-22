@@ -4,7 +4,7 @@ from mailtrigger.trigger.trigger import Trigger
 
 
 def test_trigger():
-    trigger = Trigger(None)
+    trigger = Trigger()
     assert trigger is not None
 
     msg, ret = trigger.run(None)
