@@ -1,14 +1,47 @@
 # -*- coding: utf-8 -*-
 
-from .trigger import Trigger
+import os
 
-HELP = ('TBD',
-        '')
+from .trigger import Trigger, TriggerException
+from ..registry import REGISTRY
 
 
 class Help(Trigger):
     def __init__(self, config):
-        self._config = config
+        if config is None:
+            raise TriggerException('invalid help configuration')
+        self._debug = config.get('debug', False)
+        self._filter = config.get('filter', None)
+        self._trigger = '@help'
 
-    def run(self, data):
-        return None, True
+    def _check(self, event):
+        sender = self._filter.get('from', [])
+        if event is None or event['from'] not in sender:
+            return False
+        subject = self._filter.get('subject', None)
+        if subject is None or event['subject'].startswith(subject.strip()) is False:
+            return False
+        return True
+
+    def _parse(self, event):
+        lines = event['content'].splitlines()
+        ret = False
+        for item in lines:
+            if item == self._trigger:
+                ret = True
+                break
+        return ret
+
+    @staticmethod
+    def help():
+        return ''
+
+    def run(self, event):
+        if self._check(event) is False:
+            return '', False
+        if self._parse(event) is False:
+            return '', False
+        msg = []
+        for item in REGISTRY:
+            msg.append(item['class'].help()+os.linesep)
+        return os.linesep.join(msg), True

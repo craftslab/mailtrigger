@@ -9,16 +9,16 @@ from .banner import BANNER
 from .logger.logger import Logger
 from .mailer.receiver import Receiver, ReceiverException
 from .mailer.sender import Sender, SenderException
-from .registry import Registry
+from .registry import Registry, RegistryException
 from .scheduler.scheduler import Scheduler, SchedulerException
 from .trigger.trigger import TriggerException
 
 
-def _send(data, content, sender):
-    def _format(data, content):
+def _send(data, msg, sender):
+    def _format(data, msg):
         return {
             'content': os.linesep.join((
-                content,
+                msg,
                 '%s' % ('-'*80),
                 '> From: %s' % data['from'],
                 '> To: %s' % data['to'],
@@ -32,16 +32,14 @@ def _send(data, content, sender):
         }
 
     sender.connect()
-    sender.send(_format(data, content))
+    sender.send(_format(data, msg))
     sender.disconnect()
 
 
-def _trigger(data, sender, registry):
-    for item in registry.list():
-        trigger = registry.query(item)
-        if trigger is not None:
-            instance = trigger['class'](trigger['config'])
-            msg, _ = instance.run(data)
+def _trigger(data, sender, trigger):
+    for item in trigger:
+        msg, status = item.run(data)
+        if status is True:
             _send(data, msg, sender)
 
 
@@ -50,12 +48,12 @@ def _receive(receiver):
 
 
 def _job(args):
-    receiver, sender, registry = args
-    _trigger(_receive(receiver), sender, registry)
+    receiver, sender, trigger = args
+    _trigger(_receive(receiver), sender, trigger)
 
 
-def _scheduler(sched, receiver, sender, registry):
-    sched.add(_job, [receiver, sender, registry], '_job')
+def _scheduler(sched, receiver, sender, trigger):
+    sched.add(_job, [receiver, sender, trigger], '_job')
     while True:
         sched.run()
         time.sleep(1)
@@ -125,16 +123,23 @@ def main():
         sched.stop()
         return -6
 
-    registry = Registry()
-    registry.fill(trigger_config)
+    try:
+        registry = Registry(trigger_config)
+        trigger = registry.instantiate()
+    except (RegistryException, TriggerException) as e:
+        Logger.error(str(e))
+        sender.disconnect()
+        receiver.disconnect()
+        sched.stop()
+        return -7
 
     ret = 0
 
     try:
-        _scheduler(sched, receiver, sender, registry)
+        _scheduler(sched, receiver, sender, trigger)
     except (SchedulerException, ReceiverException, SenderException, TriggerException) as e:
         Logger.error(str(e))
-        ret = -7
+        ret = -8
     finally:
         sender.disconnect()
         receiver.disconnect()

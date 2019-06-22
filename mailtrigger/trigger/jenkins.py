@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .trigger import Trigger
+from .trigger import Trigger, TriggerException
 
 HELP = ('@jenkins build <host>:<port> JOB [--parameter <PARAMETER> | -p <PARAMETER>]',
         '@jenkins help',
@@ -14,7 +14,25 @@ HELP = ('@jenkins build <host>:<port> JOB [--parameter <PARAMETER> | -p <PARAMET
 
 class Jenkins(Trigger):
     def __init__(self, config):
-        self._config = config
+        if config is None:
+            raise TriggerException('invalid jenkins configuration')
+        self._debug = config.get('debug', False)
+        self._filter = config.get('filter', None)
 
-    def run(self, data):
-        return None, True
+    def _check(self, event):
+        sender = self._filter.get('from', [])
+        if event is None or event['from'] not in sender:
+            return False
+        subject = self._filter.get('subject', None)
+        if subject is None or event['subject'].startswith(subject.strip()) is False:
+            return False
+        return True
+
+    @staticmethod
+    def help():
+        return HELP
+
+    def run(self, event):
+        if self._check(event) is False:
+            return '', False
+        return '', False

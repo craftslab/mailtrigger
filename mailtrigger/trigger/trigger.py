@@ -15,6 +15,10 @@ class TriggerException(Exception):
 class Trigger(object):
     __metaclass__ = abc.ABCMeta
 
+    @staticmethod
+    def help():
+        return ''
+
     @abc.abstractmethod
-    def run(self, data):
-        return None, True
+    def run(self, event):
+        return '', True

@@ -97,14 +97,32 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
 ```
 {
   "gerrit": {
+    "filter": {
+      "from": [
+        "name@example.com"
+      ],
+      "subject": "[trigger]"
+    },
     "host": "localhost",
     "port": 8080
   },
   "jenkins": {
+    "filter": {
+      "from": [
+        "name@example.com"
+      ],
+      "subject": "[trigger]"
+    },
     "host": "localhost",
     "port": 8081
   },
   "jira": {
+    "filter": {
+      "from": [
+        "name@example.com"
+      ],
+      "subject": "[trigger]"
+    },
     "host": "localhost",
     "port": 8082
   }
@@ -115,13 +133,13 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
 
 ## Usage
 
-### Title
+### Subject
 
 ```
 [trigger]: Write your description here
 ```
 
-**Note: `[trigger]` is the reserved word in title**
+**Note: `[trigger]` is the reserved word in subject**
 
 
 

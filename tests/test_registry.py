@@ -14,15 +14,11 @@ def test_registry():
             data = json.load(f)
         return data
 
-    registry = Registry()
-    assert registry is not None
-
     config = _load(os.path.join(os.path.dirname(__file__), CONFIG))
     config['debug'] = True
 
-    registry.fill(config)
-    assert True
+    registry = Registry(config)
+    assert registry is not None
 
-    assert len(registry.list()) != 0
-
-    assert registry.query(registry.list()[0]) is not None
+    trigger = registry.instantiate()
+    assert len(trigger) != 0

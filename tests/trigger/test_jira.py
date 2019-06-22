@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from mailtrigger.trigger.jira import Jira
+from mailtrigger.trigger.trigger import TriggerException
 
 
 def test_jira():
-    jira = Jira (None)
-    assert jira is not None
+    try:
+        _ = Jira(None)
+    except TriggerException as err:
+        assert str(err) == 'invalid jira configuration'
 
-    _, ret = jira.run(None)
-    assert ret is True
+    assert len(Jira.help()) == 0

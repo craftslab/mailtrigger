@@ -7,6 +7,8 @@ def test_trigger():
     trigger = Trigger()
     assert trigger is not None
 
+    assert len(Trigger.help()) == 0
+
     msg, ret = trigger.run(None)
-    assert msg is None
-    assert ret is False
+    assert msg == ''
+    assert ret is True

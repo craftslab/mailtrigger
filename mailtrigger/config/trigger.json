@@ -1,7 +1,9 @@
 {
   "gerrit": {
     "filter": {
-      "from": "name@example.com",
+      "from": [
+        "name@example.com"
+      ],
       "subject": "[trigger]"
     },
     "host": "localhost",
@@ -9,7 +11,9 @@
   },
   "jenkins": {
     "filter": {
-      "from": "name@example.com",
+      "from": [
+        "name@example.com"
+      ],
       "subject": "[trigger]"
     },
     "host": "localhost",
@@ -17,7 +21,9 @@
   },
   "jira": {
     "filter": {
-      "from": "name@example.com",
+      "from": [
+        "name@example.com"
+      ],
       "subject": "[trigger]"
     },
     "host": "localhost",

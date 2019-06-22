@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from mailtrigger.trigger.help import Help
+from mailtrigger.trigger.trigger import TriggerException
 
 
 def test_help():
-    help = Help(None)
-    assert help is not None
+    try:
+        _ = Help(None)
+    except TriggerException as err:
+        assert str(err) == 'invalid help configuration'
 
-    _, ret = help.run(None)
-    assert ret is True
+    assert len(Help.help()) == 0

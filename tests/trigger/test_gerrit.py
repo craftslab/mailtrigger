@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from mailtrigger.trigger.gerrit import Gerrit
+from mailtrigger.trigger.trigger import TriggerException
 
 
 def test_gerrit():
-    gerrit = Gerrit(None)
-    assert gerrit is not None
+    try:
+        _ = Gerrit(None)
+    except TriggerException as err:
+        assert str(err) == 'invalid gerrit configuration'
 
-    _, ret = gerrit.run(None)
-    assert ret is True
+    assert len(Gerrit.help()) != 0
