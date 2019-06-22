@@ -106,6 +106,14 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
     "host": "localhost",
     "port": 8080
   },
+  "help": {
+    "filter": {
+      "from": [
+        "name@example.com"
+      ],
+      "subject": "[trigger]"
+    }
+  },
   "jenkins": {
     "filter": {
       "from": [
