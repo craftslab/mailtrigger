@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 from .trigger import Trigger, TriggerException
 
 HELP = ('@gerrit help',
@@ -8,8 +10,6 @@ HELP = ('@gerrit help',
         '@gerrit start <host>',
         '@gerrit stop <host>',
         '@gerrit verify <host>',
-        '',
-        '',
         '@gerrit review <host>:<port>',
         '  [--project <PROJECT> | -p <PROJECT>]',
         '  [--branch <BRANCH> | -b <BRANCH>]',
@@ -46,7 +46,7 @@ class Gerrit(Trigger):
 
     @staticmethod
     def help():
-        return HELP
+        return os.linesep.join(HELP)
 
     def run(self, event):
         if self._check(event) is False:

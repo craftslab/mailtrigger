@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 from .trigger import Trigger, TriggerException
 
 HELP = ('@jenkins build <host>:<port> JOB [--parameter <PARAMETER> | -p <PARAMETER>]',
@@ -30,7 +32,7 @@ class Jenkins(Trigger):
 
     @staticmethod
     def help():
-        return HELP
+        return os.linesep.join(HELP)
 
     def run(self, event):
         if self._check(event) is False:

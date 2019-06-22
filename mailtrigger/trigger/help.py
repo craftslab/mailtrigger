@@ -27,7 +27,7 @@ class Help(Trigger):
         lines = event['content'].splitlines()
         ret = False
         for item in lines:
-            if item == self._trigger:
+            if self._trigger == item.strip():
                 ret = True
                 break
         return ret
@@ -43,5 +43,5 @@ class Help(Trigger):
             return '', False
         msg = []
         for item in REGISTRY:
-            msg.append(item['class'].help()+os.linesep)
+            msg.append(item['class'].help())
         return os.linesep.join(msg), True
