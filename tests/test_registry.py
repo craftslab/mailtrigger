@@ -1,24 +1,60 @@
 # -*- coding: utf-8 -*-
 
-import json
-import os
-
-from mailtrigger.registry import Registry
-
-CONFIG = '../mailtrigger/config/trigger.json'
+from mailtrigger.registry import Registry, RegistryException
 
 
 def test_registry():
-    def _load(name):
-        with open(name, 'r') as f:
-            data = json.load(f)
-        return data
+    exception = RegistryException('exception')
+    assert str(exception) == 'exception'
 
-    config = _load(os.path.join(os.path.dirname(__file__), CONFIG))
-    config['debug'] = True
+    config = {
+        'debug': True,
+        'gerrit': {
+            'filter': {
+                'from': [
+                    'name@example.com'
+                ],
+                'subject': '[trigger]'
+            },
+            'host': 'localhost',
+            'port': 8080
+        },
+        'help': {
+            'filter': {
+                'from': [
+                    'name@example.com'
+                ],
+                'subject': '[trigger]'
+            }
+        },
+        'jenkins': {
+            'filter': {
+                'from': [
+                    'name@example.com'
+                ],
+                'subject': '[trigger]'
+            },
+            'host': 'localhost',
+            'port': 8081
+        },
+        'jira': {
+            'filter': {
+                'from': [
+                    'name@example.com'
+                ],
+                'subject': '[trigger]'
+            },
+            'host': 'localhost',
+            'port': 8082
+        }
+    }
 
     registry = Registry(config)
     assert registry is not None
 
-    trigger = registry.instantiate()
+    trigger = []
+    try:
+        trigger = registry.instantiate()
+    except RegistryException as err:
+        assert str(err) == 'invalid trigger configuration'
     assert len(trigger) != 0

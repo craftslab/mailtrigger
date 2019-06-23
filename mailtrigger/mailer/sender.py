@@ -20,7 +20,7 @@ class Sender(object):
         self._debug = config['debug']
         self._smtp = config.get('smtp', None)
         if self._smtp is None:
-            raise SenderException('missing smtp configuration in %s' % config)
+            raise SenderException('missing smtp configuration')
         self._server = None
 
     def _connect(self):

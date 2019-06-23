@@ -24,7 +24,7 @@ class Receiver(object):
         self._debug = config['debug']
         self._pop3 = config.get('pop3', None)
         if self._pop3 is None:
-            raise ReceiverException('missing pop3 configuration in %s' % config)
+            raise ReceiverException('missing pop3 configuration')
         self._server = None
 
     def _connect(self):

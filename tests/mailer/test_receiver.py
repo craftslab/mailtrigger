@@ -1,23 +1,35 @@
 # -*- coding: utf-8 -*-
 
-import json
-import os
+import poplib
 
 from mailtrigger.mailer.receiver import Receiver, ReceiverException
 
-CONFIG = '../../mailtrigger/config/mailer.json'
-
 
 def test_receiver():
-    def _load(name):
-        with open(name, 'r') as f:
-            data = json.load(f)
-        return data
+    config = {
+        'debug': True,
+        'pop3': {
+            'host': 'pop.example.com',
+            'pass': 'pass',
+            'port': 995,
+            'ssl': True,
+            'user': 'user'
+        },
+        'smtp': {
+            'host': 'smtp.example.com',
+            'pass': 'pass',
+            'port': 465,
+            'ssl': True,
+            'user': 'user'
+        }
+    }
 
-    config = _load(os.path.join(os.path.dirname(__file__), CONFIG))
-    config['debug'] = True
+    receiver = None
 
-    receiver = Receiver(config)
+    try:
+        receiver = Receiver(config)
+    except ReceiverException as err:
+        assert str(err) == 'missing pop3 configuration'
     assert receiver is not None
 
     try:
@@ -25,14 +37,28 @@ def test_receiver():
     except ReceiverException as err:
         assert str(err) == 'failed to connect pop3 server'
 
+    count = None
+    size = None
+
     try:
-        _, _ = receiver.stat()
+        count, size = receiver.stat()
     except ReceiverException as err:
         assert str(err) == 'required to connect pop3 server'
 
+    assert count is None
+    assert size is None
+
+    buf = None
+
     try:
-        _ = receiver.receive(1)
+       buf = receiver.receive(1)
     except ReceiverException as err:
         assert str(err) == 'required to connect pop3 server'
 
-    assert receiver.disconnect() is None
+    if buf is None or type(buf) is str or type(buf) is list:
+        assert True
+
+    try:
+        receiver.disconnect()
+    except (OSError, poplib.error_proto) as _:
+        assert True
