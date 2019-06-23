@@ -4,6 +4,54 @@ import poplib
 
 from mailtrigger.mailer.receiver import Receiver, ReceiverException
 
+MESSAGE = [
+    b'Date: Jan, 01 Jan 1970 00:00:00 +0800',
+    b'From: name@example.com',
+    b'To: name <name@example.com>',
+    b'Subject: [trigger]: subject',
+    b'MIME-Version: 1.0',
+    b'Content-Type: multipart/alternative; boundary="5d0f15d3_54f6eed9_ca0"',
+    b'',
+    b'--5d0f15d3_54f6eed9_ca0',
+    b'Content-Type: text/plain; charset="utf-8"',
+    b'Content-Transfer-Encoding: 7bit',
+    b'Content-Disposition: inline',
+    b'',
+    b'content',
+    b'',
+    b'--5d0f15d3_54f6eed9_ca0',
+    b'Content-Type: text/html; charset="utf-8"',
+    b'Content-Transfer-Encoding: quoted-printable',
+    b'Content-Disposition: inline',
+    b'',
+    b'<div>',
+    b' content',
+    b'</div>',
+    b'--5d0f15d3_54f6eed9_ca0--'
+]
+
+
+class DummyServer(object):
+    def __init__(self):
+        self._count = 0
+        self._lines = MESSAGE
+        self._mails = ['1']
+        self._octets = None
+        self._resp = None
+        self._size = 0
+
+    def list(self):
+        return self._resp, self._mails, self._octets
+
+    def quit(self):
+        return
+
+    def retr(self, num):
+        return self._resp, self._lines, self._octets
+
+    def stat(self):
+        return self._count, self._size
+
 
 def test_receiver():
     config = {
@@ -28,6 +76,7 @@ def test_receiver():
 
     try:
         receiver = Receiver(config)
+        receiver._server = DummyServer()
     except ReceiverException as err:
         assert str(err) == 'missing pop3 configuration'
     assert receiver is not None
@@ -45,13 +94,13 @@ def test_receiver():
     except ReceiverException as err:
         assert str(err) == 'required to connect pop3 server'
 
-    assert count is None
-    assert size is None
+    assert count is not None
+    assert size is not None
 
     buf = None
 
     try:
-       buf = receiver.receive(1)
+        buf = receiver.receive(1)
     except ReceiverException as err:
         assert str(err) == 'required to connect pop3 server'
 

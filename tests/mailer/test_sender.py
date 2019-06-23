@@ -6,6 +6,17 @@ import time
 from mailtrigger.mailer.sender import Sender, SenderException
 
 
+class DummyServer(object):
+    def __init__(self):
+        pass
+
+    def quit(self):
+        return
+
+    def sendmail(self, from_addr, to_addrs, msg):
+        return
+
+
 def test_sender():
     config = {
         'debug': True,
@@ -52,6 +63,7 @@ def test_sender():
 
     try:
         sender = Sender(config)
+        sender._server = DummyServer()
     except SenderException as err:
         assert str(err) == 'missing smtp configuration'
     assert sender is not None
