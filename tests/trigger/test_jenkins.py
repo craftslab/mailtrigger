@@ -4,14 +4,14 @@ from mailtrigger.trigger.jenkins import Jenkins
 from mailtrigger.trigger.trigger import TriggerException
 
 
-def test_jenkins():
-    jenkins = None
-
+def test_init():
     try:
-        jenkins = Jenkins(None)
+        _ = Jenkins(None)
     except TriggerException as err:
         assert str(err) == 'invalid jenkins configuration'
 
+
+def test_trigger():
     config = {
         'debug': True,
         'filter': {
@@ -23,6 +23,8 @@ def test_jenkins():
         'host': 'localhost',
         'port': 8081
     }
+
+    jenkins = None
 
     try:
         jenkins = Jenkins(config)

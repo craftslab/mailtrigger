@@ -4,14 +4,14 @@ from mailtrigger.trigger.gerrit import Gerrit
 from mailtrigger.trigger.trigger import TriggerException
 
 
-def test_gerrit():
-    gerrit = None
-
+def test_init():
     try:
-        gerrit = Gerrit(None)
+        _ = Gerrit(None)
     except TriggerException as err:
         assert str(err) == 'invalid gerrit configuration'
 
+
+def test_trigger():
     config = {
         'debug': True,
         'filter': {
@@ -23,6 +23,8 @@ def test_gerrit():
         'host': 'localhost',
         'port': 8080
     }
+
+    gerrit = None
 
     try:
         gerrit = Gerrit(config)

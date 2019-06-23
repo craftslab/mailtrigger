@@ -3,10 +3,12 @@
 from mailtrigger.trigger.trigger import Trigger, TriggerException
 
 
-def test_trigger():
+def test_exception():
     exception = TriggerException('exception')
     assert str(exception) == 'exception'
 
+
+def test_trigger():
     trigger = Trigger()
     assert trigger is not None
 

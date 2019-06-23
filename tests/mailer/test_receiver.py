@@ -53,7 +53,7 @@ class DummyServer(object):
         return self._count, self._size
 
 
-def test_receiver():
+def test_pop3():
     config = {
         'debug': True,
         'smtp': {
@@ -73,6 +73,8 @@ def test_receiver():
         assert str(err) == 'missing pop3 configuration'
     assert receiver is None
 
+
+def test_receiver():
     config = {
         'debug': True,
         'pop3': {
@@ -90,6 +92,8 @@ def test_receiver():
             'user': 'user'
         }
     }
+
+    receiver = None
 
     try:
         receiver = Receiver(config)
@@ -129,6 +133,34 @@ def test_receiver():
         receiver.disconnect()
     except (OSError, poplib.error_proto) as _:
         assert True
+
+
+def test_server():
+    config = {
+        'debug': True,
+        'pop3': {
+            'host': 'pop.example.com',
+            'pass': 'pass',
+            'port': 995,
+            'ssl': True,
+            'user': 'user'
+        },
+        'smtp': {
+            'host': 'smtp.example.com',
+            'pass': 'pass',
+            'port': 465,
+            'ssl': True,
+            'user': 'user'
+        }
+    }
+
+    receiver = None
+
+    try:
+        receiver = Receiver(config)
+    except ReceiverException as err:
+        assert str(err) == 'missing pop3 configuration'
+    assert receiver is not None
 
     receiver._server = None
 

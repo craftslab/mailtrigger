@@ -17,7 +17,7 @@ class DummyServer(object):
         return
 
 
-def test_sender():
+def test_smtp():
     config = {
         'debug': True,
         'pop3': {
@@ -37,6 +37,8 @@ def test_sender():
         assert str(err) == 'missing smtp configuration'
     assert sender is None
 
+
+def test_sender():
     config = {
         'debug': True,
         'pop3': {
@@ -78,6 +80,8 @@ def test_sender():
         'to': data['from']
     }
 
+    sender = None
+
     try:
         sender = Sender(config)
     except SenderException as err:
@@ -101,10 +105,38 @@ def test_sender():
     except (OSError, smtplib.SMTPException) as _:
         assert True
 
+
+def test_server():
+    config = {
+        'debug': True,
+        'pop3': {
+            'host': 'pop.example.com',
+            'pass': 'pass',
+            'port': 995,
+            'ssl': True,
+            'user': 'user'
+        },
+        'smtp': {
+            'host': 'smtp.example.com',
+            'pass': 'pass',
+            'port': 465,
+            'ssl': True,
+            'user': 'user'
+        }
+    }
+
+    sender = None
+
+    try:
+        sender = Sender(config)
+    except SenderException as err:
+        assert str(err) == 'missing smtp configuration'
+    assert sender is not None
+
     sender._server = None
 
     try:
-        sender.send(msg)
+        sender.send(None)
     except SenderException as err:
         assert str(err) == 'required to connect smtp server'
 

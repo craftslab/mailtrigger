@@ -7,10 +7,12 @@ from datetime import datetime
 from mailtrigger.scheduler.scheduler import Scheduler, SchedulerException
 
 
-def test_scheduler():
+def test_exception():
     exception = SchedulerException('exception')
     assert str(exception) == 'exception'
 
+
+def test_add():
     config = {
         'debug': True,
         'interval': 30
@@ -35,6 +37,13 @@ def test_scheduler():
         sched.stop()
     except SchedulerException as err:
         assert str(err) == 'required to create scheduler'
+
+
+def test_job():
+    config = {
+        'debug': True,
+        'interval': 30
+    }
 
     sched = Scheduler(config)
     assert sched is not None

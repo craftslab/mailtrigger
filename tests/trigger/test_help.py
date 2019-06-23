@@ -4,14 +4,14 @@ from mailtrigger.trigger.help import Help
 from mailtrigger.trigger.trigger import TriggerException
 
 
-def test_help():
-    _help = None
-
+def test_init():
     try:
-        _help = Help(None)
+        _ = Help(None)
     except TriggerException as err:
         assert str(err) == 'invalid help configuration'
 
+
+def test_trigger():
     config = {
         'debug': True,
         'filter': {
@@ -21,6 +21,8 @@ def test_help():
             'subject': '[trigger]'
         }
     }
+
+    _help = None
 
     try:
         _help = Help(config)
