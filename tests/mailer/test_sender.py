@@ -26,6 +26,25 @@ def test_sender():
             'port': 995,
             'ssl': True,
             'user': 'user'
+        }
+    }
+
+    sender = None
+
+    try:
+        sender = Sender(config)
+    except SenderException as err:
+        assert str(err) == 'missing smtp configuration'
+    assert sender is None
+
+    config = {
+        'debug': True,
+        'pop3': {
+            'host': 'pop.example.com',
+            'pass': 'pass',
+            'port': 995,
+            'ssl': True,
+            'user': 'user'
         },
         'smtp': {
             'host': 'smtp.example.com',
@@ -59,8 +78,6 @@ def test_sender():
         'to': data['from']
     }
 
-    sender = None
-
     try:
         sender = Sender(config)
     except SenderException as err:
@@ -81,5 +98,17 @@ def test_sender():
 
     try:
         sender.disconnect()
-    except (OSError, smtplib.SMTPException) as err:
+    except (OSError, smtplib.SMTPException) as _:
+        assert True
+
+    sender._server = None
+
+    try:
+        sender.send(msg)
+    except SenderException as err:
+        assert str(err) == 'required to connect smtp server'
+
+    try:
+        sender.disconnect()
+    except (OSError, smtplib.SMTPException) as _:
         assert True

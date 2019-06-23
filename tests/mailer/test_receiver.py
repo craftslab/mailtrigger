@@ -56,6 +56,25 @@ class DummyServer(object):
 def test_receiver():
     config = {
         'debug': True,
+        'smtp': {
+            'host': 'smtp.example.com',
+            'pass': 'pass',
+            'port': 465,
+            'ssl': True,
+            'user': 'user'
+        }
+    }
+
+    receiver = None
+
+    try:
+        receiver = Receiver(config)
+    except ReceiverException as err:
+        assert str(err) == 'missing pop3 configuration'
+    assert receiver is None
+
+    config = {
+        'debug': True,
         'pop3': {
             'host': 'pop.example.com',
             'pass': 'pass',
@@ -71,8 +90,6 @@ def test_receiver():
             'user': 'user'
         }
     }
-
-    receiver = None
 
     try:
         receiver = Receiver(config)
@@ -112,3 +129,17 @@ def test_receiver():
         receiver.disconnect()
     except (OSError, poplib.error_proto) as _:
         assert True
+
+    receiver._server = None
+
+    try:
+        _, _ = receiver.stat()
+    except ReceiverException as err:
+        assert str(err) == 'required to connect pop3 server'
+
+    try:
+        _ = receiver.receive(1)
+    except ReceiverException as err:
+        assert str(err) == 'required to connect pop3 server'
+
+    assert receiver.disconnect() is None
