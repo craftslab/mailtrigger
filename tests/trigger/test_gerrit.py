@@ -5,6 +5,13 @@ from mailtrigger.trigger.trigger import TriggerException
 
 
 def test_gerrit():
+    gerrit = None
+
+    try:
+        gerrit = Gerrit(None)
+    except TriggerException as err:
+        assert str(err) == 'invalid gerrit configuration'
+
     config = {
         'debug': True,
         'filter': {
@@ -17,14 +24,28 @@ def test_gerrit():
         'port': 8080
     }
 
-    gerrit = None
-
     try:
-       gerrit = Gerrit(config)
+        gerrit = Gerrit(config)
     except TriggerException as err:
         assert str(err) == 'invalid gerrit configuration'
 
     assert len(Gerrit.help()) != 0
+
+    msg, status = gerrit.run(None)
+    assert msg == ''
+    assert status is False
+
+    event = {
+        'content': '',
+        'date': '',
+        'from': 'name@example.com',
+        'subject': '',
+        'to': ''
+    }
+
+    msg, status = gerrit.run(event)
+    assert msg == ''
+    assert status is False
 
     event = {
         'content': '',
