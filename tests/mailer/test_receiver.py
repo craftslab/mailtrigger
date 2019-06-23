@@ -76,7 +76,6 @@ def test_receiver():
 
     try:
         receiver = Receiver(config)
-        receiver._server = DummyServer()
     except ReceiverException as err:
         assert str(err) == 'missing pop3 configuration'
     assert receiver is not None
@@ -85,6 +84,8 @@ def test_receiver():
         receiver.connect()
     except ReceiverException as err:
         assert str(err) == 'failed to connect pop3 server'
+    finally:
+        receiver._server = DummyServer()
 
     count = None
     size = None

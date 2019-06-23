@@ -63,7 +63,6 @@ def test_sender():
 
     try:
         sender = Sender(config)
-        sender._server = DummyServer()
     except SenderException as err:
         assert str(err) == 'missing smtp configuration'
     assert sender is not None
@@ -72,6 +71,8 @@ def test_sender():
         sender.connect()
     except SenderException as err:
         assert str(err) == 'failed to connect smtp server'
+    finally:
+        sender._server = DummyServer()
 
     try:
         sender.send(msg)
