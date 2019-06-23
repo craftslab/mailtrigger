@@ -58,3 +58,10 @@ def test_registry():
     except RegistryException as err:
         assert str(err) == 'invalid trigger configuration'
     assert len(trigger) != 0
+
+    registry._registry = []
+
+    try:
+        _ = registry.instantiate()
+    except RegistryException as err:
+        assert str(err) == 'invalid trigger configuration'
