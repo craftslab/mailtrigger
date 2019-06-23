@@ -72,6 +72,7 @@ An example of configuration in [mailer.json](https://github.com/craftslab/mailtr
     "pass": "pass",
     "port": 995,
     "ssl": true,
+    "timeout": 10,
     "user": "user"
   },
   "smtp": {
@@ -79,6 +80,7 @@ An example of configuration in [mailer.json](https://github.com/craftslab/mailtr
     "pass": "pass",
     "port": 465,
     "ssl": true,
+    "timeout": 10,
     "user": "user"
   }
 }

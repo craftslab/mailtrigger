@@ -2,6 +2,7 @@
 
 import html2text
 import poplib
+import socket
 
 from email.header import decode_header
 from email.parser import Parser
@@ -30,9 +31,11 @@ class Receiver(object):
     def _connect(self):
         ssl = self._pop3.get('ssl', False)
         if ssl is True:
-            self._server = poplib.POP3_SSL(self._pop3.get('host', ''), self._pop3.get('port', ''))
+            self._server = poplib.POP3_SSL(host=self._pop3.get('host', ''), port=self._pop3.get('port', ''),
+                                           timeout=self._pop3.get('timeout', 0))
         else:
-            self._server = poplib.POP3(self._pop3.get('host', ''), self._pop3.get('port', ''))
+            self._server = poplib.POP3(host=self._pop3.get('host', ''), port=self._pop3.get('port', ''),
+                                       timeout=self._pop3.get('timeout', 0))
         if self._debug is True:
             self._server.set_debuglevel(1)
         else:
@@ -107,7 +110,7 @@ class Receiver(object):
     def connect(self):
         try:
             self._connect()
-        except (OSError, poplib.error_proto) as _:
+        except (OSError, poplib.error_proto, socket.timeout) as _:
             raise ReceiverException('failed to connect pop3 server')
         Logger.debug('connected to %s' % self._pop3.get('host', ''))
 

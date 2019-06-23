@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import smtplib
+import socket
 
 from email.mime.text import MIMEText
 from ..logger.logger import Logger
@@ -26,9 +27,11 @@ class Sender(object):
     def _connect(self):
         ssl = self._smtp.get('ssl', False)
         if ssl is True:
-            self._server = smtplib.SMTP_SSL(self._smtp.get('host', ''), self._smtp.get('port', ''))
+            self._server = smtplib.SMTP_SSL(host=self._smtp.get('host', ''), port=self._smtp.get('port', ''),
+                                            timeout=self._smtp.get('timeout', 0))
         else:
-            self._server = smtplib.SMTP(self._smtp.get('host', ''), self._smtp.get('port', ''))
+            self._server = smtplib.SMTP(host=self._smtp.get('host', ''), port=self._smtp.get('port', ''),
+                                        timeout=self._smtp.get('timeout', 0))
         if self._debug is True:
             self._server.set_debuglevel(1)
         else:
@@ -38,7 +41,7 @@ class Sender(object):
     def connect(self):
         try:
             self._connect()
-        except (OSError, smtplib.SMTPException) as _:
+        except (OSError, smtplib.SMTPException, socket.timeout) as _:
             raise SenderException('failed to connect smtp server')
         Logger.debug('connected to %s' % self._smtp.get('host', ''))
 

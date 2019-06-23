@@ -25,6 +25,7 @@ def test_smtp():
             'pass': 'pass',
             'port': 995,
             'ssl': True,
+            "timeout": 10,
             'user': 'user'
         }
     }
@@ -46,6 +47,7 @@ def test_sender():
             'pass': 'pass',
             'port': 995,
             'ssl': True,
+            "timeout": 10,
             'user': 'user'
         },
         'smtp': {
@@ -53,6 +55,7 @@ def test_sender():
             'pass': 'pass',
             'port': 465,
             'ssl': True,
+            "timeout": 10,
             'user': 'user'
         }
     }
@@ -114,6 +117,7 @@ def test_server():
             'pass': 'pass',
             'port': 995,
             'ssl': True,
+            "timeout": 10,
             'user': 'user'
         },
         'smtp': {
@@ -121,6 +125,7 @@ def test_server():
             'pass': 'pass',
             'port': 465,
             'ssl': True,
+            "timeout": 10,
             'user': 'user'
         }
     }

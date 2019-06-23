@@ -4,6 +4,7 @@
     "pass": "pass",
     "port": 995,
     "ssl": true,
+    "timeout": 10,
     "user": "user"
   },
   "smtp": {
@@ -11,6 +12,7 @@
     "pass": "pass",
     "port": 465,
     "ssl": true,
+    "timeout": 10,
     "user": "user"
   }
 }

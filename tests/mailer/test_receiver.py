@@ -61,6 +61,7 @@ def test_pop3():
             'pass': 'pass',
             'port': 465,
             'ssl': True,
+            "timeout": 10,
             'user': 'user'
         }
     }
@@ -82,6 +83,7 @@ def test_receiver():
             'pass': 'pass',
             'port': 995,
             'ssl': True,
+            "timeout": 10,
             'user': 'user'
         },
         'smtp': {
@@ -89,6 +91,7 @@ def test_receiver():
             'pass': 'pass',
             'port': 465,
             'ssl': True,
+            "timeout": 10,
             'user': 'user'
         }
     }
@@ -143,6 +146,7 @@ def test_server():
             'pass': 'pass',
             'port': 995,
             'ssl': True,
+            "timeout": 10,
             'user': 'user'
         },
         'smtp': {
@@ -150,6 +154,7 @@ def test_server():
             'pass': 'pass',
             'port': 465,
             'ssl': True,
+            "timeout": 10,
             'user': 'user'
         }
     }
