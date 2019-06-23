@@ -2,6 +2,7 @@
 
 import json
 import os
+import sys
 import time
 
 from .argument import Argument
@@ -72,7 +73,7 @@ def main():
     print(BANNER)
 
     argument = Argument()
-    args = argument.parse()
+    args = argument.parse(sys.argv)
 
     if args.debug is not None:
         debug = args.debug

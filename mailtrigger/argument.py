@@ -32,5 +32,5 @@ class Argument(object):
                                   action='version',
                                   version=VERSION)
 
-    def parse(self):
-        return self._parser.parse_args()
+    def parse(self, argv):
+        return self._parser.parse_args(argv[1:])
