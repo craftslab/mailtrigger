@@ -30,7 +30,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     name='mailtrigger',
-    packages=setuptools.find_packages(exclude=['ez_setup', 'examples', 'tests', 'tests.*', 'release']),
+    packages=setuptools.find_packages(exclude=['examples', 'ez_setup', 'release', 'tests', 'tests.*']),
     package_data={'mailtrigger': ['config/*.json']},
     url='https://github.com/craftslab/mailtrigger',
     version=VERSION,
