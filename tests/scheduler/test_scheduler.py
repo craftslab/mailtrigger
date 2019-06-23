@@ -19,6 +19,26 @@ def test_scheduler():
     sched = Scheduler(config)
     assert sched is not None
 
+    sched._sched = None
+
+    try:
+        sched.add(None, None, None)
+    except SchedulerException as err:
+        assert str(err) == 'required to create scheduler'
+
+    try:
+        sched.run()
+    except SchedulerException as err:
+        assert str(err) == 'required to create scheduler'
+
+    try:
+        sched.stop()
+    except SchedulerException as err:
+        assert str(err) == 'required to create scheduler'
+
+    sched = Scheduler(config)
+    assert sched is not None
+
     def _func(_):
         log = logging.getLogger('test_scheduler')
         log.debug(datetime.now())
