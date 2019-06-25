@@ -22,7 +22,7 @@ On Ubuntu / Mint, install *Mail Trigger* with the following commands:
 ```bash
 sudo apt update
 sudo apt install python3-dev python3-pip python3-setuptools
-sudo pip3 install mailtrigger
+sudo pip install mailtrigger
 ```
 
 On OS X, install *Mail Trigger* via [Homebrew](https://brew.sh/) (or via [Linuxbrew](https://linuxbrew.sh/) on Linux):
@@ -34,9 +34,9 @@ TBD
 On Windows, install *Mail Trigger* with the following commands:
 
 ```
-pip3 install -U pywin32
-pip3 install -U PyInstaller
-pip3 install -Ur requirements.txt
+pip install -U pywin32
+pip install -U PyInstaller
+pip install -Ur requirements.txt
 
 pyinstaller --clean --name mailtrigger -F trigger.py
 ```
@@ -46,7 +46,7 @@ pyinstaller --clean --name mailtrigger -F trigger.py
 ## Updating
 
 ```bash
-pip3 install mailtrigger --upgrade
+pip install mailtrigger --upgrade
 ```
 
 
