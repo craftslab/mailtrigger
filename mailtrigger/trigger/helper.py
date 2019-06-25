@@ -6,10 +6,10 @@ from .trigger import Trigger, TriggerException
 from ..registry import REGISTRY
 
 
-class Help(Trigger):
+class Helper(Trigger):
     def __init__(self, config):
         if config is None:
-            raise TriggerException('invalid help configuration')
+            raise TriggerException('invalid helper configuration')
         self._debug = config.get('debug', False)
         self._filter = config.get('filter', None)
         self._trigger = '@help'

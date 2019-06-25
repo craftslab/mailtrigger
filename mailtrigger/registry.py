@@ -3,6 +3,7 @@
 from .trigger.gerrit import Gerrit
 from .trigger.jenkins import Jenkins
 from .trigger.jira import Jira
+from .trigger.printer import Printer
 
 REGISTRY = [
     {
@@ -16,6 +17,10 @@ REGISTRY = [
     {
         'class': Jira,
         'name': Jira.__name__.lower()
+    },
+    {
+        'class': Printer,
+        'name': Printer.__name__.lower()
     }
 ]
 
@@ -36,10 +41,10 @@ class Registry(object):
 
     @staticmethod
     def _build(registry):
-        from .trigger.help import Help
+        from .trigger.helper import Helper
         registry.append({
-            'class': Help,
-            'name': Help.__name__.lower()
+            'class': Helper,
+            'name': Helper.__name__.lower()
         })
         return registry
 

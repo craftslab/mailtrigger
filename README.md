@@ -108,7 +108,7 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
     "host": "localhost",
     "port": 8080
   },
-  "help": {
+  "helper": {
     "filter": {
       "from": [
         "name@example.com"
@@ -135,6 +135,15 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
     },
     "host": "localhost",
     "port": 8082
+  },
+  "printer": {
+    "filter": {
+      "from": [
+        "name@example.com"
+      ],
+      "subject": "[trigger]"
+    },
+    "name": "name.xlsx"
   }
 }
 ```

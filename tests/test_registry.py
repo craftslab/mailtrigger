@@ -19,7 +19,7 @@ def test_registry():
             'host': 'localhost',
             'port': 8080
         },
-        'help': {
+        'helper': {
             'filter': {
                 'from': [
                     'name@example.com'

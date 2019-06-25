@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from mailtrigger.trigger.help import Help
+from mailtrigger.trigger.helper import Helper
 from mailtrigger.trigger.trigger import TriggerException
 
 
 def test_init():
     try:
-        _ = Help(None)
+        _ = Helper(None)
     except TriggerException as err:
-        assert str(err) == 'invalid help configuration'
+        assert str(err) == 'invalid helper configuration'
 
 
 def test_trigger():
@@ -22,16 +22,16 @@ def test_trigger():
         }
     }
 
-    _help = None
+    _helper = None
 
     try:
-        _help = Help(config)
+        _helper = Helper(config)
     except TriggerException as err:
-        assert str(err) == 'invalid help configuration'
+        assert str(err) == 'invalid helper configuration'
 
-    assert len(Help.help()) == 0
+    assert len(Helper.help()) == 0
 
-    msg, status = _help.run(None)
+    msg, status = _helper.run(None)
     assert msg == ''
     assert status is False
 
@@ -43,7 +43,7 @@ def test_trigger():
         'to': ''
     }
 
-    msg, status = _help.run(event)
+    msg, status = _helper.run(event)
     assert msg == ''
     assert status is False
 
@@ -55,7 +55,7 @@ def test_trigger():
         'to': ''
     }
 
-    msg, status = _help.run(event)
+    msg, status = _helper.run(event)
     assert msg == ''
     assert status is False
 
@@ -67,6 +67,6 @@ def test_trigger():
         'to': ''
     }
 
-    msg, status = _help.run(event)
+    msg, status = _helper.run(event)
     assert len(msg) != 0
     assert status is True
