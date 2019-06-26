@@ -1,7 +1,7 @@
 #!/bin/bash
 
-pip3 install -U pywin32
-pip3 install -U PyInstaller
-pip3 install -Ur requirements.txt
+pip install -U pywin32
+pip install -U PyInstaller
+pip install -Ur requirements.txt
 
 pyinstaller --clean --name mailtrigger --upx-dir /path/to/upx -F trigger.py
