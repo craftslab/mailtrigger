@@ -18,6 +18,12 @@ class Printer(Trigger):
         self._name = config.get('name', 'output.xlsx')
 
     def _append(self, event):
+        def _duplicated(sheet, data):
+            if sheet.max_row <= 1:
+                return False
+            if data['date'] != ws.cell(row=sheet.max_row, column=2).value:
+                return False
+            return True
         wb = load_workbook(self._name)
         title = time.strftime('%Y-%m-%d', time.localtime(time.time()))
         if title in wb.sheetnames:
@@ -25,7 +31,10 @@ class Printer(Trigger):
         else:
             ws = wb.create_sheet(title=title)
             ws.append(['Content', 'Date', 'From', 'Subject', 'To'])
-        ws.append([event['content'], event['date'], event['from'], event['subject'], event['to']])
+        if _duplicated(ws, event) is False:
+            if type(event['to']) is list:
+                event['to'] = ','.join(event['to'])
+            ws.append([event['content'], event['date'], event['from'], event['subject'], event['to']])
         wb.save(filename=self._name)
 
     def _check(self, event):
@@ -42,6 +51,8 @@ class Printer(Trigger):
         ws = wb.active
         ws.title = time.strftime('%Y-%m-%d', time.localtime(time.time()))
         ws.append(['Content', 'Date', 'From', 'Subject', 'To'])
+        if type(event['to']) is list:
+            event['to'] = ','.join(event['to'])
         ws.append([event['content'], event['date'], event['from'], event['subject'], event['to']])
         wb.save(filename=self._name)
 
