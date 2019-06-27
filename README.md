@@ -143,7 +143,7 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
       ],
       "subject": "[trigger]"
     },
-    "name": "name.xlsx"
+    "name": "output.xlsx"
   }
 }
 ```
