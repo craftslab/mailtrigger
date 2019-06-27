@@ -119,7 +119,7 @@ class Receiver(object):
             return
         try:
             self._server.quit()
-        except (OSError, poplib.error_proto) as _:
+        except (AttributeError, OSError, poplib.error_proto) as _:
             Logger.debug('failed to disconnect pop3 server')
             return
         Logger.debug('disconnected from %s' % self._pop3.get('host', ''))
