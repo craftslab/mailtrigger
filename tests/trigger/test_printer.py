@@ -14,13 +14,13 @@ def test_init():
 def test_trigger():
     config = {
         'debug': True,
-        'filter': {
-            'from': [
-                'name@example.com'
-            ],
-            'subject': '[trigger]'
-        },
-        'name': 'output.xlsx'
+        "file": "output.xlsx",
+        "filter": [
+            {
+                "from": "name@example.com",
+                "subject": ""
+            }
+        ]
     }
 
     _printer = None

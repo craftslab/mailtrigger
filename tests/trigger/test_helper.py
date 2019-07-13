@@ -14,12 +14,12 @@ def test_init():
 def test_trigger():
     config = {
         'debug': True,
-        'filter': {
-            'from': [
-                'name@example.com'
-            ],
-            'subject': '[trigger]'
-        }
+        "filter": [
+            {
+                "from": "name@example.com",
+                "subject": "[trigger]"
+            }
+        ]
     }
 
     _helper = None

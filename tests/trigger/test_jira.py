@@ -14,14 +14,18 @@ def test_init():
 def test_trigger():
     config = {
         'debug': True,
-        'filter': {
-            'from': [
-                'name@example.com'
-            ],
-            'subject': '[trigger]'
-        },
-        'host': 'localhost',
-        'port': 8082
+        "filter": [
+            {
+                "from": "name@example.com",
+                "subject": "[trigger]"
+            }
+        ],
+        "server": [
+            {
+                "host": "localhost",
+                "port": 8082
+            }
+        ]
     }
 
     jira = None
