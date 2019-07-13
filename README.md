@@ -187,27 +187,14 @@ The recipient is mail receiver as *Mail Trigger*.
 ```
 @gerrit help
 @gerrit list
+@gerrit check <host>
 @gerrit restart <host>
 @gerrit start <host>
 @gerrit stop <host>
-@gerrit verify <host>
-
-@gerrit review <host>:<port>
-  [--project <PROJECT> | -p <PROJECT>]
-  [--branch <BRANCH> | -b <BRANCH>]
-  [--message <MESSAGE> | -m <MESSAGE>]
-  [--notify <NOTIFYHANDLING> | -n <NOTIFYHANDLING>]
-  [--submit | -s]
-  [--abandon | --restore]
-  [--rebase]
-  [--move <BRANCH>]
-  [--publish]
-  [--json | -j]
-  [--delete]
-  [--verified <N>] [--code-review <N>]
-  [--label Label-Name=<N>]
-  [--tag TAG]
-  {COMMIT | CHANGEID,PATCHSET}
+@gerrit abandon <host> <changeid>
+@gerrit restore <host> <changeid>
+@gerrit review <host> <changeid>
+@gerrit submit <host> <changeid>
 ```
 
 
@@ -215,14 +202,14 @@ The recipient is mail receiver as *Mail Trigger*.
 #### Jenkins Trigger
 
 ```
-@jenkins build <host>:<port> JOB [--parameter <PARAMETER> | -p <PARAMETER>]
 @jenkins help
 @jenkins list
 @jenkins list <host>:<port>
-@jenkins query <host>:<port> JOB
-@jenkins rebuild <host>:<port> JOB
-@jenkins stop <host>:<port> JOB
-@jenkins verify <host>:<port> JOB
+@jenkins build <host>:<port> <job>
+@jenkins check <host>:<port> <job>
+@jenkins query <host>:<port> <job>
+@jenkins rebuild <host>:<port> <job>
+@jenkins stop <host>:<port> <job>
 ```
 
 

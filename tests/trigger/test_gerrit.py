@@ -3,6 +3,21 @@
 from mailtrigger.trigger.gerrit import Gerrit
 from mailtrigger.trigger.trigger import TriggerException
 
+PREFIX = '@gerrit '
+
+HELP = (
+    PREFIX + 'help',
+    PREFIX + 'list',
+    PREFIX + 'check <host>',
+    PREFIX + 'restart <host>',
+    PREFIX + 'start <host>',
+    PREFIX + 'stop <host>',
+    PREFIX + 'abandon <host> <changeid>',
+    PREFIX + 'restore <host> <changeid>',
+    PREFIX + 'review <host> <changeid>',
+    PREFIX + 'submit <host> <changeid>'
+)
+
 
 def test_init():
     try:
@@ -64,3 +79,9 @@ def test_trigger():
     msg, status = gerrit.run(event)
     assert msg == ''
     assert status is False
+
+    for item in HELP:
+        event['content'] = item
+        msg, status = gerrit.run(event)
+        assert len(msg) != 0
+        assert status is True

@@ -4,14 +4,18 @@ import os
 
 from .trigger import Trigger, TriggerException
 
-HELP = ('@jenkins build <host>:<port> JOB [--parameter <PARAMETER> | -p <PARAMETER>]',
-        '@jenkins help',
-        '@jenkins list',
-        '@jenkins list <host>:<port>',
-        '@jenkins query <host>:<port> JOB',
-        '@jenkins rebuild <host>:<port> JOB',
-        '@jenkins stop <host>:<port> JOB',
-        '@jenkins verify <host>:<port> JOB')
+PREFIX = '@jenkins '
+
+HELP = (
+    PREFIX + 'help',
+    PREFIX + 'list',
+    PREFIX + 'list <host>:<port>',
+    PREFIX + 'build <host>:<port> <job>',
+    PREFIX + 'check <host>:<port> <job>',
+    PREFIX + 'query <host>:<port> <job>',
+    PREFIX + 'rebuild <host>:<port> <job>',
+    PREFIX + 'stop <host>:<port> <job>'
+)
 
 
 class Jenkins(Trigger):
