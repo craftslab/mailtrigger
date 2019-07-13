@@ -15,13 +15,13 @@ class Printer(Trigger):
             raise TriggerException('invalid printer configuration')
         self._debug = config.get('debug', False)
         self._filter = config.get('filter', None)
-        self._name = config.get('name', 'output.xlsx')
+        self._name = config.get('file', 'output.xlsx')
 
     def _append(self, event):
         def _duplicated(sheet, data):
             if sheet.max_row <= 1:
                 return False
-            if data['date'] != ws.cell(row=sheet.max_row, column=2).value:
+            if data['date'] != sheet.cell(row=sheet.max_row, column=2).value:
                 return False
             return True
         wb = load_workbook(self._name)
@@ -38,13 +38,22 @@ class Printer(Trigger):
         wb.save(filename=self._name)
 
     def _check(self, event):
-        sender = self._filter.get('from', [])
-        if event is None or event['from'] not in sender:
-            return False
-        subject = self._filter.get('subject', None)
-        if subject is None or event['subject'].startswith(subject.strip()) is False:
-            return False
-        return True
+        def _check_helper(data, event):
+            if event is None:
+                return False
+            sender = data.get('from', None)
+            if sender is None or event['from'] != sender:
+                return False
+            subject = data.get('subject', '').strip()
+            if event['subject'].startswith(subject) is False:
+                return False
+            return True
+        ret = False
+        for item in self._filter:
+            if _check_helper(item, event) is True:
+                ret = True
+                break
+        return ret
 
     def _create(self, event):
         wb = Workbook()

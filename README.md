@@ -99,51 +99,63 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
 ```
 {
   "gerrit": {
-    "filter": {
-      "from": [
-        "name@example.com"
-      ],
-      "subject": "[trigger]"
-    },
-    "host": "localhost",
-    "port": 8080
+    "filter": [
+      {
+        "from": "name@example.com",
+        "subject": "[trigger]"
+      }
+    ],
+    "server": [
+      {
+        "host": "localhost",
+        "port": 8080
+      }
+    ]
   },
   "helper": {
-    "filter": {
-      "from": [
-        "name@example.com"
-      ],
-      "subject": "[trigger]"
-    }
+    "filter": [
+      {
+        "from": "name@example.com",
+        "subject": "[trigger]"
+      }
+    ]
   },
   "jenkins": {
-    "filter": {
-      "from": [
-        "name@example.com"
-      ],
-      "subject": "[trigger]"
-    },
-    "host": "localhost",
-    "port": 8081
+    "filter": [
+      {
+        "from": "name@example.com",
+        "subject": "[trigger]"
+      }
+    ],
+    "server": [
+      {
+        "host": "localhost",
+        "port": 8081
+      }
+    ]
   },
   "jira": {
-    "filter": {
-      "from": [
-        "name@example.com"
-      ],
-      "subject": "[trigger]"
-    },
-    "host": "localhost",
-    "port": 8082
+    "filter": [
+      {
+        "from": "name@example.com",
+        "subject": "[trigger]"
+      }
+    ],
+    "server": [
+      {
+        "host": "localhost",
+        "port": 8082
+      }
+    ]
   },
   "printer": {
-    "filter": {
-      "from": [
-        "name@example.com"
-      ],
-      "subject": "[trigger]"
-    },
-    "name": "output.xlsx"
+    "file": "output.xlsx",
+    "filter": [
+      {
+        "from": "name@example.com",
+        "subject": ""
+      }
+    ]
   }
 }
 ```

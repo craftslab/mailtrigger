@@ -15,13 +15,22 @@ class Helper(Trigger):
         self._trigger = '@help'
 
     def _check(self, event):
-        sender = self._filter.get('from', [])
-        if event is None or event['from'] not in sender:
-            return False
-        subject = self._filter.get('subject', None)
-        if subject is None or event['subject'].startswith(subject.strip()) is False:
-            return False
-        return True
+        def _check_helper(data, event):
+            if event is None:
+                return False
+            sender = data.get('from', None)
+            if sender is None or event['from'] != sender:
+                return False
+            subject = data.get('subject', '').strip()
+            if len(subject) == 0 or event['subject'].startswith(subject) is False:
+                return False
+            return True
+        ret = False
+        for item in self._filter:
+            if _check_helper(item, event) is True:
+                ret = True
+                break
+        return ret
 
     def _parse(self, event):
         lines = event['content'].splitlines()
