@@ -127,7 +127,7 @@ class Gerrit(Trigger):
                 'Run: %s' % item,
                 'Return: %s' % ret
             ]))
-        return msg, True
+        return os.linesep.join(msg), True
 
     @staticmethod
     def help():
