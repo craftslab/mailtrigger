@@ -78,7 +78,7 @@ def test_trigger():
 
     msg, status = gerrit.run(event)
     assert msg == ''
-    assert status is False
+    assert status is True
 
     for item in HELP:
         event['content'] = item
