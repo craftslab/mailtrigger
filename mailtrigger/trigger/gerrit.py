@@ -82,7 +82,7 @@ class Dispatcher(object):
         return 'Unsupported'
 
     def run(self, msg):
-        return self._dispatcher[msg.split()[0]](msg)
+        return self._dispatcher[msg.split()[0]](self, msg)
 
 
 class Gerrit(Trigger):
