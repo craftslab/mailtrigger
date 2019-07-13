@@ -122,7 +122,7 @@ class Gerrit(Trigger):
             if len(buf) < 2:
                 msg.append('Invalid %s' % item)
                 continue
-            ret = self._dispatcher.run(buf[1:])
+            ret = self._dispatcher.run(' '.join(buf[1:]))
             msg.append(os.linesep.join([
                 'Run: %s' % item,
                 'Return: %s' % ret
