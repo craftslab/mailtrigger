@@ -8,14 +8,14 @@ PREFIX = '@gerrit '
 HELP = (
     PREFIX + 'help',
     PREFIX + 'list',
-    PREFIX + 'check <host>',
     PREFIX + 'restart <host>',
     PREFIX + 'start <host>',
     PREFIX + 'stop <host>',
     PREFIX + 'abandon <host> <changeid>',
     PREFIX + 'restore <host> <changeid>',
     PREFIX + 'review <host> <changeid>',
-    PREFIX + 'submit <host> <changeid>'
+    PREFIX + 'submit <host> <changeid>',
+    PREFIX + 'version <host>'
 )
 
 
@@ -38,7 +38,9 @@ def test_trigger():
         "server": [
             {
                 "host": "localhost",
-                "port": 8080
+                "pass": "pass",
+                "port": 8080,
+                "user": "user"
             }
         ]
     }

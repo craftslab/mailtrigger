@@ -1,22 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os
-
 from .trigger import Trigger, TriggerException
-
-PREFIX = '@jenkins '
-
-HELP = (
-    PREFIX + 'help',
-    PREFIX + 'list',
-    PREFIX + 'list <host>:<port>',
-    PREFIX + 'version <host>:<port>',
-    PREFIX + 'build <host>:<port> <job>',
-    PREFIX + 'check <host>:<port> <job>',
-    PREFIX + 'query <host>:<port> <job>',
-    PREFIX + 'rebuild <host>:<port> <job>',
-    PREFIX + 'stop <host>:<port> <job>'
-)
 
 
 class Jenkins(Trigger):
@@ -46,7 +30,7 @@ class Jenkins(Trigger):
 
     @staticmethod
     def help():
-        return os.linesep.join(HELP)
+        return ''
 
     def run(self, event):
         if self._check(event) is False:

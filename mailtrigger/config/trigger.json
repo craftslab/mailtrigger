@@ -9,7 +9,9 @@
     "server": [
       {
         "host": "localhost",
-        "port": 8080
+        "pass": "pass",
+        "port": 8080,
+        "user": "user"
       }
     ]
   },
@@ -31,7 +33,9 @@
     "server": [
       {
         "host": "localhost",
-        "port": 8081
+        "pass": "pass",
+        "port": 8081,
+        "user": "user"
       }
     ]
   },
@@ -45,7 +49,9 @@
     "server": [
       {
         "host": "localhost",
-        "port": 8082
+        "pass": "pass",
+        "port": 8082,
+        "user": "user"
       }
     ]
   },

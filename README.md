@@ -108,7 +108,9 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
     "server": [
       {
         "host": "localhost",
-        "port": 8080
+        "pass": "pass",
+        "port": 8080,
+        "user": "user"
       }
     ]
   },
@@ -130,7 +132,9 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
     "server": [
       {
         "host": "localhost",
-        "port": 8081
+        "pass": "pass",
+        "port": 8081,
+        "user": "user"
       }
     ]
   },
@@ -144,7 +148,9 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
     "server": [
       {
         "host": "localhost",
-        "port": 8082
+        "pass": "pass",
+        "port": 8082,
+        "user": "user"
       }
     ]
   },
@@ -202,15 +208,7 @@ The recipient is mail receiver as *Mail Trigger*.
 #### Jenkins Trigger
 
 ```
-@jenkins help
-@jenkins list
-@jenkins list <host>:<port>
-@jenkins version <host>:<port>
-@jenkins build <host>:<port> <job>
-@jenkins check <host>:<port> <job>
-@jenkins query <host>:<port> <job>
-@jenkins rebuild <host>:<port> <job>
-@jenkins stop <host>:<port> <job>
+TBD
 ```
 
 

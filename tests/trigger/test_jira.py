@@ -6,7 +6,7 @@ from mailtrigger.trigger.trigger import TriggerException
 
 def test_init():
     try:
-        jira = Jira(None)
+        _ = Jira(None)
     except TriggerException as err:
         assert str(err) == 'invalid jira configuration'
 
@@ -23,7 +23,9 @@ def test_trigger():
         "server": [
             {
                 "host": "localhost",
-                "port": 8082
+                "pass": "pass",
+                "port": 8082,
+                "user": "user"
             }
         ]
     }

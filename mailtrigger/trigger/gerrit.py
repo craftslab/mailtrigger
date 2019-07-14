@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import paramiko
 
 from .trigger import Trigger, TriggerException
 
@@ -19,15 +20,11 @@ HELP = (
     PREFIX + 'version <host>'
 )
 
-LIST = (
-    'localhost'
-)
-
-PORT = '29418'
-
 
 class Dispatcher(object):
-    def __init__(self):
+    def __init__(self, config):
+        self._client = paramiko.SSHClient()
+        self._client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self._dispatcher = {
             'help': self._help,
             'list': self._list,
@@ -40,49 +37,64 @@ class Dispatcher(object):
             'submit': self._submit,
             'version': self._version
         }
+        self._server = config.get('server', [])
 
-    @staticmethod
+    def _exec(self, cmd, host):
+        def _exec_helper(host):
+            buf = None
+            for item in self._server:
+                if host == item['host']:
+                    buf = item
+                    break
+            return buf
+        server = _exec_helper(host)
+        if server is None:
+            return 'Incorrect host %s' % host
+        self._client.connect(hostname=server['host'], port=29418, username=server['user'], password=server['pass'])
+        _, stdout, stderr = self._client.exec_command(cmd)
+        out, err = stdout.read(), stderr.read()
+        self._client.close()
+        if err != '':
+            msg = err.decode()
+        else:
+            msg = out.decode()
+        return msg
+
     def _help(self, _):
+        _ = self
         return os.linesep.join(HELP)
 
-    @staticmethod
     def _list(self, _):
-        return os.linesep.join(LIST)
+        hosts = [item['host'] for item in self._server]
+        return os.linesep.join(hosts)
 
-    @staticmethod
     def _restart(self, msg):
         return 'Unsupported'
 
-    @staticmethod
     def _start(self, msg):
         return 'Unsupported'
 
-    @staticmethod
     def _stop(self, msg):
         return 'Unsupported'
 
-    @staticmethod
     def _abandon(self, msg):
         return 'Unsupported'
 
-    @staticmethod
     def _restore(self, msg):
         return 'Unsupported'
 
-    @staticmethod
     def _review(self, msg):
         return 'Unsupported'
 
-    @staticmethod
     def _submit(self, msg):
         return 'Unsupported'
 
-    @staticmethod
     def _version(self, msg):
-        return 'Unsupported'
+        return self._exec(self, msg)
 
     def run(self, msg):
-        return self._dispatcher[msg.split()[0]](self, msg)
+        buf = msg[1:] if len(msg.split()) > 1 else ''
+        return self._dispatcher[msg.split()[0]](self, buf)
 
 
 class Gerrit(Trigger):
@@ -90,7 +102,7 @@ class Gerrit(Trigger):
         if config is None:
             raise TriggerException('invalid gerrit configuration')
         self._debug = config.get('debug', False)
-        self._dispatcher = Dispatcher()
+        self._dispatcher = Dispatcher(config)
         self._filter = config.get('filter', [])
         self._server = config.get('server', [])
 

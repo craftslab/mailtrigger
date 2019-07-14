@@ -23,7 +23,9 @@ def test_trigger():
         "server": [
             {
                 "host": "localhost",
-                "port": 8081
+                "pass": "pass",
+                "port": 8081,
+                "user": "user"
             }
         ]
     }
