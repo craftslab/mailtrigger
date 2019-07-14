@@ -18,7 +18,7 @@ def test_trigger():
         "filter": [
             {
                 "from": "name@example.com",
-                "subject": ""
+                "subject": "[trigger]"
             }
         ]
     }
@@ -39,7 +39,19 @@ def test_trigger():
     event = {
         'content': '',
         'date': '',
-        'from': 'name@example.com',
+        'from': 'foo@example.com',
+        "subject": "[trigger]",
+        'to': ''
+    }
+
+    msg, status = _printer.run(event)
+    assert msg == ''
+    assert status is False
+
+    event = {
+        'content': '',
+        'date': '',
+        'from': 'foo@example.com',
         'subject': '',
         'to': ''
     }
@@ -50,6 +62,18 @@ def test_trigger():
 
     event = {
         'content': '',
+        'date': '',
+        'from': 'name@example.com',
+        "subject": "[trigger]",
+        'to': ''
+    }
+
+    msg, status = _printer.run(event)
+    assert msg == ''
+    assert status is False
+
+    event = {
+        'content': '@help',
         'date': '',
         'from': 'name@example.com',
         'subject': '[trigger]',
@@ -65,7 +89,7 @@ def test_trigger():
         'date': '',
         'from': 'name@example.com',
         'subject': '[trigger]',
-        'to': ''
+        'to': ['alen@example.com', 'bob@example.com']
     }
 
     msg, status = _printer.run(event)

@@ -38,6 +38,18 @@ def test_trigger():
     event = {
         'content': '',
         'date': '',
+        'from': 'foo@example.com',
+        'subject': '',
+        'to': ''
+    }
+
+    msg, status = _helper.run(event)
+    assert msg == ''
+    assert status is False
+
+    event = {
+        'content': '',
+        'date': '',
         'from': 'name@example.com',
         'subject': '',
         'to': ''

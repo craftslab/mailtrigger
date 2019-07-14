@@ -59,6 +59,18 @@ def test_trigger():
     event = {
         'content': '',
         'date': '',
+        'from': 'foo@example.com',
+        'subject': '',
+        'to': ''
+    }
+
+    msg, status = gerrit.run(event)
+    assert msg == ''
+    assert status is False
+
+    event = {
+        'content': '',
+        'date': '',
         'from': 'name@example.com',
         'subject': '',
         'to': ''
@@ -70,6 +82,30 @@ def test_trigger():
 
     event = {
         'content': '',
+        'date': '',
+        'from': 'name@example.com',
+        'subject': '[trigger]',
+        'to': ''
+    }
+
+    msg, status = gerrit.run(event)
+    assert msg == ''
+    assert status is False
+
+    event = {
+        'content': '@gerrit',
+        'date': '',
+        'from': 'name@example.com',
+        'subject': '[trigger]',
+        'to': ''
+    }
+
+    msg, status = gerrit.run(event)
+    assert msg == ''
+    assert status is False
+
+    event = {
+        'content': '@jenkins',
         'date': '',
         'from': 'name@example.com',
         'subject': '[trigger]',
