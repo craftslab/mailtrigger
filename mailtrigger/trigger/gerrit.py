@@ -117,7 +117,8 @@ class Gerrit(Trigger):
         msg = []
         status = False
         for item in lines:
-            if len(item.strip()) == 0 or item.startswith(PREFIX) is False:
+            item = item.strip()
+            if len(item) == 0 or item.startswith(PREFIX) is False:
                 continue
             buf = item.split()
             if len(buf) < 2:
