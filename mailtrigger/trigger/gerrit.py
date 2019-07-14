@@ -9,14 +9,14 @@ PREFIX = '@gerrit '
 HELP = (
     PREFIX + 'help',
     PREFIX + 'list',
-    PREFIX + 'check <host>',
     PREFIX + 'restart <host>',
     PREFIX + 'start <host>',
     PREFIX + 'stop <host>',
     PREFIX + 'abandon <host> <changeid>',
     PREFIX + 'restore <host> <changeid>',
     PREFIX + 'review <host> <changeid>',
-    PREFIX + 'submit <host> <changeid>'
+    PREFIX + 'submit <host> <changeid>',
+    PREFIX + 'version <host>'
 )
 
 LIST = (
@@ -31,14 +31,14 @@ class Dispatcher(object):
         self._dispatcher = {
             'help': self._help,
             'list': self._list,
-            'check': self._check,
             'restart': self._restart,
             'start': self._start,
             'stop': self._stop,
             'abandon': self._abandon,
             'restore': self._restore,
             'review': self._review,
-            'submit': self._submit
+            'submit': self._submit,
+            'version': self._version
         }
 
     @staticmethod
@@ -48,10 +48,6 @@ class Dispatcher(object):
     @staticmethod
     def _list(self, _):
         return os.linesep.join(LIST)
-
-    @staticmethod
-    def _check(self, msg):
-        return 'Unsupported'
 
     @staticmethod
     def _restart(self, msg):
@@ -79,6 +75,10 @@ class Dispatcher(object):
 
     @staticmethod
     def _submit(self, msg):
+        return 'Unsupported'
+
+    @staticmethod
+    def _version(self, msg):
         return 'Unsupported'
 
     def run(self, msg):

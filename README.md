@@ -187,7 +187,6 @@ The recipient is mail receiver as *Mail Trigger*.
 ```
 @gerrit help
 @gerrit list
-@gerrit check <host>
 @gerrit restart <host>
 @gerrit start <host>
 @gerrit stop <host>
@@ -195,6 +194,7 @@ The recipient is mail receiver as *Mail Trigger*.
 @gerrit restore <host> <changeid>
 @gerrit review <host> <changeid>
 @gerrit submit <host> <changeid>
+@gerrit version <host>
 ```
 
 
@@ -205,6 +205,7 @@ The recipient is mail receiver as *Mail Trigger*.
 @jenkins help
 @jenkins list
 @jenkins list <host>:<port>
+@jenkins version <host>:<port>
 @jenkins build <host>:<port> <job>
 @jenkins check <host>:<port> <job>
 @jenkins query <host>:<port> <job>

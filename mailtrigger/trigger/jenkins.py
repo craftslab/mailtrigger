@@ -10,6 +10,7 @@ HELP = (
     PREFIX + 'help',
     PREFIX + 'list',
     PREFIX + 'list <host>:<port>',
+    PREFIX + 'version <host>:<port>',
     PREFIX + 'build <host>:<port> <job>',
     PREFIX + 'check <host>:<port> <job>',
     PREFIX + 'query <host>:<port> <job>',
