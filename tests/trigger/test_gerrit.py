@@ -93,7 +93,7 @@ def test_trigger():
     assert status is False
 
     event = {
-        'content': '@gerrit',
+        'content': '@gerrit ',
         'date': '',
         'from': 'name@example.com',
         'subject': '[trigger]',
@@ -105,7 +105,7 @@ def test_trigger():
     assert status is False
 
     event = {
-        'content': '@jenkins',
+        'content': '@jenkins ',
         'date': '',
         'from': 'name@example.com',
         'subject': '[trigger]',

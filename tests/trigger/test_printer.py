@@ -40,19 +40,7 @@ def test_trigger():
         'content': '',
         'date': '',
         'from': 'foo@example.com',
-        "subject": "[trigger]",
-        'to': ''
-    }
-
-    msg, status = _printer.run(event)
-    assert msg == ''
-    assert status is False
-
-    event = {
-        'content': '',
-        'date': '',
-        'from': 'foo@example.com',
-        'subject': '',
+        "subject": '',
         'to': ''
     }
 
@@ -64,19 +52,7 @@ def test_trigger():
         'content': '',
         'date': '',
         'from': 'name@example.com',
-        "subject": "[trigger]",
-        'to': ''
-    }
-
-    msg, status = _printer.run(event)
-    assert msg == ''
-    assert status is False
-
-    event = {
-        'content': '@help',
-        'date': '',
-        'from': 'name@example.com',
-        'subject': '[trigger]',
+        "subject": '[foo]',
         'to': ''
     }
 
