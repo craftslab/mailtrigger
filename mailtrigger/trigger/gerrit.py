@@ -112,9 +112,10 @@ class Gerrit(Trigger):
                 break
         return ret
 
-    def _run(self, content):
+    def _dispatch(self, content):
         lines = content.split('\n')
         msg = []
+        status = False
         for item in lines:
             if len(item.strip()) == 0 or item.startswith(PREFIX) is False:
                 continue
@@ -127,7 +128,9 @@ class Gerrit(Trigger):
                 'Run: %s' % item,
                 'Return: %s' % ret
             ]))
-        return os.linesep.join(msg), True
+        if len(msg) != 0:
+            status = True
+        return os.linesep.join(msg), status
 
     @staticmethod
     def help():
@@ -136,4 +139,4 @@ class Gerrit(Trigger):
     def run(self, event):
         if self._check(event) is False:
             return '', False
-        return self._run(event['content'])
+        return self._dispatch(event['content'])
