@@ -71,3 +71,15 @@ def test_trigger():
     msg, status = _printer.run(event)
     assert msg == ''
     assert status is False
+
+    event = {
+        'content': '@help',
+        'date': '',
+        'from': 'name@example.com',
+        'subject': '[trigger]',
+        'to': ['alen@example.com', 'bob@example.com']
+    }
+
+    msg, status = _printer.run(event)
+    assert msg == ''
+    assert status is False

@@ -118,11 +118,10 @@ class Gerrit(Trigger):
         status = False
         for item in lines:
             item = item.strip()
-            if len(item) == 0 or item.startswith(PREFIX) is False:
+            if len(item) == 0:
                 continue
             buf = item.split()
-            if len(buf) < 2:
-                msg.append('Invalid %s' % item)
+            if buf[0] != PREFIX.strip() or len(buf) < 2:
                 continue
             msg.append(self._dispatcher.run(' '.join(buf[1:])))
         if len(msg) != 0:
