@@ -94,7 +94,7 @@ class Dispatcher(object):
 
     def run(self, msg):
         buf = msg[1:] if len(msg.split()) > 1 else ''
-        return self._dispatcher[msg.split()[0]](self, buf)
+        return self._dispatcher[msg.split()[0]](buf)
 
 
 class Gerrit(Trigger):

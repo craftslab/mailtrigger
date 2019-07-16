@@ -37,7 +37,7 @@ def test_trigger():
     except TriggerException as err:
         assert str(err) == 'invalid jenkins configuration'
 
-    assert len(Jenkins.help()) != 0
+    assert len(Jenkins.help()) == 0
 
     msg, status = jenkins.run(None)
     assert msg == ''
