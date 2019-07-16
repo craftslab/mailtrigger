@@ -83,7 +83,7 @@ class Dispatcher(object):
 
     def _review(self, msg):
         host, changenumber = msg.split()
-        return self._exec('gerrit review --codoe-review +2 --verified +1 %s' % changenumber, host)
+        return self._exec('gerrit review --code-review +2 --verified +1 %s' % changenumber, host)
 
     def _submit(self, msg):
         host, changenumber = msg.split()
