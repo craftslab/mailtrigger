@@ -13,10 +13,10 @@ HELP = (
     PREFIX + 'restart <host>',
     PREFIX + 'start <host>',
     PREFIX + 'stop <host>',
-    PREFIX + 'abandon <host> <changenumber>',
-    PREFIX + 'restore <host> <changenumber>',
-    PREFIX + 'review <host> <changenumber>',
-    PREFIX + 'submit <host> <changenumber>',
+    PREFIX + 'abandon <host> <commit|changenumber,patchset>',
+    PREFIX + 'restore <host> <commit|changenumber,patchset>',
+    PREFIX + 'review <host> <commit|changenumber,patchset>',
+    PREFIX + 'submit <host> <commit|changenumber,patchset>',
     PREFIX + 'version <host>'
 )
 
@@ -74,20 +74,20 @@ class Dispatcher(object):
         return 'Unsupported'
 
     def _abandon(self, msg):
-        host, changenumber = msg.split()
-        return self._exec('gerrit review --abandon %s' % changenumber, host)
+        host, change = msg.split()
+        return self._exec('gerrit review --abandon %s' % change, host)
 
     def _restore(self, msg):
-        host, changenumber = msg.split()
-        return self._exec('gerrit review --restore %s' % changenumber, host)
+        host, change = msg.split()
+        return self._exec('gerrit review --restore %s' % change, host)
 
     def _review(self, msg):
-        host, changenumber = msg.split()
-        return self._exec('gerrit review --code-review +2 --verified +1 %s' % changenumber, host)
+        host, change = msg.split()
+        return self._exec('gerrit review --code-review +2 --verified +1 %s' % change, host)
 
     def _submit(self, msg):
-        host, changenumber = msg.split()
-        return self._exec('gerrit review --submit %s' % changenumber, host)
+        host, change = msg.split()
+        return self._exec('gerrit review --submit %s' % change, host)
 
     def _version(self, msg):
         host = msg
