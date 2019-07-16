@@ -11,10 +11,10 @@ HELP = (
     PREFIX + 'restart <host>',
     PREFIX + 'start <host>',
     PREFIX + 'stop <host>',
-    PREFIX + 'abandon <host> <changeid>',
-    PREFIX + 'restore <host> <changeid>',
-    PREFIX + 'review <host> <changeid>',
-    PREFIX + 'submit <host> <changeid>',
+    PREFIX + 'abandon <host> <changenumber>',
+    PREFIX + 'restore <host> <changenumber>',
+    PREFIX + 'review <host> <changenumber>',
+    PREFIX + 'submit <host> <changenumber>',
     PREFIX + 'version <host>'
 )
 

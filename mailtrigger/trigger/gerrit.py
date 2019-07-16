@@ -13,10 +13,10 @@ HELP = (
     PREFIX + 'restart <host>',
     PREFIX + 'start <host>',
     PREFIX + 'stop <host>',
-    PREFIX + 'abandon <host> <changeid>',
-    PREFIX + 'restore <host> <changeid>',
-    PREFIX + 'review <host> <changeid>',
-    PREFIX + 'submit <host> <changeid>',
+    PREFIX + 'abandon <host> <changenumber>',
+    PREFIX + 'restore <host> <changenumber>',
+    PREFIX + 'review <host> <changenumber>',
+    PREFIX + 'submit <host> <changenumber>',
     PREFIX + 'version <host>'
 )
 
@@ -74,19 +74,24 @@ class Dispatcher(object):
         return 'Unsupported'
 
     def _abandon(self, msg):
-        return 'Unsupported'
+        host, changenumber = msg.split()
+        return self._exec('gerrit review --abandon %s' % changenumber, host)
 
     def _restore(self, msg):
-        return 'Unsupported'
+        host, changenumber = msg.split()
+        return self._exec('gerrit review --restore %s' % changenumber, host)
 
     def _review(self, msg):
-        return 'Unsupported'
+        host, changenumber = msg.split()
+        return self._exec('gerrit review --codoe-review +2 --verified +1 %s' % changenumber, host)
 
     def _submit(self, msg):
-        return 'Unsupported'
+        host, changenumber = msg.split()
+        return self._exec('gerrit review --submit %s' % changenumber, host)
 
     def _version(self, msg):
-        return self._exec('gerrit version', msg)
+        host = msg
+        return self._exec('gerrit version', host)
 
     def run(self, msg):
         msg = msg.split()
