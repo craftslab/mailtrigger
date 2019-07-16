@@ -54,11 +54,7 @@ class Dispatcher(object):
         _, stdout, stderr = self._client.exec_command(cmd)
         out, err = stdout.read(), stderr.read()
         self._client.close()
-        if err != '':
-            msg = err.decode()
-        else:
-            msg = out.decode()
-        return msg
+        return out.decode() if len(err.decode()) == 0 else err.decode()
 
     def _help(self, _):
         _ = self
@@ -90,11 +86,12 @@ class Dispatcher(object):
         return 'Unsupported'
 
     def _version(self, msg):
-        return self._exec(self, msg)
+        return self._exec('gerrit version', msg)
 
     def run(self, msg):
-        buf = msg[1:] if len(msg.split()) > 1 else ''
-        return self._dispatcher[msg.split()[0]](buf)
+        msg = msg.split()
+        buf = ' '.join(msg[1:]) if len(msg) > 1 else ''
+        return self._dispatcher[msg[0]](buf)
 
 
 class Gerrit(Trigger):
