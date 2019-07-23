@@ -40,7 +40,7 @@ def test_trigger():
     assert len(Jira.help()) == 0
 
     msg, status = jira.run(None)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     event = {
@@ -52,7 +52,7 @@ def test_trigger():
     }
 
     msg, status = jira.run(event)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     event = {
@@ -64,7 +64,7 @@ def test_trigger():
     }
 
     msg, status = jira.run(event)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     event = {
@@ -76,5 +76,5 @@ def test_trigger():
     }
 
     msg, status = jira.run(event)
-    assert msg == ''
-    assert status is False
+    assert len(msg) != 0
+    assert status is True

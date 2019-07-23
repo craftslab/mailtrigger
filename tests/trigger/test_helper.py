@@ -32,7 +32,7 @@ def test_trigger():
     assert len(Helper.help()) == 0
 
     msg, status = _helper.run(None)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     event = {
@@ -44,7 +44,7 @@ def test_trigger():
     }
 
     msg, status = _helper.run(event)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     event = {
@@ -56,7 +56,7 @@ def test_trigger():
     }
 
     msg, status = _helper.run(event)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     event = {
@@ -68,7 +68,7 @@ def test_trigger():
     }
 
     msg, status = _helper.run(event)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     event = {

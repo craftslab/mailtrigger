@@ -55,7 +55,7 @@ def test_trigger():
     assert len(Gerrit.help()) != 0
 
     msg, status = gerrit.run(None)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     event = {
@@ -67,7 +67,7 @@ def test_trigger():
     }
 
     msg, status = gerrit.run(event)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     event = {
@@ -79,7 +79,7 @@ def test_trigger():
     }
 
     msg, status = gerrit.run(event)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     event = {
@@ -91,7 +91,7 @@ def test_trigger():
     }
 
     msg, status = gerrit.run(event)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     event = {
@@ -103,7 +103,7 @@ def test_trigger():
     }
 
     msg, status = gerrit.run(event)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     event = {
@@ -115,7 +115,7 @@ def test_trigger():
     }
 
     msg, status = gerrit.run(event)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     for item in HELP:

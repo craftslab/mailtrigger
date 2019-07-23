@@ -33,7 +33,7 @@ def test_trigger():
     assert len(Printer.help()) == 0
 
     msg, status = _printer.run(None)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     event = {
@@ -45,7 +45,7 @@ def test_trigger():
     }
 
     msg, status = _printer.run(event)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     event = {
@@ -57,7 +57,7 @@ def test_trigger():
     }
 
     msg, status = _printer.run(event)
-    assert msg == ''
+    assert len(msg) != 0
     assert status is False
 
     event = {
@@ -69,8 +69,8 @@ def test_trigger():
     }
 
     msg, status = _printer.run(event)
-    assert msg == ''
-    assert status is False
+    assert len(msg) != 0
+    assert status is True
 
     event = {
         'content': '@help',
@@ -81,5 +81,5 @@ def test_trigger():
     }
 
     msg, status = _printer.run(event)
-    assert msg == ''
-    assert status is False
+    assert len(msg) != 0
+    assert status is True
