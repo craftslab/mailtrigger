@@ -71,10 +71,9 @@ class Printer(Trigger):
 
     def run(self, event):
         if self._check(event) is False:
-            return '', False
+            return 'Failed to check event', False
         if not os.path.exists(self._name):
             self._create(event)
         else:
             self._append(event)
-            Logger.info('appended to %s' % self._name)
-        return '', False
+        return 'Print %s completely' % self._name, True

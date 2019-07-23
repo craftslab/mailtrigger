@@ -47,9 +47,9 @@ class Helper(Trigger):
 
     def run(self, event):
         if self._check(event) is False:
-            return '', False
+            return 'Failed to check event', False
         if self._parse(event) is False:
-            return '', False
+            return 'Failed to parse event', False
         msg = []
         for item in REGISTRY:
             msg.append(item['class'].help())

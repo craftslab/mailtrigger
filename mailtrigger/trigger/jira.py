@@ -34,5 +34,5 @@ class Jira(Trigger):
 
     def run(self, event):
         if self._check(event) is False:
-            return '', False
-        return '', False
+            return 'Failed to check event', False
+        return 'Unsupported', True
