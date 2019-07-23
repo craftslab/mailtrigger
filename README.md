@@ -197,10 +197,10 @@ The recipient is mail receiver as *Mail Trigger*.
 @gerrit start <host>
 @gerrit stop <host>
 @gerrit version <host>
-@gerrit abandon <host> <commit|changenumber,patchset>
-@gerrit restore <host> <commit|changenumber,patchset>
-@gerrit review <host> <commit|changenumber,patchset>
-@gerrit submit <host> <commit|changenumber,patchset>
+@gerrit abandon <host> <changenumber>
+@gerrit restore <host> <changenumber>
+@gerrit review <host> <changenumber>
+@gerrit submit <host> <changenumber>
 ```
 
 
