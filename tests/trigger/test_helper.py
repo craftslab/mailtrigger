@@ -12,20 +12,10 @@ def test_init():
 
 
 def test_trigger():
-    config = {
-        'debug': True,
-        "filter": [
-            {
-                "from": "name@example.com",
-                "subject": "[trigger]"
-            }
-        ]
-    }
-
     _helper = None
 
     try:
-        _helper = Helper(config)
+        _helper = Helper(None)
     except TriggerException as err:
         assert str(err) == 'invalid helper configuration'
 

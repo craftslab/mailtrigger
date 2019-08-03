@@ -101,7 +101,19 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
   "gerrit": {
     "filter": [
       {
-        "from": "name@example.com",
+        "from": "group:ldap/name",
+        "subject": "[trigger]"
+      },
+      {
+        "from": "group:name",
+        "subject": "[trigger]"
+      },
+      {
+        "from": "user:ldap/name@example.com",
+        "subject": "[trigger]"
+      },
+      {
+        "from": "user:name@example.com",
         "subject": "[trigger]"
       }
     ],
@@ -114,18 +126,22 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
       }
     ]
   },
-  "helper": {
-    "filter": [
-      {
-        "from": "name@example.com",
-        "subject": "[trigger]"
-      }
-    ]
-  },
   "jenkins": {
     "filter": [
       {
-        "from": "name@example.com",
+        "from": "group:ldap/name",
+        "subject": "[trigger]"
+      },
+      {
+        "from": "group:name",
+        "subject": "[trigger]"
+      },
+      {
+        "from": "user:ldap/name@example.com",
+        "subject": "[trigger]"
+      },
+      {
+        "from": "user:name@example.com",
         "subject": "[trigger]"
       }
     ],
@@ -138,28 +154,24 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
       }
     ]
   },
-  "jira": {
-    "filter": [
-      {
-        "from": "name@example.com",
-        "subject": "[trigger]"
-      }
-    ],
-    "server": [
-      {
-        "host": "localhost",
-        "pass": "pass",
-        "port": 8082,
-        "user": "user"
-      }
-    ]
-  },
   "printer": {
     "file": "output.xlsx",
     "filter": [
       {
-        "from": "name@example.com",
-        "subject": ""
+        "from": "group:ldap/name",
+        "subject": "[trigger]"
+      },
+      {
+        "from": "group:name",
+        "subject": "[trigger]"
+      },
+      {
+        "from": "user:ldap/name@example.com",
+        "subject": "[trigger]"
+      },
+      {
+        "from": "user:name@example.com",
+        "subject": "[trigger]"
       }
     ]
   }
@@ -206,14 +218,6 @@ The recipient is mail receiver as *Mail Trigger*.
 
 
 #### Jenkins Trigger
-
-```
-TBD
-```
-
-
-
-#### Jira Trigger
 
 ```
 TBD

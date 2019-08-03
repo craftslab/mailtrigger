@@ -8,44 +8,85 @@ def test_registry():
     assert str(exception) == 'exception'
 
     config = {
-        'debug': True,
-        'gerrit': {
-            'filter': {
-                'from': [
-                    'name@example.com'
-                ],
-                'subject': '[trigger]'
-            },
-            'host': 'localhost',
-            'port': 8080
+        "gerrit": {
+            'debug': True,
+            "filter": [
+                {
+                    "from": "group:ldap/name",
+                    "subject": "[trigger]"
+                },
+                {
+                    "from": "group:name",
+                    "subject": "[trigger]"
+                },
+                {
+                    "from": "user:ldap/name@example.com",
+                    "subject": "[trigger]"
+                },
+                {
+                    "from": "user:name@example.com",
+                    "subject": "[trigger]"
+                }
+            ],
+            "server": [
+                {
+                    "host": "localhost",
+                    "pass": "pass",
+                    "port": 8080,
+                    "user": "user"
+                }
+            ]
         },
-        'helper': {
-            'filter': {
-                'from': [
-                    'name@example.com'
-                ],
-                'subject': '[trigger]'
-            }
+        "jenkins": {
+            'debug': True,
+            "filter": [
+                {
+                    "from": "group:ldap/name",
+                    "subject": "[trigger]"
+                },
+                {
+                    "from": "group:name",
+                    "subject": "[trigger]"
+                },
+                {
+                    "from": "user:ldap/name@example.com",
+                    "subject": "[trigger]"
+                },
+                {
+                    "from": "user:name@example.com",
+                    "subject": "[trigger]"
+                }
+            ],
+            "server": [
+                {
+                    "host": "localhost",
+                    "pass": "pass",
+                    "port": 8081,
+                    "user": "user"
+                }
+            ]
         },
-        'jenkins': {
-            'filter': {
-                'from': [
-                    'name@example.com'
-                ],
-                'subject': '[trigger]'
-            },
-            'host': 'localhost',
-            'port': 8081
-        },
-        'jira': {
-            'filter': {
-                'from': [
-                    'name@example.com'
-                ],
-                'subject': '[trigger]'
-            },
-            'host': 'localhost',
-            'port': 8082
+        "printer": {
+            'debug': True,
+            "file": "output.xlsx",
+            "filter": [
+                {
+                    "from": "group:ldap/name",
+                    "subject": "[trigger]"
+                },
+                {
+                    "from": "group:name",
+                    "subject": "[trigger]"
+                },
+                {
+                    "from": "user:ldap/name@example.com",
+                    "subject": "[trigger]"
+                },
+                {
+                    "from": "user:name@example.com",
+                    "subject": "[trigger]"
+                }
+            ]
         }
     }
 

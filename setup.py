@@ -25,7 +25,7 @@ setuptools.setup(
     entry_points={'console_scripts': ['mailtrigger=mailtrigger.main:main']},
     include_package_data=True,
     install_requires=requirements,
-    keywords=['gerrit', 'jenkins', 'jira', 'mail', 'mailtrigger', 'trigger'],
+    keywords=['gerrit', 'jenkins', 'mail', 'mailtrigger', 'trigger'],
     license='Apache-2.0',
     long_description=long_description,
     long_description_content_type='text/markdown',

@@ -2,7 +2,6 @@
 
 from .trigger.gerrit import Gerrit
 from .trigger.jenkins import Jenkins
-from .trigger.jira import Jira
 from .trigger.printer import Printer
 
 REGISTRY = [
@@ -13,10 +12,6 @@ REGISTRY = [
     {
         'class': Jenkins,
         'name': Jenkins.__name__.lower()
-    },
-    {
-        'class': Jira,
-        'name': Jira.__name__.lower()
     },
     {
         'class': Printer,
@@ -37,16 +32,7 @@ class RegistryException(Exception):
 class Registry(object):
     def __init__(self, config):
         self._config = config
-        self._registry = self._build(REGISTRY)
-
-    @staticmethod
-    def _build(registry):
-        from .trigger.helper import Helper
-        registry.append({
-            'class': Helper,
-            'name': Helper.__name__.lower()
-        })
-        return registry
+        self._registry = REGISTRY
 
     def instantiate(self):
         instance = []
@@ -55,6 +41,8 @@ class Registry(object):
             if config is not None:
                 config['debug'] = self._config['debug']
                 instance.append(item['class'](config))
+        from .trigger.helper import Helper
+        instance.append(Helper(None))
         if len(instance) == 0:
             raise RegistryException('invalid trigger configuration')
         return instance

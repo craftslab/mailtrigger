@@ -17,7 +17,19 @@ def test_trigger():
         "file": "output.xlsx",
         "filter": [
             {
-                "from": "name@example.com",
+                "from": "group:ldap/name",
+                "subject": "[trigger]"
+            },
+            {
+                "from": "group:name",
+                "subject": "[trigger]"
+            },
+            {
+                "from": "user:ldap/name@example.com",
+                "subject": "[trigger]"
+            },
+            {
+                "from": "user:name@example.com",
                 "subject": "[trigger]"
             }
         ]

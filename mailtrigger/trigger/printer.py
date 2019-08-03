@@ -6,7 +6,6 @@ import time
 from openpyxl import load_workbook
 from openpyxl import Workbook
 from .trigger import Trigger, TriggerException
-from ..logger.logger import Logger
 
 
 class Printer(Trigger):
