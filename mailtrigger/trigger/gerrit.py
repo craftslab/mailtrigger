@@ -59,79 +59,79 @@ class Dispatcher(object):
         status = True if len(err.decode()) == 0 else False
         return msg, status
 
-    def _help(self, _):
-        _ = self
+    def _help(self, msg, name):
         return os.linesep.join(HELP), True
 
-    def _list(self, _):
+    def _list(self, msg, name):
         hosts = [item['host'] for item in self._server]
         return os.linesep.join(hosts), True
 
-    def _restart(self, msg):
+    def _restart(self, msg, name):
         return 'Unsupported', False
 
-    def _start(self, msg):
+    def _start(self, msg, name):
         return 'Unsupported', False
 
-    def _stop(self, msg):
+    def _stop(self, msg, name):
         return 'Unsupported', False
 
-    def _abandon(self, msg):
+    def _abandon(self, msg, name):
         host, change = msg.split()
-        result, status = self._query(msg)
+        result, status = self._query(msg, name)
         if status is True:
             result = json.loads(result)
-            msg, status = self._exec('gerrit review --abandon %s,%s' % (change, result['currentPatchSet']['number']), host)
+            msg, status = self._exec('gerrit review --abandon --message "Abandoned triggered by %s" %s,%s' % (name, change, result['currentPatchSet']['number']), host)
         msg = 'Change %s abandoned' % change if status is True else 'Change %s is not abandoned' % change
         return msg, status
 
-    def _query(self, msg):
+    def _query(self, msg, name):
         host, change = msg.split()
         msg, status = self._exec('gerrit query --current-patch-set --format=JSON change:%s' % change, host)
         msg = msg[:msg.find('{"type":"stats","rowCount":1')] if status is True else 'Change %s is not queried'
         return msg, status
 
-    def _restore(self, msg):
+    def _restore(self, msg, name):
         host, change = msg.split()
-        result, status = self._query(msg)
+        result, status = self._query(msg, name)
         if status is True:
             result = json.loads(result)
-            msg, status = self._exec('gerrit review --restore %s,%s' % (change, result['currentPatchSet']['number']), host)
+            msg, status = self._exec('gerrit review --restore --message "Restored triggered by %s" %s,%s' % (name, change, result['currentPatchSet']['number']), host)
         msg = 'Change %s restored' % change if status is True else 'Change %s is not restore' % change
         return msg, status
 
-    def _review(self, msg):
+    def _review(self, msg, name):
         host, change = msg.split()
-        result, status = self._query(msg)
+        result, status = self._query(msg, name)
         if status is True:
             result = json.loads(result)
-            msg, status = self._exec('gerrit review --code-review +2 --verified +1 %s,%s'
-                                     % (change, result['currentPatchSet']['number']), host)
+            msg, status = self._exec('gerrit review --code-review +2 --verified +1 --message "Reviewed triggered by %s" %s,%s'
+                                     % (name, change, result['currentPatchSet']['number']), host)
         msg = 'Change %s reviewed' % change if status is True else 'Change %s is not reviewed' % change
         return msg, status
 
-    def _submit(self, msg):
+    def _submit(self, msg, name):
         host, change = msg.split()
-        result, status = self._query(msg)
+        result, status = self._query(msg, name)
         if status is True:
             result = json.loads(result)
-            msg, status = self._exec('gerrit review --autosubmit +1 --code-review +2 --presubmit-ready +1 --presubmit-verified +1 --verified +1 %s,%s'
-                                     % (change, result['currentPatchSet']['number']), host)
+            msg, status = self._exec('gerrit review --autosubmit +1 --code-review +2 --presubmit-ready +1 --presubmit-verified +1 --verified +1 --message "Reviewed triggered by %s" %s,%s'
+                                     % (name, change, result['currentPatchSet']['number']), host)
             if status is True:
-                msg, status = self._exec('gerrit review --submit %s,%s' % (change, result['currentPatchSet']['number']), host)
+                msg, status = self._exec('gerrit review --submit --message "Submitted triggered by %s" %s,%s'
+                                         % (name, change, result['currentPatchSet']['number']), host)
         msg = 'Change %s submitted' % change if status is True else 'Change %s is not submitted' % change
         return msg, status
 
-    def _version(self, msg):
+    def _version(self, msg, name):
         host = msg
         msg, status = self._exec('gerrit version', host)
         msg = msg if status is True else 'Version not found'
         return msg, status
 
-    def run(self, msg):
+    def run(self, msg, name):
         msg = msg.split()
         buf = ' '.join(msg[1:]) if len(msg) > 1 else ''
-        return self._dispatcher[msg[0]](buf)
+        return self._dispatcher[msg[0]](buf, name)
 
 
 class Gerrit(Trigger):
@@ -161,8 +161,8 @@ class Gerrit(Trigger):
                 break
         return ret
 
-    def _dispatch(self, content):
-        lines = content.split('\n')
+    def _dispatch(self, event):
+        lines = event['content'].split('\n')
         msg = []
         for item in lines:
             item = item.strip()
@@ -171,13 +171,13 @@ class Gerrit(Trigger):
             buf = item.split()
             if buf[0] != PREFIX.strip() or len(buf) < 2:
                 continue
-            _msg, _ = self._dispatcher.run(' '.join(buf[1:]))
+            _msg, _ = self._dispatcher.run(' '.join(buf[1:]), event['from'])
             msg.append(_msg)
         if len(msg) != 0:
             msg = os.linesep.join(msg)
             status = True
         else:
-            msg = 'Failed to dispatch content'
+            msg = 'Failed to dispatch event'
             status = False
         return msg, status
 
@@ -188,4 +188,4 @@ class Gerrit(Trigger):
     def run(self, event):
         if self._check(event) is False:
             return 'Failed to check event', False
-        return self._dispatch(event['content'])
+        return self._dispatch(event)
