@@ -8,6 +8,7 @@ def test_registry():
     assert str(exception) == 'exception'
 
     config = {
+        'debug': True,
         "gerrit": {
             'debug': True,
             "filter": [

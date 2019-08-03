@@ -11,7 +11,7 @@ def test_init():
         assert str(err) == 'invalid helper configuration'
 
 
-def test_trigger():
+def test_helper():
     _helper = None
 
     try:

@@ -24,7 +24,7 @@ class Helper(Trigger):
         return ''
 
     def run(self, event):
-        if self._parse(event) is False:
+        if event is None or self._parse(event) is False:
             return 'Failed to parse event', False
         msg = []
         for item in REGISTRY:
