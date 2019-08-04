@@ -24,7 +24,7 @@ def test_trigger():
                 "subject": "[trigger]"
             },
             {
-                "from": "user:ldap/name@example.com",
+                "from": "user:ldap",
                 "subject": "[trigger]"
             },
             {

@@ -54,7 +54,7 @@ pip install mailtrigger --upgrade
 ## Running
 
 ```bash
-mailtrigger --mailer-config mailer.json --scheduler-config scheduler.json --trigger-config trigger.json
+mailtrigger --auther-config auther.json --mailer-config mailer.json --scheduler-config scheduler.json --trigger-config trigger.json
 ```
 
 
@@ -109,7 +109,7 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
         "subject": "[trigger]"
       },
       {
-        "from": "user:ldap/name@example.com",
+        "from": "user:ldap",
         "subject": "[trigger]"
       },
       {
@@ -137,7 +137,7 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
         "subject": "[trigger]"
       },
       {
-        "from": "user:ldap/name@example.com",
+        "from": "user:ldap",
         "subject": "[trigger]"
       },
       {
@@ -166,7 +166,7 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
         "subject": "[trigger]"
       },
       {
-        "from": "user:ldap/name@example.com",
+        "from": "user:ldap",
         "subject": "[trigger]"
       },
       {

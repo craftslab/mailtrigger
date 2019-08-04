@@ -1,0 +1,12 @@
+{
+  "group": {
+    "name": [
+      "name@example.com"
+    ]
+  },
+  "provider": {
+    "ldap": {
+
+    }
+  }
+}

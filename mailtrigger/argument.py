@@ -12,6 +12,10 @@ class Argument(object):
         self._add()
 
     def _add(self):
+        self._parser.add_argument('-a', '--auther-config',
+                                  dest='auther_config',
+                                  help='auther configuration',
+                                  required=True)
         self._parser.add_argument('-d', '--debug',
                                   action='store_true',
                                   dest='debug',

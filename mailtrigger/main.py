@@ -80,46 +80,53 @@ def main():
     else:
         debug = False
 
+    if os.path.exists(args.auther_config) and args.auther_config.endswith('.json'):
+        auther_config = _load(args.auther_config)
+        auther_config['debug'] = debug
+    else:
+        Logger.error('invalid auther configuration %s' % args.auther_config)
+        return -1
+
     if os.path.exists(args.mailer_config) and args.mailer_config.endswith('.json'):
         mailer_config = _load(args.mailer_config)
         mailer_config['debug'] = debug
     else:
         Logger.error('invalid mailer configuration %s' % args.mailer_config)
-        return -1
+        return -2
 
     if os.path.exists(args.scheduler_config) and args.scheduler_config.endswith('.json'):
         scheduler_config = _load(args.scheduler_config)
         scheduler_config['debug'] = debug
     else:
         Logger.error('invalid scheduler configuration %s' % args.scheduler_config)
-        return -2
+        return -3
 
     if os.path.exists(args.trigger_config) and args.trigger_config.endswith('.json'):
         trigger_config = _load(args.trigger_config)
         trigger_config['debug'] = debug
     else:
         Logger.error('invalid trigger configuration %s' % args.trigger_config)
-        return -3
+        return -4
 
     try:
         sched = Scheduler(scheduler_config)
     except SchedulerException as e:
         Logger.error(str(e))
-        return -4
+        return -5
 
     try:
         receiver = Receiver(mailer_config)
     except ReceiverException as e:
         Logger.error(str(e))
         sched.stop()
-        return -5
+        return -6
 
     try:
         sender = Sender(mailer_config)
     except SenderException as e:
         Logger.error(str(e))
         sched.stop()
-        return -6
+        return -7
 
     try:
         registry = Registry(trigger_config)
@@ -127,7 +134,7 @@ def main():
     except (RegistryException, TriggerException) as e:
         Logger.error(str(e))
         sched.stop()
-        return -7
+        return -8
 
     ret = 0
 
@@ -135,7 +142,7 @@ def main():
         _scheduler(sched, receiver, sender, trigger)
     except (SchedulerException, ReceiverException, SenderException, TriggerException) as e:
         Logger.error(str(e))
-        ret = -8
+        ret = -9
     finally:
         sender.disconnect()
         receiver.disconnect()
