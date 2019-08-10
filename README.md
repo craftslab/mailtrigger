@@ -203,16 +203,19 @@ The recipient is mail receiver as *Mail Trigger*.
 #### Gerrit Trigger
 
 ```
+@gerrit abandon <host> <changenumber>
 @gerrit help
 @gerrit list
+@gerrit query <host> <changenumber>
+@gerrit rebase <host> <changenumber>
 @gerrit restart <host>
-@gerrit start <host>
-@gerrit stop <host>
-@gerrit version <host>
-@gerrit abandon <host> <changenumber>
 @gerrit restore <host> <changenumber>
 @gerrit review <host> <changenumber>
+@gerrit reviewer <host> <changenumber> [add|remove] <reviewer>
+@gerrit start <host>
+@gerrit stop <host>
 @gerrit submit <host> <changenumber>
+@gerrit version <host>
 ```
 
 

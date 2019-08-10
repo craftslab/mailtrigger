@@ -6,14 +6,17 @@ from mailtrigger.trigger.trigger import TriggerException
 PREFIX = '@gerrit '
 
 HELP = (
+    PREFIX + 'abandon <host> <changenumber>',
     PREFIX + 'help',
     PREFIX + 'list',
+    PREFIX + 'query <host> <changenumber>',
+    PREFIX + 'rebase <host> <changenumber>',
     PREFIX + 'restart <host>',
-    PREFIX + 'start <host>',
-    PREFIX + 'stop <host>',
-    PREFIX + 'abandon <host> <changenumber>',
     PREFIX + 'restore <host> <changenumber>',
     PREFIX + 'review <host> <changenumber>',
+    PREFIX + 'reviewer <host> <changenumber> [add|remove] <reviewer>',
+    PREFIX + 'start <host>',
+    PREFIX + 'stop <host>',
     PREFIX + 'submit <host> <changenumber>',
     PREFIX + 'version <host>'
 )

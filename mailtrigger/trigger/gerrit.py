@@ -9,16 +9,19 @@ from .trigger import Trigger, TriggerException
 PREFIX = '@gerrit '
 
 HELP = (
+    PREFIX + 'abandon <host> <changenumber>',
     PREFIX + 'help',
     PREFIX + 'list',
+    PREFIX + 'query <host> <changenumber>',
+    PREFIX + 'rebase <host> <changenumber>',
     PREFIX + 'restart <host>',
-    PREFIX + 'start <host>',
-    PREFIX + 'stop <host>',
-    PREFIX + 'version <host>',
-    PREFIX + 'abandon <host> <changenumber>',
     PREFIX + 'restore <host> <changenumber>',
     PREFIX + 'review <host> <changenumber>',
-    PREFIX + 'submit <host> <changenumber>'
+    PREFIX + 'reviewer <host> <changenumber> [add|remove] <reviewer>',
+    PREFIX + 'start <host>',
+    PREFIX + 'stop <host>',
+    PREFIX + 'submit <host> <changenumber>',
+    PREFIX + 'version <host>'
 )
 
 
@@ -27,14 +30,17 @@ class Dispatcher(object):
         self._client = paramiko.SSHClient()
         self._client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self._dispatcher = {
+            'abandon': self._abandon,
             'help': self._help,
             'list': self._list,
+            'query': self._query,
+            'rebase': self._rebase,
             'restart': self._restart,
-            'start': self._start,
-            'stop': self._stop,
-            'abandon': self._abandon,
             'restore': self._restore,
             'review': self._review,
+            'reviewer': self._reviewer,
+            'start': self._start,
+            'stop': self._stop,
             'submit': self._submit,
             'version': self._version
         }
@@ -59,23 +65,6 @@ class Dispatcher(object):
         status = True if len(err.decode()) == 0 else False
         return msg, status
 
-    def _help(self, msg, name):
-        global HELP
-        return os.linesep.join(HELP), True
-
-    def _list(self, msg, name):
-        hosts = [item['host'] for item in self._server]
-        return os.linesep.join(hosts), True
-
-    def _restart(self, msg, name):
-        return 'Unsupported', False
-
-    def _start(self, msg, name):
-        return 'Unsupported', False
-
-    def _stop(self, msg, name):
-        return 'Unsupported', False
-
     def _abandon(self, msg, name):
         host, change = msg.split()
         result, status = self._query(msg, name)
@@ -85,11 +74,31 @@ class Dispatcher(object):
         msg = 'Change %s abandoned' % change if status is True else 'Change %s is not abandoned' % change
         return msg, status
 
+    def _help(self, msg, name):
+        global HELP
+        return os.linesep.join(HELP), True
+
+    def _list(self, msg, name):
+        hosts = [item['host'] for item in self._server]
+        return os.linesep.join(hosts), True
+
     def _query(self, msg, name):
         host, change = msg.split()
-        msg, status = self._exec('gerrit query --current-patch-set --format=JSON change:%s' % change, host)
+        msg, status = self._exec('gerrit query --all-reviewers --current-patch-set --files --format=JSON change:%s' % change, host)
         msg = msg[:msg.find('{"type":"stats","rowCount":1')] if status is True else 'Change %s is not queried'
         return msg, status
+
+    def _rebase(self, msg, name):
+        host, change = msg.split()
+        result, status = self._query(msg, name)
+        if status is True:
+            result = json.loads(result)
+            msg, status = self._exec('gerrit review --rebase --message "Rebased triggered by %s" %s,%s' % (name, change, result['currentPatchSet']['number']), host)
+        msg = 'Change %s rebased' % change if status is True else 'Change %s is not rebased' % change
+        return msg, status
+
+    def _restart(self, msg, name):
+        return 'Unsupported', False
 
     def _restore(self, msg, name):
         host, change = msg.split()
@@ -97,7 +106,7 @@ class Dispatcher(object):
         if status is True:
             result = json.loads(result)
             msg, status = self._exec('gerrit review --restore --message "Restored triggered by %s" %s,%s' % (name, change, result['currentPatchSet']['number']), host)
-        msg = 'Change %s restored' % change if status is True else 'Change %s is not restore' % change
+        msg = 'Change %s restored' % change if status is True else 'Change %s is not restored' % change
         return msg, status
 
     def _review(self, msg, name):
@@ -105,22 +114,35 @@ class Dispatcher(object):
         result, status = self._query(msg, name)
         if status is True:
             result = json.loads(result)
-            msg, status = self._exec('gerrit review --code-review +2 --verified +1 --message "Reviewed triggered by %s" %s,%s'
+            msg, status = self._exec('gerrit review --autosubmit +1 --code-review +2 --presubmit-ready +1 --presubmit-verified +1 --verified +1 --message "Reviewed triggered by %s" %s,%s'
                                      % (name, change, result['currentPatchSet']['number']), host)
         msg = 'Change %s reviewed' % change if status is True else 'Change %s is not reviewed' % change
         return msg, status
+
+    def _reviewer(self, msg, name):
+        host, change, opt, reviewer = msg.split()
+        result, status = self._query(' '.join([host, change]), name)
+        if status is True:
+            result = json.loads(result)
+            msg, status = self._exec('gerrit set-reviewers --%s %s %s'
+                                     % (opt, reviewer, result['id']), host)
+        msg = 'Change %s reviewer set' % change if status is True else 'Change %s reviewer not set' % change
+        return msg, status
+
+    def _start(self, msg, name):
+        return 'Unsupported', False
+
+    def _stop(self, msg, name):
+        return 'Unsupported', False
 
     def _submit(self, msg, name):
         host, change = msg.split()
         result, status = self._query(msg, name)
         if status is True:
             result = json.loads(result)
-            msg, status = self._exec('gerrit review --autosubmit +1 --code-review +2 --presubmit-ready +1 --presubmit-verified +1 --verified +1 --message "Reviewed triggered by %s" %s,%s'
+            msg, status = self._exec('gerrit review --submit --message "Submitted triggered by %s" %s,%s'
                                      % (name, change, result['currentPatchSet']['number']), host)
-            if status is True:
-                msg, status = self._exec('gerrit review --submit --message "Submitted triggered by %s" %s,%s'
-                                         % (name, change, result['currentPatchSet']['number']), host)
-        msg = 'Change %s submitted' % change if status is True else 'Change %s is not submitted' % change
+        msg = 'Change %s submitted ' % change if status is True else 'Change %s is not submitted' % change
         return msg, status
 
     def _version(self, msg, name):
