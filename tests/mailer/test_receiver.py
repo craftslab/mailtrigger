@@ -71,8 +71,8 @@ def test_pop3():
 
     try:
         receiver = Receiver(config)
-    except ReceiverException as err:
-        assert str(err) == 'missing pop3 configuration'
+    except ReceiverException as e:
+        assert str(e) == 'missing pop3 configuration'
     assert receiver is None
 
 
@@ -101,14 +101,14 @@ def test_receiver():
 
     try:
         receiver = Receiver(config)
-    except ReceiverException as err:
-        assert str(err) == 'missing pop3 configuration'
+    except ReceiverException as e:
+        assert str(e) == 'missing pop3 configuration'
     assert receiver is not None
 
     try:
         receiver.connect()
-    except ReceiverException as err:
-        assert str(err) == 'failed to connect pop3 server'
+    except ReceiverException as e:
+        assert str(e) == 'failed to connect pop3 server'
     finally:
         receiver._server = DummyServer()
 
@@ -117,8 +117,8 @@ def test_receiver():
 
     try:
         count, size = receiver.stat()
-    except ReceiverException as err:
-        assert str(err) == 'required to connect pop3 server'
+    except ReceiverException as e:
+        assert str(e) == 'required to connect pop3 server'
 
     assert count is not None
     assert size is not None
@@ -127,8 +127,8 @@ def test_receiver():
 
     try:
         buf = receiver.receive(1)
-    except ReceiverException as err:
-        assert str(err) == 'required to connect pop3 server'
+    except ReceiverException as e:
+        assert str(e) == 'required to connect pop3 server'
 
     if buf is None or type(buf) is str or type(buf) is list:
         assert True
@@ -164,20 +164,20 @@ def test_server():
 
     try:
         receiver = Receiver(config)
-    except ReceiverException as err:
-        assert str(err) == 'missing pop3 configuration'
+    except ReceiverException as e:
+        assert str(e) == 'missing pop3 configuration'
     assert receiver is not None
 
     receiver._server = None
 
     try:
         _, _ = receiver.stat()
-    except ReceiverException as err:
-        assert str(err) == 'required to connect pop3 server'
+    except ReceiverException as e:
+        assert str(e) == 'required to connect pop3 server'
 
     try:
         _ = receiver.receive(1)
-    except ReceiverException as err:
-        assert str(err) == 'required to connect pop3 server'
+    except ReceiverException as e:
+        assert str(e) == 'required to connect pop3 server'
 
     assert receiver.disconnect() is None

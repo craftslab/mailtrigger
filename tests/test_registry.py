@@ -7,28 +7,10 @@ def test_registry():
     exception = RegistryException('exception')
     assert str(exception) == 'exception'
 
-    config = {
+    trigger_config = {
         'debug': True,
         "gerrit": {
             'debug': True,
-            "filter": [
-                {
-                    "from": "group:ldap/name",
-                    "subject": "[trigger]"
-                },
-                {
-                    "from": "group:name",
-                    "subject": "[trigger]"
-                },
-                {
-                    "from": "user:ldap/name@example.com",
-                    "subject": "[trigger]"
-                },
-                {
-                    "from": "user:name@example.com",
-                    "subject": "[trigger]"
-                }
-            ],
             "server": [
                 {
                     "host": "localhost",
@@ -40,24 +22,6 @@ def test_registry():
         },
         "jenkins": {
             'debug': True,
-            "filter": [
-                {
-                    "from": "group:ldap/name",
-                    "subject": "[trigger]"
-                },
-                {
-                    "from": "group:name",
-                    "subject": "[trigger]"
-                },
-                {
-                    "from": "user:ldap/name@example.com",
-                    "subject": "[trigger]"
-                },
-                {
-                    "from": "user:name@example.com",
-                    "subject": "[trigger]"
-                }
-            ],
             "server": [
                 {
                     "host": "localhost",
@@ -69,41 +33,23 @@ def test_registry():
         },
         "printer": {
             'debug': True,
-            "file": "output.xlsx",
-            "filter": [
-                {
-                    "from": "group:ldap/name",
-                    "subject": "[trigger]"
-                },
-                {
-                    "from": "group:name",
-                    "subject": "[trigger]"
-                },
-                {
-                    "from": "user:ldap/name@example.com",
-                    "subject": "[trigger]"
-                },
-                {
-                    "from": "user:name@example.com",
-                    "subject": "[trigger]"
-                }
-            ]
+            "file": "output.xlsx"
         }
     }
 
-    registry = Registry(config)
+    registry = Registry(trigger_config)
     assert registry is not None
 
     trigger = []
     try:
         trigger = registry.instantiate()
-    except RegistryException as err:
-        assert str(err) == 'invalid trigger configuration'
+    except RegistryException as e:
+        assert str(e) == 'invalid trigger configuration'
     assert len(trigger) != 0
 
     registry._registry = []
 
     try:
         _ = registry.instantiate()
-    except RegistryException as err:
-        assert str(err) == 'invalid trigger configuration'
+    except RegistryException as e:
+        assert str(e) == 'invalid trigger configuration'

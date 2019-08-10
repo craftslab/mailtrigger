@@ -7,44 +7,26 @@ from mailtrigger.trigger.trigger import TriggerException
 def test_init():
     try:
         _ = Printer(None)
-    except TriggerException as err:
-        assert str(err) == 'invalid printer configuration'
+    except TriggerException as e:
+        assert str(e) == 'invalid printer configuration'
 
 
 def test_trigger():
-    config = {
+    trigger_config = {
         'debug': True,
-        "file": "output.xlsx",
-        "filter": [
-            {
-                "from": "group:ldap/name",
-                "subject": "[trigger]"
-            },
-            {
-                "from": "group:name",
-                "subject": "[trigger]"
-            },
-            {
-                "from": "user:ldap",
-                "subject": "[trigger]"
-            },
-            {
-                "from": "user:name@example.com",
-                "subject": "[trigger]"
-            }
-        ]
+        "file": "output.xlsx"
     }
 
-    _printer = None
+    printer = None
 
     try:
-        _printer = Printer(config)
-    except TriggerException as err:
-        assert str(err) == 'invalid printer configuration'
+        printer = Printer(trigger_config)
+    except TriggerException as e:
+        assert str(e) == 'invalid printer configuration'
 
     assert len(Printer.help()) == 0
 
-    msg, status = _printer.run(None)
+    msg, status = printer.run(None)
     assert len(msg) != 0
     assert status is False
 
@@ -56,7 +38,7 @@ def test_trigger():
         'to': ''
     }
 
-    msg, status = _printer.run(event)
+    msg, status = printer.run(event)
     assert len(msg) != 0
     assert status is False
 
@@ -68,7 +50,7 @@ def test_trigger():
         'to': ''
     }
 
-    msg, status = _printer.run(event)
+    msg, status = printer.run(event)
     assert len(msg) != 0
     assert status is False
 
@@ -80,7 +62,7 @@ def test_trigger():
         'to': ['alen@example.com', 'bob@example.com']
     }
 
-    msg, status = _printer.run(event)
+    msg, status = printer.run(event)
     assert len(msg) != 0
     assert status is True
 
@@ -92,6 +74,6 @@ def test_trigger():
         'to': ['alen@example.com', 'bob@example.com']
     }
 
-    msg, status = _printer.run(event)
+    msg, status = printer.run(event)
     assert len(msg) != 0
     assert status is True

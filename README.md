@@ -20,9 +20,9 @@
 On Ubuntu / Mint, install *Mail Trigger* with the following commands:
 
 ```bash
-sudo apt update
-sudo apt install python3-dev python3-pip python3-setuptools
-sudo pip install mailtrigger
+apt update
+apt install python3-dev python3-pip python3-setuptools
+pip install mailtrigger
 ```
 
 On OS X, install *Mail Trigger* via [Homebrew](https://brew.sh/) (or via [Linuxbrew](https://linuxbrew.sh/) on Linux):
@@ -63,6 +63,31 @@ mailtrigger --auther-config auther.json --mailer-config mailer.json --scheduler-
 
 *Mail Trigger* parameters can be set in the directory [config](https://github.com/craftslab/mailtrigger/blob/master/mailtrigger/config).
 
+An example of configuration in [auther.json](https://github.com/craftslab/mailtrigger/blob/master/mailtrigger/config/auther.json):
+
+```
+{
+  "group": {
+    "default": [
+      "name@example.com"
+    ],
+    "ldap/name": "true"
+  },
+  "message": {
+    "subject": "[trigger]"
+  },
+  "provider": {
+    "ldap": {
+      "base": "base",
+      "host": "localhost",
+      "pass": "pass",
+      "port": 389,
+      "user": "user"
+    }
+  }
+}
+```
+
 An example of configuration in [mailer.json](https://github.com/craftslab/mailtrigger/blob/master/mailtrigger/config/mailer.json):
 
 ```
@@ -99,24 +124,6 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
 ```
 {
   "gerrit": {
-    "filter": [
-      {
-        "from": "group:ldap/name",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "group:name",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "user:ldap",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "user:name@example.com",
-        "subject": "[trigger]"
-      }
-    ],
     "server": [
       {
         "host": "localhost",
@@ -127,24 +134,6 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
     ]
   },
   "jenkins": {
-    "filter": [
-      {
-        "from": "group:ldap/name",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "group:name",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "user:ldap",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "user:name@example.com",
-        "subject": "[trigger]"
-      }
-    ],
     "server": [
       {
         "host": "localhost",
@@ -156,24 +145,6 @@ An example of configuration in [trigger.json](https://github.com/craftslab/mailt
   },
   "printer": {
     "file": "output.xlsx",
-    "filter": [
-      {
-        "from": "group:ldap/name",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "group:name",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "user:ldap",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "user:name@example.com",
-        "subject": "[trigger]"
-      }
-    ]
   }
 }
 ```

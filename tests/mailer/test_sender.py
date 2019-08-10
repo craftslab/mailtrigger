@@ -34,8 +34,8 @@ def test_smtp():
 
     try:
         sender = Sender(config)
-    except SenderException as err:
-        assert str(err) == 'missing smtp configuration'
+    except SenderException as e:
+        assert str(e) == 'missing smtp configuration'
     assert sender is None
 
 
@@ -87,21 +87,21 @@ def test_sender():
 
     try:
         sender = Sender(config)
-    except SenderException as err:
-        assert str(err) == 'missing smtp configuration'
+    except SenderException as e:
+        assert str(e) == 'missing smtp configuration'
     assert sender is not None
 
     try:
         sender.connect()
-    except SenderException as err:
-        assert str(err) == 'failed to connect smtp server'
+    except SenderException as e:
+        assert str(e) == 'failed to connect smtp server'
     finally:
         sender._server = DummyServer()
 
     try:
         sender.send(msg)
-    except SenderException as err:
-        assert str(err) == 'required to connect smtp server'
+    except SenderException as e:
+        assert str(e) == 'required to connect smtp server'
 
     try:
         sender.disconnect()
@@ -134,16 +134,16 @@ def test_server():
 
     try:
         sender = Sender(config)
-    except SenderException as err:
-        assert str(err) == 'missing smtp configuration'
+    except SenderException as e:
+        assert str(e) == 'missing smtp configuration'
     assert sender is not None
 
     sender._server = None
 
     try:
         sender.send(None)
-    except SenderException as err:
-        assert str(err) == 'required to connect smtp server'
+    except SenderException as e:
+        assert str(e) == 'required to connect smtp server'
 
     try:
         sender.disconnect()

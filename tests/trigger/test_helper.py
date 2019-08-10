@@ -7,21 +7,21 @@ from mailtrigger.trigger.trigger import TriggerException
 def test_init():
     try:
         _ = Helper(None)
-    except TriggerException as err:
-        assert str(err) == 'invalid helper configuration'
+    except TriggerException as e:
+        assert str(e) == 'invalid helper configuration'
 
 
 def test_helper():
-    _helper = None
+    helper = None
 
     try:
-        _helper = Helper(None)
-    except TriggerException as err:
-        assert str(err) == 'invalid helper configuration'
+        helper = Helper(None)
+    except TriggerException as e:
+        assert str(e) == 'invalid helper configuration'
 
     assert len(Helper.help()) == 0
 
-    msg, status = _helper.run(None)
+    msg, status = helper.run(None)
     assert len(msg) != 0
     assert status is False
 
@@ -33,7 +33,7 @@ def test_helper():
         'to': ''
     }
 
-    msg, status = _helper.run(event)
+    msg, status = helper.run(event)
     assert len(msg) != 0
     assert status is False
 
@@ -45,7 +45,7 @@ def test_helper():
         'to': ''
     }
 
-    msg, status = _helper.run(event)
+    msg, status = helper.run(event)
     assert len(msg) != 0
     assert status is False
 
@@ -57,7 +57,7 @@ def test_helper():
         'to': ''
     }
 
-    msg, status = _helper.run(event)
+    msg, status = helper.run(event)
     assert len(msg) != 0
     assert status is False
 
@@ -69,6 +69,6 @@ def test_helper():
         'to': ''
     }
 
-    msg, status = _helper.run(event)
+    msg, status = helper.run(event)
     assert len(msg) != 0
     assert status is True

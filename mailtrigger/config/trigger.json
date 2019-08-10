@@ -1,23 +1,5 @@
 {
   "gerrit": {
-    "filter": [
-      {
-        "from": "group:ldap/name",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "group:name",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "user:ldap",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "user:name@example.com",
-        "subject": "[trigger]"
-      }
-    ],
     "server": [
       {
         "host": "localhost",
@@ -28,24 +10,6 @@
     ]
   },
   "jenkins": {
-    "filter": [
-      {
-        "from": "group:ldap/name",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "group:name",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "user:ldap",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "user:name@example.com",
-        "subject": "[trigger]"
-      }
-    ],
     "server": [
       {
         "host": "localhost",
@@ -56,24 +20,6 @@
     ]
   },
   "printer": {
-    "file": "output.xlsx",
-    "filter": [
-      {
-        "from": "group:ldap/name",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "group:name",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "user:ldap",
-        "subject": "[trigger]"
-      },
-      {
-        "from": "user:name@example.com",
-        "subject": "[trigger]"
-      }
-    ]
+    "file": "output.xlsx"
   }
 }

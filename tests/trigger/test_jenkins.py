@@ -7,31 +7,13 @@ from mailtrigger.trigger.trigger import TriggerException
 def test_init():
     try:
         _ = Jenkins(None)
-    except TriggerException as err:
-        assert str(err) == 'invalid jenkins configuration'
+    except TriggerException as e:
+        assert str(e) == 'invalid jenkins configuration'
 
 
 def test_trigger():
-    config = {
+    trigger_config = {
         'debug': True,
-        "filter": [
-            {
-                "from": "group:ldap/name",
-                "subject": "[trigger]"
-            },
-            {
-                "from": "group:name",
-                "subject": "[trigger]"
-            },
-            {
-                "from": "user:ldap",
-                "subject": "[trigger]"
-            },
-            {
-                "from": "user:name@example.com",
-                "subject": "[trigger]"
-            }
-        ],
         "server": [
             {
                 "host": "localhost",
@@ -45,9 +27,9 @@ def test_trigger():
     jenkins = None
 
     try:
-        jenkins = Jenkins(config)
-    except TriggerException as err:
-        assert str(err) == 'invalid jenkins configuration'
+        jenkins = Jenkins(trigger_config)
+    except TriggerException as e:
+        assert str(e) == 'invalid jenkins configuration'
 
     assert len(Jenkins.help()) == 0
 
@@ -89,4 +71,4 @@ def test_trigger():
 
     msg, status = jenkins.run(event)
     assert len(msg) != 0
-    assert status is True
+    assert status is False

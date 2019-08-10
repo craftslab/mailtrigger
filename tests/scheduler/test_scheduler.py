@@ -25,18 +25,18 @@ def test_add():
 
     try:
         sched.add(None, None, None)
-    except SchedulerException as err:
-        assert str(err) == 'required to create scheduler'
+    except SchedulerException as e:
+        assert str(e) == 'required to create scheduler'
 
     try:
         sched.run()
-    except SchedulerException as err:
-        assert str(err) == 'required to create scheduler'
+    except SchedulerException as e:
+        assert str(e) == 'required to create scheduler'
 
     try:
         sched.stop()
-    except SchedulerException as err:
-        assert str(err) == 'required to create scheduler'
+    except SchedulerException as e:
+        assert str(e) == 'required to create scheduler'
 
 
 def test_job():
@@ -55,19 +55,19 @@ def test_job():
     args = []
     try:
         sched.add(_func, args, '_func')
-    except SchedulerException as err:
-        assert str(err) == 'required to create scheduler'
+    except SchedulerException as e:
+        assert str(e) == 'required to create scheduler'
 
     try:
         sched.run()
-    except SchedulerException as err:
-        assert str(err) == 'required to create scheduler'
+    except SchedulerException as e:
+        assert str(e) == 'required to create scheduler'
 
     time.sleep(1)
 
     try:
         sched.stop()
-    except SchedulerException as err:
-        assert str(err) == 'required to create scheduler'
+    except SchedulerException as e:
+        assert str(e) == 'required to create scheduler'
 
     assert True

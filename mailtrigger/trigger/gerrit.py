@@ -163,26 +163,7 @@ class Gerrit(Trigger):
             raise TriggerException('invalid gerrit configuration')
         self._debug = config.get('debug', False)
         self._dispatcher = Dispatcher(config)
-        self._filter = config.get('filter', [])
         self._server = config.get('server', [])
-
-    def _check(self, event):
-        def _check_helper(data, event):
-            if event is None:
-                return False
-            sender = data.get('from', None)
-            if sender is None or event['from'] != sender:
-                return False
-            subject = data.get('subject', '').strip()
-            if len(subject) == 0 or event['subject'].startswith(subject) is False:
-                return False
-            return True
-        ret = False
-        for item in self._filter:
-            if _check_helper(item, event) is True:
-                ret = True
-                break
-        return ret
 
     def _dispatch(self, event):
         global PREFIX
@@ -211,6 +192,6 @@ class Gerrit(Trigger):
         return os.linesep.join(HELP)
 
     def run(self, event):
-        if self._check(event) is False:
-            return 'Failed to check event', False
+        if event is None:
+            return 'Unsupported', False
         return self._dispatch(event)

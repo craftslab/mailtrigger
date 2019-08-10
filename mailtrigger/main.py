@@ -6,6 +6,7 @@ import sys
 import time
 
 from .argument import Argument
+from .auther.auther import Auther, AutherException
 from .banner import BANNER
 from .logger.logger import Logger
 from .mailer.receiver import Receiver, ReceiverException
@@ -37,7 +38,10 @@ def _send(data, msg, sender):
     sender.disconnect()
 
 
-def _trigger(data, sender, trigger):
+def _trigger(data, sender, auther, trigger):
+    _, status = auther.auth(data)
+    if status is False:
+        return
     for item in trigger:
         msg, status = item.run(data)
         if status is True:
@@ -52,12 +56,12 @@ def _receive(receiver):
 
 
 def _job(args):
-    receiver, sender, trigger = args
-    _trigger(_receive(receiver), sender, trigger)
+    receiver, sender, auther, trigger = args
+    _trigger(_receive(receiver), sender, auther, trigger)
 
 
-def _scheduler(sched, receiver, sender, trigger):
-    sched.add(_job, [receiver, sender, trigger], '_job')
+def _scheduler(sched, receiver, sender, auther, trigger):
+    sched.add(_job, [receiver, sender, auther, trigger], '_job')
     while True:
         sched.run()
         time.sleep(1)
@@ -129,20 +133,27 @@ def main():
         return -7
 
     try:
+        auther = Auther(auther_config)
+    except AutherException as e:
+        Logger.error(str(e))
+        sched.stop()
+        return -8
+
+    try:
         registry = Registry(trigger_config)
         trigger = registry.instantiate()
     except (RegistryException, TriggerException) as e:
         Logger.error(str(e))
         sched.stop()
-        return -8
+        return -9
 
     ret = 0
 
     try:
-        _scheduler(sched, receiver, sender, trigger)
-    except (SchedulerException, ReceiverException, SenderException, TriggerException) as e:
+        _scheduler(sched, receiver, sender, auther, trigger)
+    except (SchedulerException, ReceiverException, SenderException, AutherException, TriggerException) as e:
         Logger.error(str(e))
-        ret = -9
+        ret = -10
     finally:
         sender.disconnect()
         receiver.disconnect()

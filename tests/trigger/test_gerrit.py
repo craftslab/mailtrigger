@@ -25,33 +25,15 @@ HELP = (
 def test_init():
     try:
         _ = Gerrit(None)
-    except TriggerException as err:
-        assert str(err) == 'invalid gerrit configuration'
+    except TriggerException as e:
+        assert str(e) == 'invalid gerrit configuration'
 
 
 def test_trigger():
     global HELP
 
-    config = {
+    trigger_config = {
         'debug': True,
-        "filter": [
-            {
-                "from": "group:ldap/name",
-                "subject": "[trigger]"
-            },
-            {
-                "from": "group:name",
-                "subject": "[trigger]"
-            },
-            {
-                "from": "user:ldap",
-                "subject": "[trigger]"
-            },
-            {
-                "from": "user:name@example.com",
-                "subject": "[trigger]"
-            }
-        ],
         "server": [
             {
                 "host": "localhost",
@@ -65,9 +47,9 @@ def test_trigger():
     gerrit = None
 
     try:
-        gerrit = Gerrit(config)
-    except TriggerException as err:
-        assert str(err) == 'invalid gerrit configuration'
+        gerrit = Gerrit(trigger_config)
+    except TriggerException as e:
+        assert str(e) == 'invalid gerrit configuration'
 
     assert len(Gerrit.help()) != 0
 
