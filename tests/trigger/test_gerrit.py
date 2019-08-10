@@ -27,6 +27,8 @@ def test_init():
 
 
 def test_trigger():
+    global HELP
+
     config = {
         'debug': True,
         "filter": [

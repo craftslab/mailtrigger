@@ -31,6 +31,7 @@ class RegistryException(Exception):
 
 class Registry(object):
     def __init__(self, config):
+        global REGISTRY
         self._config = config
         self._registry = REGISTRY
 

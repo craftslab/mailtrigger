@@ -33,6 +33,7 @@ MESSAGE = [
 
 class DummyServer(object):
     def __init__(self):
+        global MESSAGE
         self._count = 0
         self._lines = MESSAGE
         self._mails = ['1']

@@ -59,7 +59,9 @@ class Dispatcher(object):
         status = True if len(err.decode()) == 0 else False
         return msg, status
 
+    @staticmethod
     def _help(self, msg, name):
+        global HELP
         return os.linesep.join(HELP), True
 
     def _list(self, msg, name):
@@ -162,6 +164,7 @@ class Gerrit(Trigger):
         return ret
 
     def _dispatch(self, event):
+        global PREFIX
         lines = event['content'].split('\n')
         msg = []
         for item in lines:
@@ -183,6 +186,7 @@ class Gerrit(Trigger):
 
     @staticmethod
     def help():
+        global HELP
         return os.linesep.join(HELP)
 
     def run(self, event):
