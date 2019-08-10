@@ -59,7 +59,6 @@ class Dispatcher(object):
         status = True if len(err.decode()) == 0 else False
         return msg, status
 
-    @staticmethod
     def _help(self, msg, name):
         global HELP
         return os.linesep.join(HELP), True
