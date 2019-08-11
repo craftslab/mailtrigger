@@ -44,6 +44,4 @@ class Registry(object):
                 instance.append(item['class'](config))
         from .trigger.helper import Helper
         instance.append(Helper(None))
-        if len(instance) == 0:
-            raise RegistryException('invalid trigger configuration')
         return instance
