@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 python trigger.py \
   --auther-config mailtrigger/config/auther.json \
