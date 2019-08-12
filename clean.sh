@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 chmod 644 .dockerignore .gitignore .travis.yml
 chmod 644 LICENSE MANIFEST.in README.md requirements.txt setup.cfg
