@@ -7,6 +7,10 @@
 
 
 
+*Mail Trigger* is a remote service trigger with mail.
+
+
+
 ## Requirements
 
 - Python (3.7+)
