@@ -13,7 +13,7 @@
 
 ## Requirements
 
-- Python (3.7+)
+- python (3.7+)
 - pip
 - python-dev
 
@@ -39,7 +39,7 @@ On Windows, install *Mail Trigger* with the following commands:
 
 ```
 pip install -U pywin32
-pip install -U PyInstaller
+pip install -U pyinstaller
 pip install -Ur requirements.txt
 
 pyinstaller --clean --name mailtrigger -F trigger.py
